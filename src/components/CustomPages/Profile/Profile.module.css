@@ -22,16 +22,24 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
+}
+
+.form button {
+    width: 15%;
 }
 
 .line {
     display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .line div {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .avatar {

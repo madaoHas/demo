@@ -2,14 +2,16 @@ import classes from "../Profile.module.css";
 import {Field, Form, Formik} from "formik";
 import React from "react";
 import * as Yup from "yup";
+import classNames from "classnames";
 
 
-// const SignupSchema = Yup.object().shape({
-//     password: Yup.string()
-//         .min(6, 'Коротко!')
-//         .max(15, 'Длинно!')
-//         .required('Напишите пароль'),
-// });
+const validateOldPassword = values => {
+    let error = "";
+    if (!values) {
+        error = "*Обязательное поле";
+    }
+    return error;
+}
 
 const validatePassword = values => {
     let error = "";
@@ -26,6 +28,9 @@ const validatePassword = values => {
 
 const validateConfirmPassword = (pass, value) => {
     let error = "";
+    if (!value) {
+        error = "*Обязательное поле";
+    }
     if (pass && value) {
         if (pass !== value) {
             error = "Пароли не совпадают";
@@ -47,29 +52,31 @@ const ProfileFormPassword = () => {
                     console.log(values);
                 }}
             >
-                {({values, errors, handleSubmit, handleChange, handleBlur}) => (
+                {({values, errors,touched}) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="oldPassword">Старый пароль</label>
-                                <Field name="oldPassword" type="password" />
+                                <Field name="oldPassword" type="password" className="input"
+                                       validate={validateOldPassword} />
+                                {errors.oldPassword && touched.oldPassword && <div>{errors.oldPassword}</div>}
                             </div>
                         </div>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="password">Новый пароль</label>
-                                <Field type="password" name="password" validate={validatePassword} />
-                                {errors.password && <div>{errors.password}</div>}
+                                <Field type="password" className="input" name="password"
+                                       validate={validatePassword} />
+                                {errors.password && touched.password && <div>{errors.password}</div>}
                             </div>
                             <div>
                                 <label htmlFor="confirmPassword">Подтвердите новый пароль</label>
-                                <Field type="password" name="confirmPassword" validate={value =>
-                                    validateConfirmPassword(values.password, value)
-                                }/>
-                                {errors.confirmPassword && (<div>{errors.confirmPassword}</div>)}
+                                <Field type="password" className="input" name="confirmPassword"
+                                       validate={value => validateConfirmPassword(values.password, value)}/>
+                                {errors.confirmPassword && touched.confirmPassword && (<div>{errors.confirmPassword}</div>)}
                             </div>
                         </div>
-                        <button type="submit">
+                        <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             Сохранить
                         </button>
                     </Form>

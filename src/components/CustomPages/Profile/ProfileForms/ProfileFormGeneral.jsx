@@ -3,24 +3,26 @@ import {Field, Form, Formik} from "formik";
 import React, {useState} from "react";
 import InputMask from "react-input-mask";
 import * as Yup from "yup";
+import classNames from "classnames";
 
 
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
+        .min(2, 'Минимальное количество символов 2!')
+        .max(50, 'Максимальное количество символов 50!')
         .required('Required'),
     lastName: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-    email: Yup.string().email('Invalid email').required('Required')
+        .min(2, 'Минимальное количество символов 2!')
+        .max(50, 'Максимальное количество символов 50!')
+        .required('Обязательное поле'),
+    email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
 function PhoneInput(props) {
     return (
         <InputMask
+            className="input"
             mask='(+7) 999 999 9999'
             value={props.value}
             onChange={props.onChange}>
@@ -45,7 +47,7 @@ const ProfileFormGeneral = () => {
             >
                 {({errors, touched}) => (
                     <Form className={classes.form}>
-                        <input className="input is-danger" type="text" placeholder="Danger input" />
+
                         <div className={classes.avatar}>
                             <label htmlFor="photo">Аватар</label>
                             <Field type="file" name="photo"/>
@@ -53,24 +55,24 @@ const ProfileFormGeneral = () => {
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="firstName">Имя</label>
-                                <Field name="firstName"/>
+                                <Field className={classNames("input", {["is-danger"]: errors.firstName && touched.firstName})} name="firstName" />
                                 {errors.firstName && touched.firstName ? (
-                                    <div>{errors.firstName}</div>
+                                    <div className="has-text-danger">{errors.firstName}</div>
                                 ) : null}
                             </div>
                             <div>
                                 <label htmlFor="lastName">Фамилия</label>
-                                <Field name="lastName"/>
+                                <Field className={classNames("input", {["is-danger"]: errors.lastName && touched.lastName})} name="lastName"/>
                                 {errors.lastName && touched.lastName ? (
-                                    <div>{errors.lastName}</div>
+                                    <div className="has-text-danger">{errors.lastName}</div>
                                 ) : null}
                             </div>
                         </div>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="email">e-mail</label>
-                                <Field name="email" type="email"/>
-                                {errors.email && touched.email ? <div>{errors.email}</div> : null}
+                                <Field name="email" className={classNames("input", {["is-danger"]: errors.email && touched.email})} type="email" />
+                                {errors.email && touched.email ? <div className="has-text-danger">{errors.email}</div> : null}
                             </div>
                             <div>
                                 <label htmlFor="numberPhone">Номер телефона</label>
@@ -85,14 +87,14 @@ const ProfileFormGeneral = () => {
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="birthday">Дата рождения</label>
-                                <Field name="birthday"/>
+                                <Field className="input" name="birthday"/>
                             </div>
                             <div>
                                 <label htmlFor="city">Город</label>
-                                <Field name="city"/>
+                                <Field className="input" name="city"/>
                             </div>
                         </div>
-                        <button type="submit">
+                        <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             Сохранить
                         </button>
                     </Form>
