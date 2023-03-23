@@ -1,0 +1,36 @@
+.header {
+    grid-area: h;
+    background-color: white;
+    border-bottom: 1px solid #B8B8B8;
+    padding-left: 8%;
+    display: flex;
+    /*position: relative;*/
+}
+
+.news {
+    top: 0;
+    bottom: 0;
+    /*padding: 20px;*/
+    float: left;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.header img {
+    height: 50px;
+    float: left;
+}
+.loginBlock {
+    float: right;
+    /*padding: 20px;*/
+    margin: auto 0 auto 66%;
+}
+a {
+    text-decoration: none;
+    color: black;
+    /*padding-left: 20px;*/
+}
+
+.loginBlock a {
+    padding-left: 20px;
+}
