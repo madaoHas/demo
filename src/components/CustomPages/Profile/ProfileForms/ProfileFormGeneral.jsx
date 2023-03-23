@@ -1,27 +1,25 @@
 import classes from "../Profile.module.css";
-import {Field, Form, Formik} from "formik";
+import {Field, Form, Formik, useFormikContext, useField} from "formik";
 import React, {useState} from "react";
 import InputMask from "react-input-mask";
 import * as Yup from "yup";
 import classNames from "classnames";
 
 
-
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
         .min(2, 'Минимальное количество символов 2!')
-        .max(50, 'Максимальное количество символов 50!')
-        .required('Required'),
+        .max(50, 'Максимальное количество символов 50!'),
     lastName: Yup.string()
         .min(2, 'Минимальное количество символов 2!')
-        .max(50, 'Максимальное количество символов 50!')
-        .required('Обязательное поле'),
+        .max(50, 'Максимальное количество символов 50!'),
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
 function PhoneInput(props) {
     return (
         <InputMask
+            name={props.name}
             className="input"
             mask='(+7) 999 999 9999'
             value={props.value}
@@ -45,9 +43,8 @@ const ProfileFormGeneral = () => {
                     console.log(values);
                 }}
             >
-                {({errors, touched}) => (
+                {({values,errors, touched, setFieldValue}) => (
                     <Form className={classes.form}>
-
                         <div className={classes.avatar}>
                             <label htmlFor="photo">Аватар</label>
                             <Field type="file" name="photo"/>
@@ -81,13 +78,15 @@ const ProfileFormGeneral = () => {
                                     value={phone}
                                     onChange={handleInput}>
                                 </PhoneInput>
+                                {console.log(phone)}
                                 {/*<Field id="numberPhone" type="text" name="numberPhone" />*/}
                             </div>
                         </div>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="birthday">Дата рождения</label>
-                                <Field className="input" name="birthday"/>
+                                {/*<Field className="input" name="birthday"/>*/}
+                                <Field type="date" className="input" name="birthday" />
                             </div>
                             <div>
                                 <label htmlFor="city">Город</label>

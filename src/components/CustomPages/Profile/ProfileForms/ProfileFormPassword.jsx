@@ -57,23 +57,26 @@ const ProfileFormPassword = () => {
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="oldPassword">Старый пароль</label>
-                                <Field name="oldPassword" type="password" className="input"
+                                <Field name="oldPassword" type="password"
+                                       className={classNames("input", {["is-danger"]: errors.oldPassword && touched.oldPassword})}
                                        validate={validateOldPassword} />
-                                {errors.oldPassword && touched.oldPassword && <div>{errors.oldPassword}</div>}
+                                {errors.oldPassword && touched.oldPassword && <div className="has-text-danger">{errors.oldPassword}</div>}
                             </div>
                         </div>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="password">Новый пароль</label>
-                                <Field type="password" className="input" name="password"
+                                <Field type="password" name="password"
+                                       className={classNames("input", {["is-danger"]: errors.password && touched.password})}
                                        validate={validatePassword} />
-                                {errors.password && touched.password && <div>{errors.password}</div>}
+                                {errors.password && touched.password && <div className="has-text-danger">{errors.password}</div>}
                             </div>
                             <div>
                                 <label htmlFor="confirmPassword">Подтвердите новый пароль</label>
-                                <Field type="password" className="input" name="confirmPassword"
+                                <Field type="password" name="confirmPassword"
+                                       className={classNames("input", {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
                                        validate={value => validateConfirmPassword(values.password, value)}/>
-                                {errors.confirmPassword && touched.confirmPassword && (<div>{errors.confirmPassword}</div>)}
+                                {errors.confirmPassword && touched.confirmPassword && (<div className="has-text-danger">{errors.confirmPassword}</div>)}
                             </div>
                         </div>
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
