@@ -12,6 +12,7 @@ const Header = () => {
             <div className={classes.loginBlock}>
                 <NavLink to={'/profile'}>Имя пользователя</NavLink>
                 <NavLink to={'/'}>Выход</NavLink>
+                <NavLink to={'/login'}>Вход</NavLink>
             </div>
         </div>
     )

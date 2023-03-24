@@ -1,0 +1,27 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    gap: 20px;
+    align-items: center;
+}
+
+.form button {
+    width: 70%;
+    height: 50px;
+    background-color: #009FFF !important;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.form a {
+    align-self: flex-end;
+    color: #B8B8B8;
+}
+
+.form div {
+    align-self: flex-start;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
