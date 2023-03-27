@@ -1,26 +1,23 @@
 import classes from "./NewsOne.module.css";
 import {NavLink} from "react-router-dom";
 
-const NewsOne = () => {
+const NewsOne = (props) => {
     return (
         <div className={classes.news}>
             <div className={classes.picture}>
                 <div className={classes.dateBlock}>
-                    <div className={classes.date}>21.03.2023</div>
+                    <div className={classes.date}>{props.news.date}</div>
                 </div>
             </div>
-            <img src={"/img/pic.jpeg"} />
+            <img src={props.news.img ? props.news.img : '/img/images.jpeg'} />
             <div className={classes.description}>
-                <span className={classes.header}>Заголовок</span>
+                <span className={classes.header}>{props.news.header}</span>
                 <span>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                    nisi ut aliquip ex ea commodo consequat. Duis aute irure...
+                    {props.news.text}
                 </span>
             </div>
             <div className={classes.more}>
-                <NavLink>Подробнее</NavLink>
+                <NavLink to={"/news/"+props.news.id} state={{news: props.news}} className={"has-text-white"}>Подробнее</NavLink>
             </div>
         </div>
     )

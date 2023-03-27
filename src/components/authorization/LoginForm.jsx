@@ -13,11 +13,6 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
-const ForgotPassword = (values) => {
-    return (
-        <RecoveryPassword email={values.email} />
-    )
-}
 
 const LoginForm = () => {
     return (
@@ -41,7 +36,7 @@ const LoginForm = () => {
                                className={classNames("input", "is-medium", {["is-danger"]: errors.password && touched.password})}
                         />
                         {errors.password && touched.password ? <div className="has-text-danger">{errors.password}</div> : null}
-                        <NavLink onClick={() => {ForgotPassword(values)}}>Забыли пароль?</NavLink>
+                        <NavLink to={"/recovery"} state={{ email: values.email }} >Забыли пароль?</NavLink>
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             ВОЙТИ
                         </button>

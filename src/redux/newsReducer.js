@@ -3,7 +3,63 @@ import {NewsAPI} from "../api/api";
 const SET_NEWS = 'SET_NEWS';
 
 let initialState = {
-    news: [],
+    news: [
+        {
+            id: 1,
+            date: '27.03.2023',
+            img: '',
+            header: 'header',
+            text: 'text',
+            comments: [
+                {username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 2,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            comments: [
+                {username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 3,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            comments: [
+                {username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 4,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            comments: [
+                {username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 5,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            comments: [
+                {username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+    ],
     currentPage: 1,
 }
 
