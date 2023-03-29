@@ -1,0 +1,57 @@
+.formContainer {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 0;
+    width: 100%;
+}
+
+.form .commentInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+}
+
+.form .commentInput input {
+    border-radius: 5px 0px 0px 5px;
+    border: 1px solid #545454;
+}
+
+.form button {
+    width: 20%;
+    border-radius: 0px 5px 5px 0px;
+    border: 0px;
+    background: #545454 !important;
+}
+
+.username {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+}
+
+.username img {
+    max-width: 35px;
+    object-fit: cover;
+    border-radius: 100px;
+    /*border: 3px solid green;*/
+}
+
+.username div {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+
+}

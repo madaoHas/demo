@@ -12,6 +12,10 @@ export const NewsAPI = {
     getNews(currentPage = 1, pageSize = 10) {
         return instance.get(`news?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
+    },
+    getSelectedNews(idNews) {
+        return instance.get(`news?id=${idNews}`)
+            .then(response => response.data)
     }
 }
 

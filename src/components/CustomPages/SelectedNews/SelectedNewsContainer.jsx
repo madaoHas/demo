@@ -1,13 +1,17 @@
 import SelectedNews from "./SelectedNews";
 import {useLocation} from 'react-router-dom'
 import {getNewsSuper} from "../../../redux/SelectedNewsSelector";
+import Comments from "./Comments/Comments";
+import classes from "./SelectedNewsContainer.module.css";
 
 
 const SelectedNewsContainer = () => {
     let location = useLocation();
-    console.log(location)
     return (
-        <SelectedNews {...location} />
+        <div className={classes.newsCommentBlock}>
+            <SelectedNews {...location} />
+            <Comments {...location} />
+        </div>
     )
 }
 

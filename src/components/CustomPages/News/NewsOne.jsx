@@ -13,7 +13,7 @@ const NewsOne = (props) => {
             <div className={classes.description}>
                 <span className={classes.header}>{props.news.header}</span>
                 <span>
-                    {props.news.text}
+                    {props.news.miniText}
                 </span>
             </div>
             <div className={classes.more}>
