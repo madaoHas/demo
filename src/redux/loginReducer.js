@@ -5,9 +5,10 @@ const SET_USER_DATA = 'auth/SET_USER_DATA';
 
 
 let initialState = {
-    id: null,
-    email: null,
-    isAuth: false,
+    id: 1,
+    email: "fgfgere@gmail.com",
+    isAuth: true,
+    role: "admin"
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -22,13 +23,14 @@ const loginReducer = (state = initialState, action) => {
     }
 }
 
-export const setAuthUserData = (id, email, isAuth) => {
+export const setAuthUserData = (id, email, isAuth, role) => {
     return {
         type: SET_USER_DATA,
         payload: {
             id,
             email,
-            isAuth
+            isAuth,
+            role
         }
     }
 }
@@ -38,8 +40,8 @@ export const auth = () => async (dispatch) => {
     let data = await AuthAPI.auth();
 
     if (data.resultCode === 0) {
-        let {id, email} = data.data;
-        dispatch(setAuthUserData(id, email, true));
+        let {id, email, role} = data.data;
+        dispatch(setAuthUserData(id, email, true, role));
     }
 }
 

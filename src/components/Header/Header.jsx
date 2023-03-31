@@ -2,17 +2,15 @@ import classes from "./Header.module.css";
 import {NavLink} from "react-router-dom";
 
 
-const Header = () => {
+const Header = (props) => {
     return (
         <div className={classes.header}>
             <NavLink to={'/'}><img src="/logo192.png" alt="Лого"/></NavLink>
-            <div className={classes.news}>
-                {/*<NavLink to={'/'}>Новости</NavLink>*/}
-            </div>
             <div className={classes.loginBlock}>
-                <NavLink to={'/profile'}>Имя пользователя</NavLink>
-                <NavLink to={'/'}>Выход</NavLink>
-                <NavLink to={'/login'}>Вход</NavLink>
+                {props.isAuth && props.role==="admin" ? <NavLink to={'/admin/users'} >Админ</NavLink> : null}
+                {props.isAuth ? <NavLink to={'/profile'}>{props.email}</NavLink> : null}
+                {props.isAuth ? <NavLink to={'/login'}>Выход</NavLink> : null}
+                {!props.isAuth ? <NavLink to={'/login'}>Вход</NavLink> : null}
             </div>
         </div>
     )

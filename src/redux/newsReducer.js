@@ -1,6 +1,8 @@
 import {NewsAPI} from "../api/api";
 
 const SET_NEWS = 'SET_NEWS';
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
     news: [
@@ -64,8 +66,46 @@ let initialState = {
                 {id: 10, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
             ]
         },
+        {
+            id: 6,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            miniText : "mini text",
+            comments: [
+                {id: 9, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {id: 10, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 7,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            miniText : "mini text",
+            comments: [
+                {id: 9, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {id: 10, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
+        {
+            id: 8,
+            date: '25.03.2023',
+            img: '',
+            header: 'header1',
+            text: 'text111',
+            miniText : "mini text",
+            comments: [
+                {id: 9, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
+                {id: 10, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
+            ]
+        },
     ],
     currentPage: 1,
+    pageSize: 8,
+    totalNewsCount: 5
 }
 
 const newsReducer = (state = initialState, action) => {
@@ -75,6 +115,16 @@ const newsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 news: action.news
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.currentPage
+            }
+        case SET_TOTAL_NEWS_COUNT:
+            return {
+                ...state,
+                totalNewsCount: action.count
             }
         default: return state;
     }
@@ -86,10 +136,24 @@ export const setNews = (news) => {
         news
     }
 }
+export const setCurrentPage = (currentPage) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        currentPage
+    }
+}
+export const setTotalNewsCount = (count) => {
+    return{
+        type: SET_TOTAL_NEWS_COUNT,
+        count
+    }
+}
 
 export const getNews = (currentPage, pageSize) => async (dispatch) => {
     let data = await NewsAPI.getNews(currentPage, pageSize)
+    dispatch(setCurrentPage(currentPage));
     dispatch(setNews(data.items));
+    dispatch(setTotalNewsCount(data.totalCount));
 }
 
 export const getSelectedNews = (idNews) => async (dispatch) => {

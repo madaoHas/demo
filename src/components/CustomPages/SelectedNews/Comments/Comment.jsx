@@ -3,7 +3,6 @@ import Icon from '@mdi/react';
 import {mdiClockTimeNineOutline} from '@mdi/js';
 
 const Comment = (props) => {
-    console.log(props)
     return (
         <div className={classes.commentBlock}>
             <img src={'/img/images.jpeg'} />

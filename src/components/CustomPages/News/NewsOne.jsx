@@ -1,11 +1,14 @@
 import classes from "./NewsOne.module.css";
 import {NavLink} from "react-router-dom";
+import Icon from '@mdi/react';
+import {mdiClockTimeNineOutline} from '@mdi/js';
 
 const NewsOne = (props) => {
     return (
         <div className={classes.news}>
             <div className={classes.picture}>
                 <div className={classes.dateBlock}>
+                    <Icon path={mdiClockTimeNineOutline} size={0.8}/>
                     <div className={classes.date}>{props.news.date}</div>
                 </div>
             </div>

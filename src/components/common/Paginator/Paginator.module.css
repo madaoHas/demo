@@ -1,0 +1,13 @@
+.selected {
+    font-weight: bold;
+}
+
+.page {
+    cursor: pointer;
+}
+
+.point {
+    border: solid 1px black;
+    padding-left: 5px;
+    padding-right: 5px;
+}

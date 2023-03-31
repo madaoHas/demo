@@ -1,16 +1,15 @@
 .header {
-    grid-area: h;
     background-color: white;
     border-bottom: 1px solid #B8B8B8;
     padding-left: 8%;
+    padding-right: 8%;
     display: flex;
-    /*position: relative;*/
+    height: 58px;
 }
 
 .news {
     top: 0;
     bottom: 0;
-    /*padding: 20px;*/
     float: left;
     margin-top: auto;
     margin-bottom: auto;
@@ -21,9 +20,7 @@
     float: left;
 }
 .loginBlock {
-    float: right;
-    /*padding: 20px;*/
-    margin: auto 0 auto 66%;
+    margin: auto 0 auto auto;
 }
 a {
     text-decoration: none;
