@@ -1,11 +1,16 @@
 import Users from "./Users";
+import {connect} from "react-redux";
 
-const UsersContainer = () => {
+const UsersContainer = (props) => {
     return (
         <div>
-            <Users />
+            <Users {...props} />
         </div>
     )
 }
 
-export default UsersContainer;
+const mapStateToProps = (state) => ({
+    users: state.usersAdminPage.users
+})
+
+export default connect(mapStateToProps)(UsersContainer);

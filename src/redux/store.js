@@ -2,13 +2,15 @@ import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import newsReducer from "./newsReducer";
 import profileReducer from "./profileReducer";
 import loginReducer from "./loginReducer";
+import usersAdminReducer from "./usersAdminReducer";
 
 import thunkMiddleware from "redux-thunk";
 
 let reducers = combineReducers({
     newsPage: newsReducer,
     profilePage: profileReducer,
-    login: loginReducer
+    login: loginReducer,
+    usersAdminPage: usersAdminReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -1,0 +1,91 @@
+table {
+    width: 100%;
+    border: 0;
+    table-layout: auto;
+    border-collapse: separate;
+    border-spacing: 20px 16px;
+}
+
+table tr {
+    /*padding-bottom: 16px;*/
+}
+
+table th {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    white-space: nowrap;
+    /*margin-right: 20px;*/
+    /*padding-right: 20px;*/
+}
+table td {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.inputFilter {
+    /*min-width: 50px;*/
+    /*max-width: 169px;*/
+    width: 100%;
+    /* Убираем влияние padding и border на конечную ширину input */
+    box-sizing: border-box;
+    /* Обнуляем margin */
+    margin: 0;
+    height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #919191;
+    border-radius: 5px;
+}
+
+.filter {
+    padding-top: 8px;
+}
+
+.colId {
+    /*min-width: 40px;*/
+    width: 5%;
+}
+
+.colDate {
+    width: 18%;
+}
+
+.colBig {
+    width: 18%;
+    max-width: 25%;
+}
+
+.colRole {
+    width: 10%;
+}
+
+.ellipsis {
+    position: relative;
+
+}
+.ellipsis:before {
+    content: '&nbsp;';
+    visibility: hidden;
+}
+
+.ellipsis span {
+    max-width: 146px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link {
+    width: 25px;
+}

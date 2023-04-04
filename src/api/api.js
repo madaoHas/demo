@@ -19,6 +19,17 @@ export const NewsAPI = {
     }
 }
 
+export const UsersAdminAPI = {
+    getUsers(currentPage = 1, pageSize = 10) {
+        return instance.get(`admin/users?page=${currentPage}&count=${pageSize}`)
+            .then(response => response.data)
+    },
+    // getSelectedNews(idNews) {
+    //     return instance.get(`news?id=${idNews}`)
+    //         .then(response => response.data)
+    // }
+}
+
 export const ProfileAPI = {
     getGeneralInfo() {
         return instance.get(`profile`)
