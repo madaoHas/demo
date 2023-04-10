@@ -19,6 +19,13 @@ export const NewsAPI = {
     }
 }
 
+export const CommentsAPI = {
+    getComments() {
+        return instance.get(`comments`)
+            .then(response => response.data)
+    },
+}
+
 export const UsersAdminAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
         return instance.get(`admin/users?page=${currentPage}&count=${pageSize}`)

@@ -2,15 +2,16 @@ import React from "react";
 import {useMemo} from "react";
 import classes from "./UsersTable.module.css";
 import classNames from "classnames";
-import {useTable, useFilters} from 'react-table'
-import {matchSorter} from 'match-sorter'
-import {ColumnFilter} from "../../common/ColumnFilter";
+import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
 import {format} from "date-fns";
 import {TableAdmin} from "../../common/TableAdmin";
+import { useState } from 'react'
+import { Switch } from '@headlessui/react'
 
 
 function UsersTable(props) {
     console.log(props);
+    const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(
         () => [
             {
@@ -21,10 +22,10 @@ function UsersTable(props) {
             {
                 Header: 'Дата регистрации',
                 accessor: 'date',
-                Cell: ({value}) => {
-                    return format(new Date(value), "dd-MM-yyyy")
-                },
-                Filter: ColumnFilter
+                // Cell: ({value}) => {
+                //     return format(new Date(value), "dd-MM-yyyy")
+                // },
+                Filter: ColumnFilterDate
             },
             {
                 Header: 'e-mail',
@@ -49,8 +50,10 @@ function UsersTable(props) {
             {
                 Header: 'Активен',
                 accessor: 'active',
-                Filter: ColumnFilter
-            },
+                Filter: ColumnFilter,
+                Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
+
+},
         ],
         []
     )

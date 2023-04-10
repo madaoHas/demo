@@ -49,13 +49,7 @@ export const TableAdmin = ({columns, data, linkCom}) => {
 
     return (
         <table {...getTableProps()}>
-            <col className={classes.colId}/>
-            {/*<col className={classes.colDate}/>*/}
-            {/*<col className={classes.colBig}/>*/}
-            {/*<col className={classes.colBig}/>*/}
-            {/*<col className={classes.colBig}/>*/}
-            {/*<col className={classes.colRole}/>*/}
-            {/*<col className={classes.colActive}/>*/}
+            {/*<col className={classes.colId}/>*/}
             <thead>
             {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -76,6 +70,7 @@ export const TableAdmin = ({columns, data, linkCom}) => {
                         {row.cells.map(cell => {
                             return <td className={classes.ellipsis} {...cell.getCellProps()}>
                                 <span>
+                                    {console.log(cell)}
                                     {cell.render('Cell')}
                                 </span>
                             </td>

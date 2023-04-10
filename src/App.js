@@ -10,6 +10,7 @@ import SelectedNewsContainer from "./components/CustomPages/SelectedNews/Selecte
 import UsersContainer from "./components/AdminPages/Users/UsersContainer";
 import Menu from "./components/AdminPages/Menu/Menu";
 import {connect} from "react-redux";
+import 'flatpickr/dist/flatpickr.css';
 
 
 function App(props) {

@@ -3,6 +3,7 @@ import newsReducer from "./newsReducer";
 import profileReducer from "./profileReducer";
 import loginReducer from "./loginReducer";
 import usersAdminReducer from "./usersAdminReducer";
+import commentsReducer from "./commentsReducer";
 
 import thunkMiddleware from "redux-thunk";
 
@@ -10,7 +11,8 @@ let reducers = combineReducers({
     newsPage: newsReducer,
     profilePage: profileReducer,
     login: loginReducer,
-    usersAdminPage: usersAdminReducer
+    usersAdminPage: usersAdminReducer,
+    comments: commentsReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

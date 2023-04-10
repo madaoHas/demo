@@ -44,6 +44,7 @@
     /*object-fit: cover;*/
     /*height: 150px;*/
     border-radius: 10px 10px 0px 0px;
+    height: 150px;
 }
 
 .description {

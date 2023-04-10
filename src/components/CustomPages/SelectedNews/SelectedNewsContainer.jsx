@@ -18,8 +18,10 @@ const SelectedNewsContainer = () => {
 const mapStateToProps = (state) => {
     // let location = useLocation();
     return {
-        news: getNewsSuper(state)
+        news: getNewsSuper(state),
+        comments: state.comments.comments
     }
 }
+
 
 export default SelectedNewsContainer;

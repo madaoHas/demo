@@ -12,7 +12,7 @@ const NewsOne = (props) => {
                     <div className={classes.date}>{props.news.date}</div>
                 </div>
             </div>
-            <img src={props.news.img ? props.news.img : '/img/images.jpeg'} />
+            <img src={props.news.img ? props.news.img : '/img/grey.jpeg'} />
             <div className={classes.description}>
                 <span className={classes.header}>{props.news.header}</span>
                 <span>
