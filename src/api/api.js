@@ -26,6 +26,21 @@ export const CommentsAPI = {
     },
 }
 
+export const CategoryAPI = {
+    getCategory() {
+        return instance.get(`category`)
+            .then(response => response.data)
+    },
+    addCategory(category) {
+        return instance.post(`category/add`, {category})
+            .then(response => response.data)
+    },
+    deleteCategory(idCaregory) {
+        return instance.delete(`category`, {idCaregory})
+            .then(response => response.data)
+    }
+}
+
 export const UsersAdminAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
         return instance.get(`admin/users?page=${currentPage}&count=${pageSize}`)

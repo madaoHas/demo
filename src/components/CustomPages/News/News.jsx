@@ -3,8 +3,12 @@ import classes from "./News.module.css";
 import Paginator from "../../common/Paginator/Paginator";
 
 const News = (props) => {
+    console.log(props)
     return (
-        <div>
+        <div className={classes.newsPageContainer}>
+            <select className={classes.categorySelect}>
+                {props.category.map(c => <option key={c.id} className={classes.categoryOption}>{c.category}</option>)}
+            </select>
             <div className={classes.container}>
                 {props.news.map(n => <NewsOne news={n} key={n.id} />)}
 

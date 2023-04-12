@@ -1,7 +1,46 @@
+.newsPageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .container {
     display: flex;
     flex-direction: row;
     gap: 20px;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.categorySelect {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 285px;
+    height: 30px;
+    border: 1px solid #919191;
+    border-radius: 5px;
+    font-size: 15px;
+    appearance: none;
+    background: url('../../../img/arrowSelect.svg') no-repeat right;
+    overflow: hidden;
+    background-origin: content-box;
+}
+
+.categoryOption {
+    font-size: 10px;
+}
+
+@media (min-width: 680px) and (max-width: 991px) {
+    .container {
+        justify-content: flex-start;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 679px) {
+    .container {
+        flex-direction: column;
+    }
+    .categorySelect {
+        width: 100%;
+    }
 }

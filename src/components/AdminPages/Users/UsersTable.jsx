@@ -1,19 +1,14 @@
 import React from "react";
-import {useMemo} from "react";
 import classes from "./UsersTable.module.css";
 import classNames from "classnames";
 import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
-import {format} from "date-fns";
 import {TableAdmin} from "../../common/TableAdmin";
 import { useState } from 'react'
-import { Switch } from '@headlessui/react'
 
 
 function UsersTable(props) {
-    console.log(props);
     const [enabled, setEnabled] = useState(false)
-    const columns = React.useMemo(
-        () => [
+    const columns = React.useMemo(() => [
             {
                 Header: 'ID',
                 accessor: 'id',

@@ -21,7 +21,13 @@
 }
 .loginBlock {
     margin: auto 0 auto auto;
+    display: flex;
 }
+
+.userInfo {
+    display: flex;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -30,4 +36,25 @@ a {
 
 .loginBlock a {
     padding-left: 20px;
+}
+
+@media (min-width: 320px) and (max-width: 450px) {
+    .header {
+        height: 80px;
+    }
+    .header img {
+        height: 50%;
+        margin-top: 3px;
+    }
+    .loginBlock {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+        width: 100%;
+    }
+    .mobileHeader {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
 }

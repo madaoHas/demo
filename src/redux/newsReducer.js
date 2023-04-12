@@ -11,8 +11,9 @@ let initialState = {
             date: '27.03.2023',
             img: '',
             header: 'header',
+            category: 'sport',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Imperdiet massa tincidunt nunc pulvinar sapien et. Mauris ultrices eros in cursus turpis. Justo eget magna fermentum iaculis eu non diam. Tellus in metus vulputate eu scelerisque. Odio morbi quis commodo odio aenean sed adipiscing diam donec. Volutpat odio facilisis mauris sit amet. Auctor eu augue ut lectus arcu. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Nulla pharetra diam sit amet. Donec ultrices tincidunt arcu non sodales neque. Laoreet non curabitur gravida arcu. Et tortor at risus viverra adipiscing at in tellus. Tristique senectus et netus et malesuada fames ac. Enim diam vulputate ut pharetra sit amet. Condimentum mattis pellentesque id nibh tortor. Suscipit adipiscing bibendum est ultricies integer quis auctor elit. Ultricies tristique nulla aliquet enim tortor at auctor urna nunc.',
-            miniText : "mini text",
+            miniText : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure...",
             comments: [
                 {id: 1, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet LoremipsumdolorsitametLoremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet'},
                 {id: 2, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
@@ -23,8 +24,9 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'sport',
             text: 'text111',
-            miniText : "mini text",
+            miniText : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis. Duis aute irure...",
             comments: [
                 {id: 3, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
                 {id: 4, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
@@ -35,8 +37,9 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'sport',
             text: 'text111',
-            miniText : "mini text",
+            miniText : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure...",
             comments: [
                 {id: 5, username: 'username', date: {date: '27.03.2023', time: '00:00'}, text: 'text'},
                 {id: 6, username: 'username1', date: {date: '27.03.2023', time: '10:00'}, text: 'text'}
@@ -47,6 +50,7 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'gintama',
             text: 'text111',
             miniText : "mini text",
             comments: [
@@ -59,6 +63,7 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'gintama',
             text: 'text111',
             miniText : "mini text",
             comments: [
@@ -71,6 +76,7 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'gintama',
             text: 'text111',
             miniText : "mini text",
             comments: [
@@ -83,6 +89,7 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'sport',
             text: 'text111',
             miniText : "mini text",
             comments: [
@@ -95,6 +102,7 @@ let initialState = {
             date: '25.03.2023',
             img: '',
             header: 'header1',
+            category: 'gintama',
             text: 'text111',
             miniText : "mini text",
             comments: [

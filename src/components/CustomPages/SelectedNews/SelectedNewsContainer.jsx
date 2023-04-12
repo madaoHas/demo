@@ -7,6 +7,7 @@ import classes from "./SelectedNewsContainer.module.css";
 
 const SelectedNewsContainer = () => {
     let location = useLocation();
+    console.log(location);
     return (
         <div className={classes.newsCommentBlock}>
             <SelectedNews {...location} />

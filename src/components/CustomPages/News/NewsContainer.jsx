@@ -9,7 +9,8 @@ const NewsContainer = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    news: state.newsPage.news
+    news: state.newsPage.news,
+    category: state.category.category
 })
 
 export default connect(mapStateToProps)(NewsContainer);

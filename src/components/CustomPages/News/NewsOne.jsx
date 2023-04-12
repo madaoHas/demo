@@ -14,8 +14,11 @@ const NewsOne = (props) => {
             </div>
             <img src={props.news.img ? props.news.img : '/img/grey.jpeg'} />
             <div className={classes.description}>
-                <span className={classes.header}>{props.news.header}</span>
-                <span>
+                <div className={classes.headerContainer}>
+                    <span className={classes.header}>{props.news.header}</span>
+                    <span className={classes.category}>{props.news.category}</span>
+                </div>
+                <span className={classes.textNews}>
                     {props.news.miniText}
                 </span>
             </div>

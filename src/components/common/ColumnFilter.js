@@ -21,9 +21,7 @@ export const ColumnFilter = ({ column }) => {
 }
 
 export const ColumnFilterDate = ({ column }) => {
-    console.log(column)
     const { filterValue, setFilter } = column;
-    console.log(filterValue);
 
     return (
         <>
@@ -32,7 +30,6 @@ export const ColumnFilterDate = ({ column }) => {
                 className={classes.dateFilter}
                 value={filterValue || ''}
                 onChange={e => {
-                    console.log(e)
                    setFilter(e[0] ? moment(e[0]).format("DD-MM-yyyy") : undefined) // Set undefined to remove the filter entirely
                }}
                 options={{

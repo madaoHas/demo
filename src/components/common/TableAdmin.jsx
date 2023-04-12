@@ -70,7 +70,6 @@ export const TableAdmin = ({columns, data, linkCom}) => {
                         {row.cells.map(cell => {
                             return <td className={classes.ellipsis} {...cell.getCellProps()}>
                                 <span>
-                                    {console.log(cell)}
                                     {cell.render('Cell')}
                                 </span>
                             </td>

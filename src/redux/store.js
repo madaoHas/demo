@@ -4,6 +4,7 @@ import profileReducer from "./profileReducer";
 import loginReducer from "./loginReducer";
 import usersAdminReducer from "./usersAdminReducer";
 import commentsReducer from "./commentsReducer";
+import categoryReducer from "./categoryReducer";
 
 import thunkMiddleware from "redux-thunk";
 
@@ -12,7 +13,8 @@ let reducers = combineReducers({
     profilePage: profileReducer,
     login: loginReducer,
     usersAdminPage: usersAdminReducer,
-    comments: commentsReducer
+    comments: commentsReducer,
+    category: categoryReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
