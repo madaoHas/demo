@@ -46,19 +46,19 @@ const ProfileFormGeneral = () => {
                 {({values,errors, touched, setFieldValue}) => (
                     <Form className={classes.form}>
                         <div className={classes.avatar}>
-                            <label htmlFor="photo">Аватар</label>
+                            <label htmlFor="photo" className={classes.label}>Аватар</label>
                             <Field type="file" name="photo"/>
                         </div>
                         <div className={classes.line}>
                             <div>
-                                <label htmlFor="firstName">Имя</label>
+                                <label htmlFor="firstName" className={classes.label}>Имя</label>
                                 <Field className={classNames("input", {["is-danger"]: errors.firstName && touched.firstName})} name="firstName" />
                                 {errors.firstName && touched.firstName ? (
                                     <div className="has-text-danger">{errors.firstName}</div>
                                 ) : null}
                             </div>
                             <div>
-                                <label htmlFor="lastName">Фамилия</label>
+                                <label htmlFor="lastName" className={classes.label}>Фамилия</label>
                                 <Field className={classNames("input", {["is-danger"]: errors.lastName && touched.lastName})} name="lastName"/>
                                 {errors.lastName && touched.lastName ? (
                                     <div className="has-text-danger">{errors.lastName}</div>
@@ -67,12 +67,12 @@ const ProfileFormGeneral = () => {
                         </div>
                         <div className={classes.line}>
                             <div>
-                                <label htmlFor="email">e-mail</label>
+                                <label htmlFor="email" className={classes.label}>e-mail</label>
                                 <Field name="email" className={classNames("input", {["is-danger"]: errors.email && touched.email})} type="email" />
                                 {errors.email && touched.email ? <div className="has-text-danger">{errors.email}</div> : null}
                             </div>
                             <div>
-                                <label htmlFor="numberPhone">Номер телефона</label>
+                                <label htmlFor="numberPhone" className={classes.label}>Номер телефона</label>
                                 <PhoneInput
                                     name="numberPhone"
                                     value={phone}
@@ -84,12 +84,12 @@ const ProfileFormGeneral = () => {
                         </div>
                         <div className={classes.line}>
                             <div>
-                                <label htmlFor="birthday">Дата рождения</label>
+                                <label htmlFor="birthday" className={classes.label}>Дата рождения</label>
                                 {/*<Field className="input" name="birthday"/>*/}
                                 <Field type="date" className="input" name="birthday" />
                             </div>
                             <div>
-                                <label htmlFor="city">Город</label>
+                                <label htmlFor="city" className={classes.label}>Город</label>
                                 <Field className="input" name="city"/>
                             </div>
                         </div>

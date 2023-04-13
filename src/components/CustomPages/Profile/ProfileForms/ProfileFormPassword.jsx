@@ -56,7 +56,7 @@ const ProfileFormPassword = () => {
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>
-                                <label htmlFor="oldPassword">Старый пароль</label>
+                                <label htmlFor="oldPassword" className={classes.label}>Старый пароль</label>
                                 <Field name="oldPassword" type="password"
                                        className={classNames("input", {["is-danger"]: errors.oldPassword && touched.oldPassword})}
                                        validate={validateOldPassword} />
@@ -65,14 +65,14 @@ const ProfileFormPassword = () => {
                         </div>
                         <div className={classes.line}>
                             <div>
-                                <label htmlFor="password">Новый пароль</label>
+                                <label htmlFor="password" className={classes.label}>Новый пароль</label>
                                 <Field type="password" name="password"
                                        className={classNames("input", {["is-danger"]: errors.password && touched.password})}
                                        validate={validatePassword} />
                                 {errors.password && touched.password && <div className="has-text-danger">{errors.password}</div>}
                             </div>
                             <div>
-                                <label htmlFor="confirmPassword">Подтвердите новый пароль</label>
+                                <label htmlFor="confirmPassword" className={classes.label}>Подтвердите новый пароль</label>
                                 <Field type="password" name="confirmPassword"
                                        className={classNames("input", {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
                                        validate={value => validateConfirmPassword(values.password, value)}/>
