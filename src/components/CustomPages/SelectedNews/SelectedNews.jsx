@@ -16,11 +16,14 @@ const SelectedNews = (props) => {
                         Назад
                     </NavLink>
                 </div>
-                <div className={classes.dateBlock}>
-                    <Icon path={mdiClockTimeNineOutline} size={1}/>
-                    <div className={classes.date}>
-                        {props.state.news.date}
+                <div className={classes.categoryDateBlock}>
+                    <div className={classes.dateBlock}>
+                        <Icon path={mdiClockTimeNineOutline} size={1} className={classes.clock} />
+                        <div className={classes.date}>
+                            {props.state.news.date}
+                        </div>
                     </div>
+                    <div className={classes.category}>{props.state.news.category}</div>
                 </div>
             </div>
             <div className={classes.newsBlock}>

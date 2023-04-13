@@ -23,3 +23,13 @@
     gap: 10px;
     width: 100%;
 }
+
+@media (min-width: 320px) and (max-width: 679px) {
+    .commentsBlock {
+        gap: 15px;
+    }
+    .commentsBlock .header {
+        font-size: 16px;
+        line-height: 19px;
+    }
+}

@@ -11,6 +11,13 @@
     width: 100%;
 }
 
+@media (min-width: 320px) and (max-width: 679px) {
+    .form {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 .form .commentInput {
     display: flex;
     flex-direction: column;
@@ -24,11 +31,26 @@
     border: 1px solid #545454;
 }
 
+@media (min-width: 320px) and (max-width: 679px) {
+    .form .commentInput input {
+        height: 35px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+}
+
 .form button {
     width: 20%;
     border-radius: 0px 5px 5px 0px;
     border: 0px;
     background: #545454 !important;
+}
+
+@media (min-width: 320px) and (max-width: 679px) {
+    .form button {
+        width: 100%;
+        border-radius: 5px;
+    }
 }
 
 .username {
@@ -53,5 +75,4 @@
     font-size: 14px;
     line-height: 17px;
     color: #000000;
-
 }

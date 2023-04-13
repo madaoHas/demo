@@ -17,6 +17,13 @@
   padding-bottom: 30px;
 }
 
+@media (min-width: 320px) and (max-width: 679px) {
+  .app-wrapper-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 .app-wrapper-content:empty {
   display: none;
 }
