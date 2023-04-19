@@ -76,3 +76,9 @@ table td {
 .link {
     width: 25px;
 }
+
+@media (min-width: 320px) and (max-width: 450px) {
+    .table {
+        display: none;
+    }
+}

@@ -48,7 +48,7 @@ export const TableAdmin = ({columns, data, linkCom}) => {
 
 
     return (
-        <table {...getTableProps()}>
+        <table className={classes.table} {...getTableProps()}>
             {/*<col className={classes.colId}/>*/}
             <thead>
             {headerGroups.map(headerGroup => (

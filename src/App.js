@@ -11,13 +11,14 @@ import UsersContainer from "./components/AdminPages/Users/UsersContainer";
 import Menu from "./components/AdminPages/Menu/Menu";
 import {connect} from "react-redux";
 import 'flatpickr/dist/flatpickr.css';
+import HeaderAdminContainer from "./components/Header/HeaderAdmin/HeaderAdminContainer";
 
 
 function App(props) {
     console.log(props);
     return (
         <div className="app-main">
-            <HeaderContainer />
+            {props.isAuth && props.role === "admin" ? <HeaderAdminContainer /> : <HeaderContainer />}
             <div className="app-wrapper">
                 <div className="app-wrapper-content">
                     <Routes>
