@@ -30,7 +30,7 @@ export const ColumnFilterDate = ({ column }) => {
                 className={classes.dateFilter}
                 value={filterValue || ''}
                 onChange={e => {
-                   setFilter(e[0] ? moment(e[0]).format("DD-MM-yyyy") : undefined) // Set undefined to remove the filter entirely
+                   setFilter(e[0] ? moment(e[0]).format("DD-MM-yyyy") : undefined)
                }}
                 options={{
                     dateFormat: "d-m-Y"

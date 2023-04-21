@@ -4,8 +4,7 @@
     align-items: center;
     padding: 0px;
     background: #545454;
-    min-width: 230px;
-    max-width: 260px;
+    width: 230px;
 }
 
 .menuContainer .info {
@@ -56,7 +55,13 @@
     color: #FFFFFF;
 }
 
-@media (min-width: 320px) and (max-width: 450px) {
+@media (min-width: 768px) and (max-width: 1080px) {
+    .menuContainer {
+        width: 200px;
+    }
+}
+
+@media (min-width: 319px) and (max-width: 768px) {
     .menuContainer {
         display: none;
     }

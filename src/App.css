@@ -4,11 +4,6 @@
   gap: 30px;
 }
 
-.app-wrapper {
-}
-
-
-
 .app-wrapper-content {
   /*grid-area: c;*/
   background-color: white;
@@ -17,10 +12,21 @@
   padding-bottom: 30px;
 }
 
-@media (min-width: 320px) and (max-width: 679px) {
+.Admin {
+  display: flex;
+  gap: 20px;
+  margin-top: -30px;
+  margin-right: 20px;
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
   .app-wrapper-content {
     padding-left: 10px;
     padding-right: 10px;
+  }
+  .Admin {
+    gap: 0;
+    margin-right: 0;
   }
 }
 
@@ -28,14 +34,7 @@
   display: none;
 }
 
-.Admin {
-  display: flex;
-  gap: 20px;
-  margin-top: -30px;
-}
-
 .AdminPage {
   margin-top: 20px;
-  margin-right: 20px;
   width: 100%;
 }

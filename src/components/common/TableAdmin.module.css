@@ -1,9 +1,22 @@
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+    color: transparent;
+}
+
+.tableWrap {
+    display: inline-block;
+    background-color: #fff;
+    color: #000;
+}
+
 table {
     width: 100%;
     border: 0;
     table-layout: auto;
     border-collapse: separate;
     border-spacing: 20px 16px;
+    padding: 0;
 }
 
 table tr {
@@ -30,55 +43,125 @@ table td {
     white-space: nowrap;
 }
 
-
-
 .filter {
     padding-top: 8px;
 }
 
-.colId {
-    /*min-width: 40px;*/
-    width: 5%;
-}
-
-.colDate {
-    width: 18%;
-}
-
-.colBig {
-    width: 18%;
-    max-width: 25%;
-}
-
-.colRole {
-    width: 10%;
-}
-
 .ellipsis {
     position: relative;
-
-}
-.ellipsis:before {
-    content: '&nbsp;';
-    visibility: hidden;
+    text-align: center;
 }
 
 .ellipsis span {
     max-width: 146px;
     position: absolute;
-    left: 0;
-    right: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .link {
-    width: 25px;
+    width: 20px;
+    height: 20px;
 }
 
-@media (min-width: 320px) and (max-width: 450px) {
-    .table {
+
+@media (min-width: 769px) and (max-width: 1240px) {
+    .tableWrap {
+        overflow-y: scroll;
+    }
+    /*table th {*/
+    /*    font-size: 14px;*/
+    /*    max-width: 130px;*/
+    /*}*/
+    /*table td {*/
+    /*    font-size: 14px;*/
+    /*    max-width: 130px;*/
+    /*}*/
+
+}
+
+@media (min-width: 319px) and (max-width: 768px) {
+    .tableWrap {
+        width: 100%;
+    }
+    table {
+        border: 0;
+        width: 100%;
+        border-spacing: 0;
+    }
+
+    table thead {
         display: none;
+    }
+
+    table tr {
+        width: 100%;
+        margin-bottom: 10px;
+        display: block;
+        border: 1px solid #919191;
+        border-radius: 5px;
+        padding: 10px;
+        height: auto;
+        /*min-height: 193px;*/
+    }
+
+    table td {
+        display: block;
+        text-align: right;
+        font-size: 14px;
+        /*border-bottom: 1px dotted #ccc;*/
+        /*border-right: 1px solid transparent;*/
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .ellipsis span {
+        right: 0;
+    }
+
+    table td:last-child {
+        border-bottom: 0;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+    .switch {
+        display: inline-block;
+        width: 50px;
+        height: 25px;
+        margin-bottom: 0;
+        margin-right: 20%;
+    }
+    .link {
+        display: inline-block;
+        margin-bottom: 0;
+    }
+    .navLink {
+        margin-right: 20%;
+    }
+    .deleteLink {
+        float: right;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 500px) {
+    .switch {
+        margin-right: 20%;
+    }
+    .navLink {
+        margin-right: 25%;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 768px) {
+    .switch {
+        margin-right: 25%;
+    }
+    .navLink {
+        margin-right: 30%;
     }
 }

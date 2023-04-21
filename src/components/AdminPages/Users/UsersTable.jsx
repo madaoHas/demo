@@ -6,6 +6,7 @@ import {TableAdmin} from "../../common/TableAdmin";
 import { useState } from 'react'
 
 
+
 function UsersTable(props) {
     const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
@@ -53,11 +54,46 @@ function UsersTable(props) {
         []
     )
 
+    const optionRef = React.createRef();
+
     const data = React.useMemo(() => props.users, [])
 
+    let [inputText, setInputText] = useState(false);
+    let [inputDate, setInputDate] = useState(false);
+    let [inputSelect, setInputSelect] = useState(false);
+
+    const ShowInput = () => {
+        let valueOption = optionRef.current.value;
+        console.log(valueOption);
+        setInputText(false);
+        setInputDate(false);
+        setInputSelect(false);
+
+        if (valueOption === 'Дата регистрации') {
+            setInputDate(true);
+        }
+        else if (valueOption === 'Активен' || valueOption === 'Роль') {
+            setInputSelect(true);
+        }
+        else {
+            setInputText(true);
+        }
+    }
+
     return (
-        <TableAdmin columns={columns} data={data} linkCom={true}/>
+        <div className={classes.container}>
+            <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(optionRef, setInputText, setInputDate, setInputSelect)}}>
+                {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
+            </select>
+            {console.log(columns)}
+            {inputDate ? <ColumnFilterDate column={""} /> : null}
+            {inputText ? <ColumnFilter column={""} />: null}
+            {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
+            <TableAdmin columns={columns} data={data} linkCom={true} />
+        </div>
     )
 }
+
+
 
 export default UsersTable;
