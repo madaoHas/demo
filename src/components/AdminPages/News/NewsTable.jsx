@@ -1,13 +1,12 @@
 import React from "react";
-import classes from "./UsersTable.module.css";
+import classes from "../Users/UsersTable.module.css";
 import classNames from "classnames";
-import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
-import {TableAdmin} from "../../common/TableAdmin";
+import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
+import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 
 
-
-function UsersTable(props) {
+function NewsTable(props) {
     const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
             {
@@ -16,7 +15,7 @@ function UsersTable(props) {
                 Filter: ColumnFilter
             },
             {
-                Header: 'Дата регистрации',
+                Header: 'Дата публикации',
                 accessor: 'date',
                 // Cell: ({value}) => {
                 //     return format(new Date(value), "dd-MM-yyyy")
@@ -24,23 +23,13 @@ function UsersTable(props) {
                 Filter: ColumnFilterDate
             },
             {
-                Header: 'e-mail',
-                accessor: 'email',
+                Header: 'Заголовок',
+                accessor: 'header',
                 Filter: ColumnFilter
             },
             {
-                Header: 'Имя',
-                accessor: 'firstName',
-                Filter: ColumnFilter
-            },
-            {
-                Header: 'Фамилия',
-                accessor: 'lastName',
-                Filter: ColumnFilter
-            },
-            {
-                Header: 'Роль',
-                accessor: 'role',
+                Header: 'Категория',
+                accessor: 'category',
                 Filter: ColumnFilter
             },
             {
@@ -48,15 +37,14 @@ function UsersTable(props) {
                 accessor: 'active',
                 Filter: ColumnFilter,
                 Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
-
-},
+            },
         ],
         []
     )
 
     const optionRef = React.createRef();
 
-    const data = React.useMemo(() => props.users, [])
+    const data = React.useMemo(() => props.news, [])
 
     let [inputText, setInputText] = useState(false);
     let [inputDate, setInputDate] = useState(false);
@@ -76,15 +64,12 @@ function UsersTable(props) {
         else if (valueOption === 'Активен') {
             setInputSelect(true);
         }
-        else if (valueOption === 'Роль') {
+        else if (valueOption === 'Категория') {
             setInputSelect(true);
         }
         else {
             setInputText(true);
         }
-        console.log('inputText - ' + inputText);
-        console.log('inputDate - ' + inputDate);
-        console.log('inputSelect - ' + inputSelect);
     }
 
     return (
@@ -92,7 +77,6 @@ function UsersTable(props) {
             <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
                 {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
             </select>
-            {console.log(columns)}
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
@@ -101,6 +85,4 @@ function UsersTable(props) {
     )
 }
 
-
-
-export default UsersTable;
+export default NewsTable;

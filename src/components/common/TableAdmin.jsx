@@ -48,6 +48,7 @@ export const TableAdmin = ({columns, data, linkCom}) => {
     )
 
 
+
     return (
         <div className={classes.tableWrap}>
             <table className={classes.table} {...getTableProps()}>

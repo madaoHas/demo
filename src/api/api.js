@@ -51,6 +51,27 @@ export const UsersAdminAPI = {
     //         .then(response => response.data)
     // }
 }
+export const NewsAdminAPI = {
+    getNews(currentPage = 1, pageSize = 10) {
+        return instance.get(`admin/news?page=${currentPage}&count=${pageSize}`)
+            .then(response => response.data)
+    },
+    // getSelectedNews(idNews) {
+    //     return instance.get(`news?id=${idNews}`)
+    //         .then(response => response.data)
+    // }
+}
+
+export const CommentsAdminAPI = {
+    getComments(currentPage = 1, pageSize = 10) {
+        return instance.get(`admin/comments?page=${currentPage}&count=${pageSize}`)
+            .then(response => response.data)
+    },
+    // getSelectedNews(idNews) {
+    //     return instance.get(`news?id=${idNews}`)
+    //         .then(response => response.data)
+    // }
+}
 
 export const ProfileAPI = {
     getGeneralInfo() {

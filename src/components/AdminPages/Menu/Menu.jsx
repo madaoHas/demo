@@ -9,9 +9,10 @@ const Menu = () => {
                 <div className={classes.name}>Username</div>
             </div>
             <div className={classes.menu}>
-                <NavLink to={"/"}>Пользователи</NavLink>
-                <NavLink to={"/"}>Новости</NavLink>
-                <NavLink to={"/"}>Комментарии</NavLink>
+                <NavLink to={"/admin/users"}>Пользователи</NavLink>
+                <NavLink to={"/admin/news"}>Новости</NavLink>
+                <NavLink to={"/admin/comments"}>Комментарии</NavLink>
+                <NavLink to={"/admin/categories"}>Категории</NavLink>
             </div>
         </div>
     )

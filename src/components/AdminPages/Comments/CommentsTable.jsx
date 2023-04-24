@@ -1,13 +1,12 @@
 import React from "react";
-import classes from "./UsersTable.module.css";
+import classes from "../Users/UsersTable.module.css";
 import classNames from "classnames";
-import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
-import {TableAdmin} from "../../common/TableAdmin";
+import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
+import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 
 
-
-function UsersTable(props) {
+function CommentsTable(props) {
     const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
             {
@@ -16,7 +15,7 @@ function UsersTable(props) {
                 Filter: ColumnFilter
             },
             {
-                Header: 'Дата регистрации',
+                Header: 'Дата комментария',
                 accessor: 'date',
                 // Cell: ({value}) => {
                 //     return format(new Date(value), "dd-MM-yyyy")
@@ -24,39 +23,32 @@ function UsersTable(props) {
                 Filter: ColumnFilterDate
             },
             {
-                Header: 'e-mail',
-                accessor: 'email',
+                Header: 'ID пользователя',
+                accessor: 'idUser',
                 Filter: ColumnFilter
             },
             {
-                Header: 'Имя',
-                accessor: 'firstName',
+                Header: 'Пользователь',
+                accessor: 'user',
                 Filter: ColumnFilter
             },
             {
-                Header: 'Фамилия',
-                accessor: 'lastName',
+                Header: 'Новость',
+                accessor: 'news',
                 Filter: ColumnFilter
             },
             {
-                Header: 'Роль',
-                accessor: 'role',
+                Header: 'Комментарий',
+                accessor: 'comment',
                 Filter: ColumnFilter
             },
-            {
-                Header: 'Активен',
-                accessor: 'active',
-                Filter: ColumnFilter,
-                Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
-
-},
         ],
         []
     )
 
     const optionRef = React.createRef();
 
-    const data = React.useMemo(() => props.users, [])
+    const data = React.useMemo(() => props.comments, [])
 
     let [inputText, setInputText] = useState(false);
     let [inputDate, setInputDate] = useState(false);
@@ -73,12 +65,6 @@ function UsersTable(props) {
             console.log('date!')
             setInputDate(true);
         }
-        else if (valueOption === 'Активен') {
-            setInputSelect(true);
-        }
-        else if (valueOption === 'Роль') {
-            setInputSelect(true);
-        }
         else {
             setInputText(true);
         }
@@ -92,15 +78,12 @@ function UsersTable(props) {
             <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
                 {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
             </select>
-            {console.log(columns)}
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={true} />
+            <TableAdmin columns={columns} data={data} linkCom={false} />
         </div>
     )
 }
 
-
-
-export default UsersTable;
+export default CommentsTable;

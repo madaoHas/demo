@@ -12,6 +12,9 @@ import Menu from "./components/AdminPages/Menu/Menu";
 import {connect} from "react-redux";
 import 'flatpickr/dist/flatpickr.css';
 import HeaderAdminContainer from "./components/Header/HeaderAdmin/HeaderAdminContainer";
+import NewsContainerAdmin from "./components/AdminPages/News/NewsContainerAdmin";
+import CommentsContainerAdmin from "./components/AdminPages/Comments/CommentsContainerAdmin";
+import CategoriesContainerAdmin from "./components/AdminPages/Categories/CategoriesContainerAdmin";
 
 
 function App(props) {
@@ -38,6 +41,9 @@ function App(props) {
                     <div className="AdminPage">
                         <Routes>
                             <Route path="/admin/users" element={<UsersContainer/>}/>
+                            <Route path="/admin/news" element={<NewsContainerAdmin />}/>
+                            <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
+                            <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
                         </Routes>
                     </div>
                 </div> : null}

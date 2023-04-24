@@ -3,6 +3,8 @@ import newsReducer from "./newsReducer";
 import profileReducer from "./profileReducer";
 import loginReducer from "./loginReducer";
 import usersAdminReducer from "./usersAdminReducer";
+import newsAdminReducer from "./newsAdminReducer";
+import commentsAdminReducer from "./commentsAdminReducer";
 import commentsReducer from "./commentsReducer";
 import categoryReducer from "./categoryReducer";
 
@@ -13,6 +15,8 @@ let reducers = combineReducers({
     profilePage: profileReducer,
     login: loginReducer,
     usersAdminPage: usersAdminReducer,
+    newsAdminPage: newsAdminReducer,
+    commentsAdminPage: commentsAdminReducer,
     comments: commentsReducer,
     category: categoryReducer
 })
