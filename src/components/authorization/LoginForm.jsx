@@ -5,6 +5,8 @@ import React from "react";
 import * as Yup from "yup";
 import {NavLink} from "react-router-dom";
 import RecoveryPassword from "./RecoveryPassword";
+import {connect} from "react-redux";
+import {login} from "../../redux/loginReducer";
 
 
 const SignupSchema = Yup.object().shape({
@@ -14,7 +16,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 
-const LoginForm = () => {
+const LoginForm = (props) => {
     return (
         <div>
             <Formik
@@ -23,6 +25,7 @@ const LoginForm = () => {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
+                    props.login(values.email, values.password);
                     console.log(values);
                 }}
             >
@@ -47,4 +50,10 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+
+const mapStateToProps = (state) => ({
+    // isAuth: state.auth.isAuth,
+    // captchaUrl: state.auth.captchaUrl
+})
+
+export default connect(mapStateToProps, {login})(LoginForm);

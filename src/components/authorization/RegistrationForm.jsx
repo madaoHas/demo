@@ -1,6 +1,8 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./AuthForm.module.css";
 import classNames from "classnames";
+import {connect} from "react-redux";
+import {registration} from "../../redux/loginReducer";
 import {NavLink} from "react-router-dom";
 import React from "react";
 import * as Yup from "yup";
@@ -36,7 +38,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
     return (
         <div>
             <Formik
@@ -45,6 +47,7 @@ const RegistrationForm = () => {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
+                    props.registration(values.email, values.password);
                     console.log(values);
                 }}
             >
@@ -73,4 +76,11 @@ const RegistrationForm = () => {
     )
 }
 
-export default RegistrationForm;
+const mapStateToProps = (state) => ({
+    // isAuth: state.auth.isAuth,
+    // captchaUrl: state.auth.captchaUrl
+})
+
+export default connect(mapStateToProps, {registration})(RegistrationForm);
+
+// export default RegistrationForm;

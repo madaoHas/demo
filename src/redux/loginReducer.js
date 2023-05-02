@@ -35,26 +35,50 @@ export const setAuthUserData = (id, email, isAuth, role) => {
     }
 }
 
-
-export const auth = () => async (dispatch) => {
-    let data = await AuthAPI.auth();
-
-    if (data.resultCode === 0) {
-        let {id, email, role} = data.data;
-        dispatch(setAuthUserData(id, email, true, role));
+export const registration = (email, password) => async (dispatch) => {
+    try {
+        let data = await AuthAPI.registration(email, password);
+        console.log(data);
+        // dispatch
     }
+    catch (error) {
+        console.log(error);
+    }
+
+}
+
+export const auth = (token) => async (dispatch) => {
+    try {
+        let data = await AuthAPI.auth(token);
+        console.log(data)
+    }
+    catch (error) {
+        console.log(error)
+    }
+
+    // if (data.resultCode === 0) {
+    //     let {id, email, role} = data.data;
+    //     dispatch(setAuthUserData(id, email, true, role));
+    // }
 }
 
 
 export const login = (email, password) => async (dispatch) => {
-    let data = await AuthAPI.login(email, password)
-    if (data.resultCode === 0) {
-        dispatch(auth());
+    try {
+        let data = await AuthAPI.login(email, password)
+        console.log(data);
+        // dispatch(auth(data.token))
     }
-    else {
-        let messages = data.messages.length > 0 ? data.messages[0] : "Some error";
-        // dispatch(stopSubmit("login", {_error: messages}))
+    catch (error) {
+        console.log(error)
     }
+    // if (data.resultCode === 0) {
+    //     // dispatch(auth());
+    // }
+    // else {
+    //     let messages = data.messages.length > 0 ? data.messages[0] : "Some error";
+    //     // dispatch(stopSubmit("login", {_error: messages}))
+    // }
 }
 
 export const logout = () => async (dispatch) => {

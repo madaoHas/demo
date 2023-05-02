@@ -4,20 +4,7 @@ const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
 
 let initialState = {
-    category: [
-        {
-            id: 1,
-            category: "sport"
-        },
-        {
-            id: 2,
-            category: "all"
-        },
-        {
-            id: 3,
-            category: "gintama"
-        },
-    ],
+    category: [],
 }
 
 const categoryReducer = (state = initialState, action) => {
@@ -57,8 +44,23 @@ export const addCategoryAC = (newCategory) => {
 
 
 export const getCategory = () => async (dispatch) => {
-    let data = await CategoryAPI.getCategory()
-    dispatch(setCategory(data.items));
+    // let data = await CategoryAPI.getCategory();
+    // // console.log(data);
+    // if (data) {
+    //     dispatch(setCategory(data));
+    // }
+    // else {
+    //     console.log('not found categories')
+    // }
+    try {
+        let data = await CategoryAPI.getCategory();
+        console.log(data);
+        if (data.status === 200) {
+            dispatch(setCategory(data.data));
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const addCategory = (category) => async (dispatch) => {
