@@ -61,9 +61,7 @@ function CategoriesTable(props) {
             <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
                 {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
             </select>
-            {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
-            {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
             <TableAdmin columns={columns} data={data} linkCom={false} />
         </div>
     )

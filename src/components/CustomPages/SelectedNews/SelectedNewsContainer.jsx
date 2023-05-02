@@ -8,7 +8,6 @@ import ScrollButton from "../../common/ScrollButton/ScrollButton";
 
 const SelectedNewsContainer = () => {
     let location = useLocation();
-    console.log(location);
     return (
         <div className={classes.newsCommentBlock}>
             <SelectedNews {...location} />

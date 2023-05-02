@@ -8,7 +8,7 @@ const Comments = (props) => {
             <div className={classes.usersContainer}>
                 <div className={classes.header}>
                     <div className={classes.headerName}>Комментарии</div>
-                    <div className={classes.headerLink}><NavLink to={"/"}>Добавить</NavLink></div>
+                    {/*<div className={classes.headerLink}><NavLink to={"/"}>Добавить</NavLink></div>*/}
                 </div>
                 <CommentsTable {...props} />
             </div>

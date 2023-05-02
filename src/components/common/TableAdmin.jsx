@@ -11,7 +11,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = val => !val
 
-export const TableAdmin = ({columns, data, linkCom}) => {
+export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
     const filterTypes = React.useMemo(
         () => ({
             fuzzyText: fuzzyTextFilterFn,
@@ -82,7 +82,11 @@ export const TableAdmin = ({columns, data, linkCom}) => {
                             {linkCom ?
                                 <td className={classNames(classes.link, classes.navLink)}><NavLink to={"/"}><img src={"/img/linkCom.svg"}/></NavLink>
                                 </td> : null}
-                            <td className={classNames(classes.link)}><NavLink to={"/"}><img src={"/img/update.svg"}/></NavLink></td>
+                            <td className={classNames(classes.link)}>
+                                <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
+                                    <img src={"/img/update.svg"} />
+                                </NavLink>
+                            </td>
                             <td className={classNames(classes.link, classes.deleteLink)}><NavLink to={"/"}><img src={"/img/delete.svg"}/></NavLink></td>
                         </tr>
                     )

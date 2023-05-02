@@ -80,7 +80,7 @@ function NewsTable(props) {
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={true} />
+            <TableAdmin columns={columns} data={data} linkCom={true} infoTable={"news"} />
         </div>
     )
 }

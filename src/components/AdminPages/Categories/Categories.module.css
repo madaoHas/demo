@@ -74,24 +74,37 @@
         padding: 0;
         border: 0;
     }
-    .name {
-        display: none;
+    .addCategories {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .categoryName {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .input {
+        width: 100%;
     }
     .header {
         padding-left: 10px;
         padding-right: 10px;
         flex-direction: column;
+        align-items: flex-start;
     }
-    .header .headerName {
-        font-size: 14px;
-        line-height: 17px;
+    .header form {
+        width: 100%;
     }
     .header .headerLink {
         padding: 8px;
         width: 139px;
     }
-    .header .headerLink a {
-        font-size: 14px;
-        line-height: 17px;
+    .headerName {
+        margin-bottom: 20px;
     }
+    /*.header .headerLink a {*/
+    /*    font-size: 14px;*/
+    /*    line-height: 17px;*/
+    /*}*/
 }

@@ -81,7 +81,7 @@ function CommentsTable(props) {
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={false} />
+            <TableAdmin columns={columns} data={data} linkCom={false} infoTable={"comments"} />
         </div>
     )
 }

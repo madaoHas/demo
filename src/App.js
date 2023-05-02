@@ -15,6 +15,9 @@ import HeaderAdminContainer from "./components/Header/HeaderAdmin/HeaderAdminCon
 import NewsContainerAdmin from "./components/AdminPages/News/NewsContainerAdmin";
 import CommentsContainerAdmin from "./components/AdminPages/Comments/CommentsContainerAdmin";
 import CategoriesContainerAdmin from "./components/AdminPages/Categories/CategoriesContainerAdmin";
+import UserAddContainer from "./components/AdminPages/Users/UserAdd/UserAddContainer";
+import CommentsUpdateContainer from "./components/AdminPages/Comments/CommentsUpdate/CommentsUpdateContainer";
+import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer";
 
 
 function App(props) {
@@ -44,6 +47,10 @@ function App(props) {
                             <Route path="/admin/news" element={<NewsContainerAdmin />}/>
                             <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
                             <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
+                            <Route path="/admin/users/add" element={<UserAddContainer />}/>
+                            <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
+                            <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
+                            <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
                         </Routes>
                     </div>
                 </div> : null}

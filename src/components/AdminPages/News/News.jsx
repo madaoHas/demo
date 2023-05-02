@@ -8,7 +8,7 @@ const News = (props) => {
             <div className={classes.usersContainer}>
                 <div className={classes.header}>
                     <div className={classes.headerName}>Опубликованные новости</div>
-                    <div className={classes.headerLink}><NavLink to={"/"}>Добавить</NavLink></div>
+                    <div className={classes.headerLink}><NavLink to={"/admin/news/add"}>Добавить</NavLink></div>
                 </div>
                 <NewsTable {...props} />
             </div>

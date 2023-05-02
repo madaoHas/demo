@@ -1,0 +1,34 @@
+.dateContainer {
+    display: flex;
+}
+
+.dateFilter {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    height: 30px;
+    background: #FFFFFF;
+    border: 1px solid #919191;
+    border-radius: 0 5px 5px 0;
+    vertical-align: middle;
+}
+
+.labelDate {
+    height: 30px;
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #919191;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.labelDate::after {
+    content: '';
+    /*background-image: url("../public/img/Calendar.svg") ;*/
+    position: absolute;
+    left: 0;
+    font-size: 40px;
+    color: rgb(238, 238, 238);
+}

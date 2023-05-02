@@ -1,0 +1,18 @@
+.selectFilter {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    height: 33px;
+    border: 1px solid #919191;
+    border-radius: 5px;
+    font-size: 14px;
+    appearance: none;
+    background: url('../../../img/arrowSelect.svg') no-repeat right;
+    overflow: hidden;
+    background-origin: content-box;
+    box-sizing: border-box;
+}
+
+.categoryOption {
+    font-size: 10px;
+}

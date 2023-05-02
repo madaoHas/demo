@@ -8,7 +8,7 @@ const Users = (props) => {
             <div className={classes.usersContainer}>
                 <div className={classes.header}>
                     <div className={classes.headerName}>Пользователи</div>
-                    <div className={classes.headerLink}><NavLink to={"/"}>Добавить</NavLink></div>
+                    <div className={classes.headerLink}><NavLink to={"/admin/users/add"}>Добавить</NavLink></div>
                 </div>
                 <UsersTable {...props} />
             </div>

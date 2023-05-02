@@ -19,12 +19,12 @@ const HeaderAdmin = (props) => {
             <nav className={classes.nav}>
                 <ul className={classes.menu}>
                     <li><NavLink to={"/admin/users"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Пользователи</NavLink></li>
-                    <li><NavLink to={"/admin/news"}>Новости</NavLink></li>
-                    <li><NavLink to={"/admin/comments"}>Комментарии</NavLink></li>
-                    <li><NavLink to={"/admin/categories"}>Категории</NavLink></li>
+                    <li><NavLink to={"/admin/news"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Новости</NavLink></li>
+                    <li><NavLink to={"/admin/comments"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Комментарии</NavLink></li>
+                    <li><NavLink to={"/admin/categories"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Категории</NavLink></li>
                     <li>
-                        { props.isAuth ? <NavLink to={'/login'}>Выход</NavLink> : null }
-                        { !props.isAuth ? <NavLink to={'/login'}>Вход</NavLink> : null }
+                        { props.isAuth ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Выход</NavLink> : null }
+                        { !props.isAuth ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Вход</NavLink> : null }
                     </li>
                 </ul>
                 <ul className={classes.menuDesktop}>
