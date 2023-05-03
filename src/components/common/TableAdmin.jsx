@@ -80,14 +80,18 @@ export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
                                 </td>
                             })}
                             {linkCom ?
-                                <td className={classNames(classes.link, classes.navLink)}><NavLink to={"/"}><img src={"/img/linkCom.svg"}/></NavLink>
-                                </td> : null}
+                                <td className={classNames(classes.link, classes.navLink)}>
+                                    <NavLink to={"/"}><img src={"/img/linkCom.svg"}/></NavLink>
+                                </td> : null
+                            }
                             <td className={classNames(classes.link)}>
                                 <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
                                     <img src={"/img/update.svg"} />
                                 </NavLink>
                             </td>
-                            <td className={classNames(classes.link, classes.deleteLink)}><NavLink to={"/"}><img src={"/img/delete.svg"}/></NavLink></td>
+                            <td className={classNames(classes.link, classes.deleteLink)}>
+                                <NavLink to={"/"}><img src={"/img/delete.svg"}/></NavLink>
+                            </td>
                         </tr>
                     )
                 })}

@@ -3,7 +3,6 @@ import classes from "./AuthForm.module.css";
 import classNames from "classnames";
 import {connect} from "react-redux";
 import {registration} from "../../redux/loginReducer";
-import {NavLink} from "react-router-dom";
 import React from "react";
 import * as Yup from "yup";
 
@@ -38,7 +37,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
-const RegistrationForm = (props) => {
+const RegistrationForm = ({registration}) => {
     return (
         <div>
             <Formik
@@ -46,12 +45,14 @@ const RegistrationForm = (props) => {
                     email: '', password: '', confirmPassword: ''
                 }}
                 validationSchema={SignupSchema}
-                onSubmit={values => {
-                    props.registration(values.email, values.password);
-                    console.log(values);
+                onSubmit={(values, actions) => {
+                    registration(values.email, values.password, actions.setStatus);
                 }}
             >
-                {({values, errors,touched}) => (
+                {({values,
+                      errors,
+                      touched,
+                      status={ error: [] }}) => (
                     <Form className={classes.form}>
                         <Field name="email" type="email" placeholder="Email"
                                className={classNames("input", "is-medium", {["is-danger"]: errors.email && touched.email})}
@@ -66,6 +67,8 @@ const RegistrationForm = (props) => {
                                className={classNames("input", "is-medium", {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
                         />
                         {errors.confirmPassword && touched.confirmPassword ? <div className="has-text-danger">{errors.confirmPassword}</div> : null}
+                        {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
+                        {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             ЗАРЕГЕСТРИРОВАТЬСЯ
                         </button>

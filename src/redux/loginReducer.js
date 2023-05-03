@@ -5,10 +5,7 @@ const SET_USER_DATA = 'auth/SET_USER_DATA';
 
 
 let initialState = {
-    id: 1,
-    email: "fgfgere@gmail.com",
-    isAuth: true,
-    role: "admin"
+    auth: {}
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -17,68 +14,60 @@ const loginReducer = (state = initialState, action) => {
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.payload
+                auth: action.userInfo
             }
         default: return state;
     }
 }
 
-export const setAuthUserData = (id, email, isAuth, role) => {
+export const setAuthUserData = (userInfo) => {
     return {
         type: SET_USER_DATA,
-        payload: {
-            id,
-            email,
-            isAuth,
-            role
-        }
+        userInfo
     }
 }
 
-export const registration = (email, password) => async (dispatch) => {
+export const registration = (email, password, setStatus) => async (dispatch) => {
     try {
         let data = await AuthAPI.registration(email, password);
         console.log(data);
+        setStatus({success: 'Регистрация прошла успешно'})
         // dispatch
     }
     catch (error) {
         console.log(error);
+        if (error.response.status === 400) {
+            setStatus({error: 'Пользователь с таким email уже существует'})
+        }
     }
 
 }
 
-export const auth = (token) => async (dispatch) => {
+export const auth = () => async (dispatch) => {
     try {
-        let data = await AuthAPI.auth(token);
-        console.log(data)
+        let data = await AuthAPI.auth();
+        dispatch(setAuthUserData(data));
     }
     catch (error) {
         console.log(error)
     }
-
-    // if (data.resultCode === 0) {
-    //     let {id, email, role} = data.data;
-    //     dispatch(setAuthUserData(id, email, true, role));
-    // }
 }
 
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, setStatus) => async (dispatch) => {
     try {
-        let data = await AuthAPI.login(email, password)
-        console.log(data);
-        // dispatch(auth(data.token))
+        let data = await AuthAPI.login(email, password);
+        if (data.token) {
+            localStorage.setItem('token', data.token);
+        }
+        dispatch(auth());
     }
     catch (error) {
-        console.log(error)
+        console.log(error.response.status)
+        if (error.response.status === 401) {
+            setStatus({error: 'Неверный логин или пароль'})
+        }
     }
-    // if (data.resultCode === 0) {
-    //     // dispatch(auth());
-    // }
-    // else {
-    //     let messages = data.messages.length > 0 ? data.messages[0] : "Some error";
-    //     // dispatch(stopSubmit("login", {_error: messages}))
-    // }
 }
 
 export const logout = () => async (dispatch) => {

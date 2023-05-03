@@ -1,12 +1,31 @@
-import axios, {toFormData} from "axios";
+import axios from "axios";
 
 const instance = axios.create({
     withCredentials: true,
-    headers: {
-        // "API-KEY": "42ff82da-8b5a-46e0-b5f4-bc9ebe4aa16e"
-    },
+    // headers: {
+    //     // "API-KEY": "42ff82da-8b5a-46e0-b5f4-bc9ebe4aa16e"
+    // },
     baseURL: "http://127.0.0.1:3333/"
 })
+
+instance.interceptors.request.use(function (config) {
+    if (localStorage.getItem('token')) {
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    }
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+instance.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    if (error.response.status === 401) {
+        if (localStorage.getItem('token')) {
+            localStorage.clear();
+        }
+    }
+    return Promise.reject(error);
+});
 
 export const NewsAPI = {
     getNews(currentPage = 1, pageSize = 10) {
@@ -87,9 +106,6 @@ export const ProfileAPI = {
 export const AuthAPI = {
     auth(token) {
         return instance.post(`user/profile-info`, {token} , {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
         })
             .then(response => response.data)
     },
