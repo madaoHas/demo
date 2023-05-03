@@ -11,17 +11,17 @@ const Categories = (props) => {
                     <div className={classes.headerName}>Категории</div>
                     <Formik
                         initialValues={{
-                            category: ''
+                            name: ''
                         }}
                         onSubmit={values => {
-                            console.log(values);
+                            props.addCategory(values.name);
                         }}
                     >
                         <Form>
                             <div className={classes.addCategories}>
                                 <div className={classes.categoryName}>
                                     <div className={classes.name}>Название категории: </div>
-                                    <Field name="category" className={classes.input} />
+                                    <Field name="name" className={classes.input} />
                                 </div>
                                 <button className={classes.headerLink}>Добавить</button>
                             </div>

@@ -3,9 +3,9 @@ import axios, {toFormData} from "axios";
 const instance = axios.create({
     withCredentials: true,
     headers: {
-        "API-KEY": "42ff82da-8b5a-46e0-b5f4-bc9ebe4aa16e"
+        // "API-KEY": "42ff82da-8b5a-46e0-b5f4-bc9ebe4aa16e"
     },
-    baseURL: "https://social-network.samuraijs.com/api/1.0/"
+    baseURL: "http://127.0.0.1:3333/"
 })
 
 export const NewsAPI = {
@@ -28,15 +28,15 @@ export const CommentsAPI = {
 
 export const CategoryAPI = {
     getCategory() {
-        return instance.get(`category`)
+        return instance.post(`user/categories-list`,{})
+            .then(response => response)
+    },
+    addCategory(name) {
+        return instance.post(`admin/categories-item-add`, {name})
             .then(response => response.data)
     },
-    addCategory(category) {
-        return instance.post(`category/add`, {category})
-            .then(response => response.data)
-    },
-    deleteCategory(idCaregory) {
-        return instance.delete(`category`, {idCaregory})
+    deleteCategory(idCategory) {
+        return instance.delete(`category`, {idCategory})
             .then(response => response.data)
     }
 }
@@ -85,12 +85,20 @@ export const ProfileAPI = {
 }
 
 export const AuthAPI = {
-    auth() {
-        return instance.get(`auth/me`)
+    auth(token) {
+        return instance.post(`user/profile-info`, {token} , {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(response => response.data)
     },
     login(email, password) {
-        return instance.post(`auth/login`, {email, password})
+        return instance.post(`login`, {email, password})
+            .then(response => response.data)
+    },
+    registration(email, password) {
+        return instance.post(`registration`, {email, password})
             .then(response => response.data)
     },
     logout() {

@@ -54,7 +54,6 @@ export const getCategory = () => async (dispatch) => {
     // }
     try {
         let data = await CategoryAPI.getCategory();
-        console.log(data);
         if (data.status === 200) {
             dispatch(setCategory(data.data));
         }
@@ -63,9 +62,15 @@ export const getCategory = () => async (dispatch) => {
     }
 }
 
-export const addCategory = (category) => async (dispatch) => {
-    let data = await CategoryAPI.addCategory(category)
-    dispatch(addCategoryAC(data.items));
+export const addCategory = (name) => async (dispatch) => {
+    try {
+        let data = await CategoryAPI.addCategory(name)
+        dispatch(getCategory());
+    }
+    catch (error) {
+        console.log(error)
+    }
+
 }
 
 export const deleteCategory = (id) => async (dispatch) => {
