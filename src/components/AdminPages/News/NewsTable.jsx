@@ -50,10 +50,12 @@ function NewsTable(props) {
     const optionRef = React.createRef();
     if (data[0]) {
         for (let i = 0; i < data.length; i++) {
-            data[i].category = data[i].category.name
+            if (typeof data[i].category === 'object') {
+                data[i].category = data[i].category.name
+            }
         }
     }
-    
+
     let [inputText, setInputText] = useState(false);
     let [inputDate, setInputDate] = useState(false);
     let [inputSelect, setInputSelect] = useState(false);

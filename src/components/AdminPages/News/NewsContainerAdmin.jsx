@@ -6,7 +6,7 @@ import {getNews} from "../../../redux/newsAdminReducer";
 const NewsContainerAdmin = (props) => {
     useEffect( () => {
         props.getNews(1, 10);
-    },[] )
+    },[props.news.length] )
     return (
         <div>
             <News {...props} />

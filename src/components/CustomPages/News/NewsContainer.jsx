@@ -15,7 +15,7 @@ const NewsContainer = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    news: state.newsPage.news,
+    newsUserPage: state.newsPage.news,
     category: state.category.category,
 })
 

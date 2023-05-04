@@ -1,11 +1,12 @@
 import React from "react";
-import {Field, Form, Formik} from "formik";
+import {Field, Form, Formik, replace} from "formik";
 import * as Yup from "yup";
 import {DateInput} from "../../../common/inputCustom/dateInput";
 import {SelectInput} from "../../../common/inputCustom/selectInput";
 import {SwitchInput} from "../../../common/inputCustom/switchInput";
 import classes from "./NewsAddUpdate.module.css";
 import classNames from "classnames";
+import {useNavigate} from "react-router-dom";
 
 
 const SignupSchema = Yup.object().shape({
@@ -17,6 +18,9 @@ const SignupSchema = Yup.object().shape({
 });
 
 const NewsAddUpdate = (props) => {
+    let navigate = useNavigate();
+    let url = window.location.href;
+    let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
     return (
         <div className={classes.formContainer}>
             <Formik
@@ -33,7 +37,10 @@ const NewsAddUpdate = (props) => {
                 validationSchema={SignupSchema}
                 onSubmit={values => {
                     // console.log(values.previewPhoto);
-                    props.addUser(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
+                    if (infoPage === 'add') {
+                        props.addUser(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
+                    }
+                    navigate('/admin/news', {replace: false});
                 }}
             >
                 {({
@@ -43,7 +50,7 @@ const NewsAddUpdate = (props) => {
                       setFieldValue,
                       handleChange
                 }) => (
-                    <Form className={classes.form} encType="multipart/form-data">
+                    <Form className={classes.form} encType="multipart/form-data" method="POST">
                         <div className={classes.generalInfo}>
                             <div className={classes.line}>
                                 <div className={classes.containerInput}>
@@ -69,7 +76,7 @@ const NewsAddUpdate = (props) => {
                                 </div>
                             </div>
                             <div className={classes.line}>
-                                <div className={classes.containerInput}>
+                                <div className={classNames(classes.containerInput, {[classes.addCategory]: infoPage === 'add'})}>
                                     <label htmlFor={"category"} className={classes.label}>Категория</label>
                                     <Field
                                         component={SelectInput}
@@ -83,7 +90,7 @@ const NewsAddUpdate = (props) => {
                                         <div className="has-text-danger">{errors.category}</div>
                                     ) : null}
                                 </div>
-                                <div className={classes.containerInput}>
+                                <div className={classes.containerInput} style={infoPage === 'add' ? {display: 'none'} : null}>
                                     <label htmlFor={"status"} className={classes.label}>Статус новости:</label>
                                     <Field
                                         component={SwitchInput}

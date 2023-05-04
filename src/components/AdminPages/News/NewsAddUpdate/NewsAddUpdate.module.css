@@ -103,6 +103,10 @@
     font-family: 'Inter';
 }
 
+.addCategory {
+    padding-right: 35px;
+}
+
 @media (min-width: 319px) and (max-width: 768px) {
     .formContainer {
         border: none;
@@ -124,5 +128,8 @@
     .button {
         font-size: 14px;
         padding: 8px;
+    }
+    .addCategory {
+        padding: 0;
     }
 }
