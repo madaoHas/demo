@@ -6,42 +6,43 @@ const SET_NEWS = 'SET_NEWS';
 
 let initialState = {
     news: [
-        {
-            id: 1,
-            date: "02-04-2023",
-            header: "О главном",
-            category: "Спорт",
-            active: true,
-        },
-        {
-            id: 2,
-            date: "04-02-2023",
-            header: "Что-то о чем-то",
-            category: "Гинтама",
-            active: true,
-        },
-        {
-            id: 3,
-            date: "05-02-2023",
-            header: "Что-то о чем-то",
-            category: "Спорт",
-            active: true,
-        },
-        {
-            id: 4,
-            date: "05-01-2023",
-            header: "Что-то о чем-то",
-            category: "Спорт",
-            active: true,
-        },
-        {
-            id: 5,
-            date: "12-01-2023",
-            header: "Что-то о чем-то",
-            category: "Спорт",
-            active: true,
-        },
+        // {
+        //     id: 1,
+        //     date: "02-04-2023",
+        //     header: "О главном",
+        //     category: "Спорт",
+        //     active: true,
+        // },
+        // {
+        //     id: 2,
+        //     date: "04-02-2023",
+        //     header: "Что-то о чем-то",
+        //     category: "Гинтама",
+        //     active: true,
+        // },
+        // {
+        //     id: 3,
+        //     date: "05-02-2023",
+        //     header: "Что-то о чем-то",
+        //     category: "Спорт",
+        //     active: true,
+        // },
+        // {
+        //     id: 4,
+        //     date: "05-01-2023",
+        //     header: "Что-то о чем-то",
+        //     category: "Спорт",
+        //     active: true,
+        // },
+        // {
+        //     id: 5,
+        //     date: "12-01-2023",
+        //     header: "Что-то о чем-то",
+        //     category: "Спорт",
+        //     active: true,
+        // },
     ],
+    pagerOut: {}
     // currentPage: 1,
     // pageSize: 8,
     // totalNewsCount: 5
@@ -53,7 +54,8 @@ const newsAdminReducer = (state = initialState, action) => {
         case SET_NEWS:
             return {
                 ...state,
-                news: action.news
+                news: action.data.data,
+                pagerOut: action.data.pager_out
             }
         // case SET_CURRENT_PAGE:
         //     return {
@@ -69,10 +71,10 @@ const newsAdminReducer = (state = initialState, action) => {
     }
 }
 
-export const setNews = (news) => {
+export const setNews = (data) => {
     return {
         type: SET_NEWS,
-        news
+        data
     }
 }
 // export const setCurrentPage = (currentPage) => {
@@ -88,11 +90,23 @@ export const setNews = (news) => {
 //     }
 // }
 
-export const getUsers = (currentPage, pageSize) => async (dispatch) => {
-    let data = await NewsAdminAPI.getNews(currentPage, pageSize)
+export const getNews = (currentPage, limit) => async (dispatch) => {
+    let data = await NewsAdminAPI.getNews(currentPage, limit)
+    console.log(data)
+    dispatch(setNews(data));
+
     // dispatch(setCurrentPage(currentPage));
-    dispatch(setNews(data.items));
     // dispatch(setTotalNewsCount(data.totalCount));
+}
+
+export const addUser = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
+    try {
+        let data = await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
+    }
+    catch ( error ) {
+        console.log(error)
+    }
+
 }
 
 // export const getSelectedNews = (idNews) => async (dispatch) => {

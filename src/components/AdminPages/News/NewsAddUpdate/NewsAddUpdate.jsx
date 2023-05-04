@@ -11,6 +11,9 @@ import classNames from "classnames";
 const SignupSchema = Yup.object().shape({
     header: Yup.string().required('Обязательное поле'),
     date: Yup.string().required('Обязательное поле'),
+    previewText: Yup.string().required('Обязательное поле'),
+    newsText: Yup.string().required('Обязательное поле'),
+    category: Yup.object().required('Обязательное поле'),
 });
 
 const NewsAddUpdate = (props) => {
@@ -20,7 +23,7 @@ const NewsAddUpdate = (props) => {
                 initialValues={{
                     header: '',
                     date: '',
-                    category: props.categories[0],
+                    category: '',
                     status: false,
                     previewPhoto: '',
                     coverPhoto: '',
@@ -29,7 +32,8 @@ const NewsAddUpdate = (props) => {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
-                    console.log(values);
+                    // console.log(values.previewPhoto);
+                    props.addUser(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
                 }}
             >
                 {({
@@ -39,7 +43,7 @@ const NewsAddUpdate = (props) => {
                       setFieldValue,
                       handleChange
                 }) => (
-                    <Form className={classes.form}>
+                    <Form className={classes.form} encType="multipart/form-data">
                         <div className={classes.generalInfo}>
                             <div className={classes.line}>
                                 <div className={classes.containerInput}>
@@ -72,9 +76,12 @@ const NewsAddUpdate = (props) => {
                                         name={"category"}
                                         values={props.categories}
                                         value={values.category}
-                                        valueType={"category"}
+                                        valueType={"name"}
                                         onChangeOption={(a)=> {values.category = a}}
                                     />
+                                    {errors.category && touched.category ? (
+                                        <div className="has-text-danger">{errors.category}</div>
+                                    ) : null}
                                 </div>
                                 <div className={classes.containerInput}>
                                     <label htmlFor={"status"} className={classes.label}>Статус новости:</label>
@@ -90,21 +97,41 @@ const NewsAddUpdate = (props) => {
                         <div className={classes.photos}>
                             <div className={classes.previewPhoto}>
                                 <label htmlFor={"previewPhoto"} className={classes.label}>Превью новости</label>
-                                <input type='file'/>
+                                <input
+                                    type='file'
+                                    name={'previewPhoto'}
+                                    onChange={(e) =>
+                                        setFieldValue('previewPhoto', e.currentTarget.files[0])
+                                    }
+                                    accept='uploads//*'
+                                />
                             </div>
                             <div className={classes.coverPhoto}>
                                 <label htmlFor={"coverPhoto"} className={classes.label}>Обложка новости</label>
-                                <input type='file'/>
+                                <input
+                                    type='file'
+                                    name={"coverPhoto"}
+                                    onChange={(e) =>
+                                        setFieldValue('coverPhoto', e.currentTarget.files[0])
+                                    }
+                                    accept='uploads//*'
+                                />
                             </div>
                         </div>
                         <div className={classes.newsTexts}>
                             <div className={classes.containerTextarea}>
                                 <label htmlFor={"newsText"} className={classes.label}>Текст новости</label>
                                 <textarea name={"newsText"} onChange={handleChange} className={classes.newsText}></textarea>
+                                {errors.newsText && touched.newsText ? (
+                                    <div className="has-text-danger">{errors.newsText}</div>
+                                ) : null}
                             </div>
                             <div className={classes.containerTextarea}>
                                 <label htmlFor={"previewText"} className={classes.label}>Текст превью</label>
                                 <textarea name={"previewText"} onChange={handleChange} className={classes.previewText}></textarea>
+                                {errors.previewText && touched.previewText ? (
+                                    <div className="has-text-danger">{errors.previewText}</div>
+                                ) : null}
                             </div>
                         </div>
                         <button type="submit" className={classes.button}>Сохранить</button>

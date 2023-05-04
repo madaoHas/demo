@@ -7,7 +7,7 @@ const News = (props) => {
     return (
         <div className={classes.newsPageContainer}>
             <select className={classes.categorySelect}>
-                {props.category.map(c => <option key={c.id} className={classes.categoryOption}>{c.category}</option>)}
+                {props.category.map(c => <option key={c.id} className={classes.categoryOption}>{c.name}</option>)}
             </select>
             <div className={classes.container}>
                 {props.news.map(n => <NewsOne news={n} key={n.id} />)}

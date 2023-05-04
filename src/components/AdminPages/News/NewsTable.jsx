@@ -4,10 +4,15 @@ import classNames from "classnames";
 import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
+import {useEffect} from "react";
 
 
 function NewsTable(props) {
-    const [enabled, setEnabled] = useState(false)
+    let [data, setData] = useState([]);
+    useEffect( () => {
+        setData(props.news)
+    },[props.news] )
+    // const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
             {
                 Header: 'ID',
@@ -24,7 +29,7 @@ function NewsTable(props) {
             },
             {
                 Header: 'Заголовок',
-                accessor: 'header',
+                accessor: 'title',
                 Filter: ColumnFilter
             },
             {
@@ -34,7 +39,7 @@ function NewsTable(props) {
             },
             {
                 Header: 'Активен',
-                accessor: 'active',
+                accessor: 'is_active',
                 Filter: ColumnFilter,
                 Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
             },
@@ -43,9 +48,12 @@ function NewsTable(props) {
     )
 
     const optionRef = React.createRef();
-
-    const data = React.useMemo(() => props.news, [])
-
+    if (data[0]) {
+        for (let i = 0; i < data.length; i++) {
+            data[i].category = data[i].category.name
+        }
+    }
+    
     let [inputText, setInputText] = useState(false);
     let [inputDate, setInputDate] = useState(false);
     let [inputSelect, setInputSelect] = useState(false);

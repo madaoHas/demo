@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const instance = axios.create({
     withCredentials: true,
     // headers: {
@@ -70,11 +71,32 @@ export const UsersAdminAPI = {
     //         .then(response => response.data)
     // }
 }
+
 export const NewsAdminAPI = {
-    getNews(currentPage = 1, pageSize = 10) {
-        return instance.get(`admin/news?page=${currentPage}&count=${pageSize}`)
+    getNews(page = 1, limit = 10) {
+        let pager_in = {page: page, limit: limit}
+        return instance.post(`admin/news-list`, {pager_in})
             .then(response => response.data)
     },
+    addNews(category_id, title, preview_text, previewImage, text, textImage, date) {
+        console.log(typeof previewImage);
+        let preview_image_url = null;
+        let text_image_url = null;
+        if (typeof previewImage === 'object') {
+            preview_image_url = new FormData();
+            preview_image_url.append("preview_image_url", previewImage);
+        }
+        if (typeof textImage === 'object') {
+            text_image_url = new FormData();
+            text_image_url.append("text_image_url", textImage);
+        }
+        return instance.post(`admin/news-item-add`, {category_id, title, preview_text, preview_image_url, text, text_image_url, date}, {
+            headers: {
+                'Content-Type': "multipart/form-data"
+            }
+        })
+            .then(response => response.data)
+    }
     // getSelectedNews(idNews) {
     //     return instance.get(`news?id=${idNews}`)
     //         .then(response => response.data)

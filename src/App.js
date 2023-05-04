@@ -35,7 +35,8 @@ function App(props) {
                         <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
                     </Routes>
                 </div>
-                {props.isAuth && props.role === "admin" ? <div className="Admin">
+                {/*{props.isAuth && props.role === "admin" ? */}
+                    <div className="Admin">
                     <div className="AdminPageMenu">
                         <Routes>
                             <Route path="/admin/*" element={<Menu/>}/>
@@ -53,7 +54,8 @@ function App(props) {
                             <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
                         </Routes>
                     </div>
-                </div> : null}
+                </div>
+                    {/*: null}*/}
             </div>
         </div>
     );

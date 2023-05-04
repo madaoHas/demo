@@ -14,7 +14,7 @@ export const DateInput = (props) => {
                 className={classes.dateFilter}
                 value={value}
                 onChange={text => {
-                    onChange(text[0] ? moment(text[0]).format("DD-MM-yyyy") : '');
+                    onChange(text[0] ? moment(text[0]).format("yyyy-MM-DD") : '');
                 }}
                 options={{
                     dateFormat: "d-m-Y"

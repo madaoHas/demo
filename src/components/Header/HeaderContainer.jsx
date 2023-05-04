@@ -9,9 +9,9 @@ const HeaderContainer = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    idUser: state.login.id,
-    email: state.login.email,
-    info: state.login.profile
+    idUser: state.login.auth.id,
+    email: state.login.auth.email,
+    info: state.login.auth.profile
 })
 
 export default connect(mapStateToProps)(HeaderContainer);

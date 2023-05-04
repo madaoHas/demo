@@ -20,7 +20,9 @@ export const SelectInput = (props) => {
                 id={"selectInput"}
                 disabled={props.values.length === 0 ? true : false}
                 placeholder={props.values.length === 0 ? 'пусто' : ''}
+                defaultValue={''}
         >
+            <option hidden disabled value={''}> -- select an option -- </option>
             {props.values.map(v => <option id={v.id} key={v.id} value={v[props.valueType]} className={classes.categoryOption}>{v[props.valueType]}</option>)}
         </select>
     )
