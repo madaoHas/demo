@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Route, Routes} from "react-router-dom";
@@ -18,24 +17,35 @@ import CategoriesContainerAdmin from "./components/AdminPages/Categories/Categor
 import UserAddContainer from "./components/AdminPages/Users/UserAdd/UserAddContainer";
 import CommentsUpdateContainer from "./components/AdminPages/Comments/CommentsUpdate/CommentsUpdateContainer";
 import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer";
+import {useEffect} from "react";
+import {initializeApp} from "./redux/appReducer";
 
 
 function App(props) {
-    console.log(props);
+    console.log(props)
+
+    useEffect(() => {
+        props.initializeApp();
+    }, [props.initialized])
+
+    console.log(props.initialized)
+    if (props.initialized === false) {
+        return null
+    }
     return (
         <div className="app-main">
             {props.isAuth && props.role === "admin" ? <HeaderAdminContainer /> : <HeaderContainer />}
             <div className="app-wrapper">
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route path="/" element={<NewsContainer/>}/>
+                        <Route path="/" element={<NewsContainer />}/>
                         <Route path="/profile" element={<ProfileContainer/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/recovery" element={<RecoveryPassword/>}/>
                         <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
                     </Routes>
                 </div>
-                {/*{props.isAuth && props.role === "admin" ? */}
+                {/*{props.email && props.role === 10 ?*/}
                     <div className="Admin">
                     <div className="AdminPageMenu">
                         <Routes>
@@ -44,7 +54,7 @@ function App(props) {
                     </div>
                     <div className="AdminPage">
                         <Routes>
-                            <Route path="/admin/users" element={<UsersContainer/>}/>
+                            <Route path="/admin/users" element={<UsersContainer />}/>
                             <Route path="/admin/news" element={<NewsContainerAdmin />}/>
                             <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
                             <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
@@ -64,8 +74,8 @@ function App(props) {
 const mapStateToProps = (state) => ({
     idUser: state.login.id,
     email: state.login.email,
-    isAuth: state.login.isAuth,
-    role: state.login.role
+    role: state.login.role,
+    initialized: state.app.initialized
 })
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps,{initializeApp})(App);

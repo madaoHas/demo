@@ -1,6 +1,7 @@
 import classes from "./Comment.module.css";
 import Icon from '@mdi/react';
 import {mdiClockTimeNineOutline} from '@mdi/js';
+import moment from "moment"
 
 const Comment = (props) => {
     return (
@@ -8,10 +9,10 @@ const Comment = (props) => {
             <img src={'/img/images.jpeg'} />
             <div className={classes.comment}>
                 <div className={classes.info}>
-                    <div className={classes.username}>{props.comment.username}</div>
+                    <div className={classes.username}>{props.comment.user.profile.name ? props.comment.user.profile.name : props.comment.user.email}</div>
                     <div className={classes.dateBlock}>
                         <Icon path={mdiClockTimeNineOutline} size={0.7}/>
-                        <div className={classes.date}>{props.comment.date.date} {props.comment.date.time}</div>
+                        <div className={classes.date}>{moment(props.comment.created_at).format('DD-MM-yyyy HH:mm')}</div>
                     </div>
                 </div>
                 <div className={classes.commentText}>{props.comment.text}</div>

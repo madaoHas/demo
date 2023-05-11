@@ -12,18 +12,18 @@ const NewsOne = (props) => {
                     <div className={classes.date}>{props.news.date}</div>
                 </div>
             </div>
-            <img src={props.news.img ? props.news.img : '/img/grey.jpeg'} />
+            <img src={props.news.preview_image_url ? process.env.REACT_APP_URL_BASE + props.news.preview_image_url : '/img/grey.jpeg'} />
             <div className={classes.description}>
                 <div className={classes.headerContainer}>
-                    <span className={classes.header}>{props.news.header}</span>
-                    <span className={classes.category}>{props.news.category}</span>
+                    <span className={classes.header}>{props.news.title}</span>
+                    <span className={classes.category}>{props.news.category.name}</span>
                 </div>
                 <span className={classes.textNews}>
-                    {props.news.miniText}
+                    {props.news.preview_text}
                 </span>
             </div>
             <div className={classes.more}>
-                <NavLink to={"/news/"+props.news.id} state={{news: props.news}} className={"has-text-white"}>Подробнее</NavLink>
+                <NavLink to={"/news/"+props.news.id} state={{news: props.news.id}} className={"has-text-white"}>Подробнее</NavLink>
             </div>
         </div>
     )

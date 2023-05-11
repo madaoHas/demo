@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 import classes from "../Users/Users.module.css"
 import NewsTable from "./NewsTable";
 
-const News = (props) => {
+const NewsAdmin = (props) => {
     return (
         <div className={classes.usersAdmin}>
             <div className={classes.usersContainer}>
@@ -16,4 +16,4 @@ const News = (props) => {
     )
 }
 
-export default News;
+export default NewsAdmin;

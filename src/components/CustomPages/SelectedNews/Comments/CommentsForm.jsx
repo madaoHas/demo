@@ -8,7 +8,7 @@ const CommentsForm = (props) => {
     return (
         <div className={classes.formContainer}>
             <div className={classes.username}>
-                <img src={props.state.news.img ? props.state.news.img : '/img/images.jpeg'} />
+                <img src={props.auth.profile.avatar_url ? props.auth.profile.avatar_url : '/img/images.jpeg'} />
                 <div>Username</div>
             </div>
             <Formik
@@ -16,7 +16,8 @@ const CommentsForm = (props) => {
                     comment: ''
                 }}
                 onSubmit={values => {
-                    console.log(values);
+                    props.addComment(props.postId, values.comment);
+                    values.comment = '';
                 }}
             >
                 {({values, errors, touched, setFieldValue}) => (

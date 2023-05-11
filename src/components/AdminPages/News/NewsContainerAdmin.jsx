@@ -1,4 +1,4 @@
-import News from "./News";
+import NewsAdmin from "./NewsAdmin";
 import {connect} from "react-redux";
 import {useEffect} from "react";
 import {getNews} from "../../../redux/newsAdminReducer";
@@ -9,7 +9,7 @@ const NewsContainerAdmin = (props) => {
     },[props.news.length] )
     return (
         <div>
-            <News {...props} />
+            <NewsAdmin {...props} />
         </div>
     )
 }

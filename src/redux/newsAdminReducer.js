@@ -1,12 +1,14 @@
 import { NewsAdminAPI } from "../api/api";
 
 const SET_NEWS = 'SET_NEWS';
+const SET_NEWS_ITEM = 'SET_NEWS_ITEM'
 // const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
     news: [
     ],
+    newsItem: {},
     pagerOut: {}
 }
 
@@ -18,6 +20,11 @@ const newsAdminReducer = (state = initialState, action) => {
                 ...state,
                 news: action.data.data,
                 pagerOut: action.data.pager_out
+            }
+        case SET_NEWS_ITEM:
+            return {
+                ...state,
+                newsItem: action.data
             }
         // case SET_CURRENT_PAGE:
         //     return {
@@ -39,6 +46,14 @@ export const setNews = (data) => {
         data
     }
 }
+
+export const setNewsItem = (data) => {
+    return {
+        type: SET_NEWS_ITEM,
+        data
+    }
+}
+
 // export const setCurrentPage = (currentPage) => {
 //     return {
 //         type: SET_CURRENT_PAGE,
@@ -54,14 +69,18 @@ export const setNews = (data) => {
 
 export const getNews = (currentPage, limit) => async (dispatch) => {
     let data = await NewsAdminAPI.getNews(currentPage, limit)
-    console.log(data)
     dispatch(setNews(data));
 
     // dispatch(setCurrentPage(currentPage));
     // dispatch(setTotalNewsCount(data.totalCount));
 }
 
-export const addUser = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
+export const getNewsItem = (id) => async (dispatch) => {
+    let data = await NewsAdminAPI.getNewsItem(id);
+    dispatch(setNewsItem(data));
+}
+
+export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
     try {
         let data = await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
         dispatch(getNews(1, 10))
@@ -69,7 +88,16 @@ export const addUser = (categoryId, title, previewText, previewImageUrl, text, t
     catch ( error ) {
         console.log(error)
     }
+}
 
+export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch) => {
+    try {
+        let data = await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
+        dispatch(getNews(1, 10))
+    }
+    catch ( error ) {
+        console.log(error)
+    }
 }
 
 // export const getSelectedNews = (idNews) => async (dispatch) => {

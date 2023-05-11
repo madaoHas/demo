@@ -71,10 +71,19 @@ export const login = (email, password, setStatus) => async (dispatch) => {
 }
 
 export const logout = () => async (dispatch) => {
-    let data = await AuthAPI.logout()
-    if (data.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, false));
+    try {
+        await AuthAPI.logout();
+        // localStorage.clear();
+        dispatch(setAuthUserData(null));
+        // if (data.resultCode === 0) {
+        //     dispatch(setAuthUserData(null, null, false));
+        // }
     }
+    catch(error) {
+        console.log(error);
+    }
+
+
 }
 
 export default loginReducer;

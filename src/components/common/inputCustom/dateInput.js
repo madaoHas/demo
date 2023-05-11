@@ -6,13 +6,17 @@ import moment from "moment";
 
 export const DateInput = (props) => {
     const { value, onChange } = props;
+    let newdate = '';
+    if (value !== '') {
+        newdate = value.split("-").reverse().join("-");
+    }
     return (
         <div className={classes.dateContainer}>
             <img src={"/img/Calendar.svg"} className={classes.labelDate} />
             <Flatpickr
                 type={props.type}
                 className={classes.dateFilter}
-                value={value}
+                value={newdate !== '' ? newdate : value}
                 onChange={text => {
                     onChange(text[0] ? moment(text[0]).format("yyyy-MM-DD") : '');
                 }}

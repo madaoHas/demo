@@ -6,7 +6,7 @@ const instance = axios.create({
     // headers: {
     //     // "API-KEY": "42ff82da-8b5a-46e0-b5f4-bc9ebe4aa16e"
     // },
-    baseURL: "http://127.0.0.1:3333/"
+    baseURL: process.env.REACT_APP_URL_BASE
 })
 
 instance.interceptors.request.use(function (config) {
@@ -29,19 +29,25 @@ instance.interceptors.response.use(function (response) {
 });
 
 export const NewsAPI = {
-    getNews(currentPage = 1, pageSize = 10) {
-        return instance.get(`news?page=${currentPage}&count=${pageSize}`)
+    getNews(category_id, currentPage = 1, pageSize = 10) {
+        let pager_in = {page: currentPage, limit: pageSize}
+        return instance.post(`user/news-list`, {category_id, pager_in})
             .then(response => response.data)
     },
-    getSelectedNews(idNews) {
-        return instance.get(`news?id=${idNews}`)
+    getSelectedNews(id) {
+        return instance.post(`user/news-item`, {id})
             .then(response => response.data)
     }
 }
 
 export const CommentsAPI = {
-    getComments() {
-        return instance.get(`comments`)
+    getComments(id, page = 1, limit = 10) {
+        let pager_in = {page: page, limit: limit};
+        return instance.post(`user/comments-list`, {id, pager_in})
+            .then(response => response.data)
+    },
+    addComments(post_id, text) {
+        return instance.post(`user/set-comment`, {post_id, text})
             .then(response => response.data)
     },
 }
@@ -78,6 +84,10 @@ export const NewsAdminAPI = {
         return instance.post(`admin/news-list`, {pager_in})
             .then(response => response.data)
     },
+    getNewsItem(id) {
+        return instance.post(`admin/news-item`, {id})
+            .then(response => response.data)
+    },
     addNews(category_id, title, preview_text, preview_image_url, text, text_image_url, date) {
         return instance.post(`admin/news-item-add`, {category_id, title, preview_text, preview_image_url, text, text_image_url, date}, {
             headers: {
@@ -85,11 +95,18 @@ export const NewsAdminAPI = {
             }
         })
             .then(response => response.data)
+    },
+    updateNews(id, category_id, title, preview_text, preview_image_url, text, text_image_url, date, is_active) {
+        return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, preview_image_url, text, text_image_url, date, is_active}, {
+            headers: {
+                'Content-Type': "multipart/form-data"
+            }
+        })
+            .then(response => response.data)
     }
-    // getSelectedNews(idNews) {
-    //     return instance.get(`news?id=${idNews}`)
-    //         .then(response => response.data)
-    // }
+
+
+
 }
 
 export const CommentsAdminAPI = {
@@ -115,9 +132,8 @@ export const ProfileAPI = {
 }
 
 export const AuthAPI = {
-    auth(token) {
-        return instance.post(`user/profile-info`, {token} , {
-        })
+    auth() {
+        return instance.post(`user/profile-info`)
             .then(response => response.data)
     },
     login(email, password) {
@@ -129,7 +145,7 @@ export const AuthAPI = {
             .then(response => response.data)
     },
     logout() {
-        return instance.delete(`auth/login`)
+        return instance.post(`logout`)
             .then(response => response.data)
     }
 }

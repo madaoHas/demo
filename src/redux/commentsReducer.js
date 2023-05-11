@@ -3,36 +3,8 @@ import {CommentsAPI} from "../api/api";
 const SET_COMMENTS = 'SET_COMMENTS';
 
 let initialState = {
-    comments: [
-        {
-            id: 1,
-            username: 'username',
-            date: {date: '27.03.2023', time: '00:00'},
-            text: 'Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet LoremipsumdolorsitametLoremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet Loremipsumdolorsitamet',
-            newsId: 1
-        },
-        {
-            id: 2,
-            username: 'username1',
-            date: {date: '27.03.2023', time: '00:00'},
-            text: 'Loremipsumdolorsitamet Loremipsumdolorsitamet',
-            newsId: 1
-        },
-        {
-            id: 3,
-            username: 'username2',
-            date: {date: '27.03.2023', time: '00:00'},
-            text: 'Loremipsumdolorsitamet Loremipsumdolorsitamet',
-            newsId: 1
-        },
-        {
-            id: 4,
-            username: 'username3',
-            date: {date: '27.03.2023', time: '00:00'},
-            text: 'Loremipsumdolorsitamet Loremipsumdolorsitamet',
-            newsId: 2
-        },
-    ],
+    comments: [],
+    pager_out: {}
 }
 
 const commentsReducer = (state = initialState, action) => {
@@ -41,22 +13,28 @@ const commentsReducer = (state = initialState, action) => {
         case SET_COMMENTS:
             return {
                 ...state,
-                comments: action.comments
+                comments: action.data.data,
+                pager_out: action.data.pager_out
             }
         default: return state;
     }
 }
 
-export const setComments = (comments) => {
+export const setComments = (data) => {
     return {
         type: SET_COMMENTS,
-        comments
+        data
     }
 }
 
-export const getComments = () => async (dispatch) => {
-    let data = await CommentsAPI.getComments()
-    dispatch(setComments(data.items));
+export const getComments = (commentsId, currentPage, pageSize) => async (dispatch) => {
+    let data = await CommentsAPI.getComments(commentsId, currentPage, pageSize);
+    dispatch(setComments(data));
+}
+
+export const addComment = (postId, text) => async (dispatch) => {
+    await CommentsAPI.addComments(postId, text);
+    dispatch(getComments(postId));
 }
 
 export default commentsReducer;

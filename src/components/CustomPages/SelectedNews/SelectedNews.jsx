@@ -2,7 +2,7 @@ import classes from "./SelectedNews.module.css";
 import Icon from '@mdi/react';
 import {mdiClockTimeNineOutline} from '@mdi/js';
 import classNames from "classnames";
-import {Navigate, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 const SelectedNews = (props) => {
@@ -11,7 +11,6 @@ const SelectedNews = (props) => {
             <div className={classes.header}>
                 <div className={classes.backBlock}>
                     <NavLink to={"/"} className={classNames(classes.arrow, classes.arrowLeft)}></NavLink>
-                    {/*<Icon path={mdiChevronLeft} size={2} />*/}
                     <NavLink to={"/"} className={classes.back}>
                         Назад
                     </NavLink>
@@ -20,20 +19,20 @@ const SelectedNews = (props) => {
                     <div className={classes.dateBlock}>
                         <Icon path={mdiClockTimeNineOutline} size={1} className={classes.clock} />
                         <div className={classes.date}>
-                            {props.state.news.date}
+                            {props.date}
                         </div>
                     </div>
-                    <div className={classes.category}>{props.state.news.category}</div>
+                    <div className={classes.category}>{props.category.name}</div>
                 </div>
             </div>
             <div className={classes.newsBlock}>
-                <img src={props.state.news.img ? props.state.news.img : '/img/images.jpeg'}/>
+                <img src={props.text_image_url ? props.text_image_url : '/img/images.jpeg'}/>
                 <div className={classes.textBlock}>
                     <div className={classes.textHeader}>
-                        {props.state.news.header}
+                        {props.title}
                     </div>
                     <div className={classes.text}>
-                        {props.state.news.text}
+                        {props.text}
                     </div>
                 </div>
             </div>

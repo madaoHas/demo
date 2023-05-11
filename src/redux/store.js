@@ -7,6 +7,7 @@ import newsAdminReducer from "./newsAdminReducer";
 import commentsAdminReducer from "./commentsAdminReducer";
 import commentsReducer from "./commentsReducer";
 import categoryReducer from "./categoryReducer";
+import appReducer from "./appReducer";
 
 import thunkMiddleware from "redux-thunk";
 
@@ -18,7 +19,8 @@ let reducers = combineReducers({
     newsAdminPage: newsAdminReducer,
     commentsAdminPage: commentsAdminReducer,
     comments: commentsReducer,
-    category: categoryReducer
+    category: categoryReducer,
+    app: appReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
