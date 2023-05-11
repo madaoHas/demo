@@ -6,7 +6,6 @@ import {useEffect} from "react";
 
 
 const NewsContainer = (props) => {
-    console.log(props)
     useEffect( () => {
         props.getNews(null, 1, 10);
         props.getCategory();
