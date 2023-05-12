@@ -5,12 +5,11 @@ import ProfileFormPassword from "./ProfileForms/ProfileFormPassword";
 
 
 
-const Profile = () => {
-
+const Profile = (props) => {
     return (
         <div className={classes.profile}>
             <div className={classes.header}>Профиль</div>
-            <ProfileFormGeneral />
+            <ProfileFormGeneral email={props.email} profile={props.profile} />
             <ProfileFormPassword />
         </div>
     )

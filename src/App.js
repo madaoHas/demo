@@ -22,13 +22,11 @@ import {initializeApp} from "./redux/appReducer";
 
 
 function App(props) {
-    console.log(props)
 
     useEffect(() => {
         props.initializeApp();
     }, [props.initialized])
 
-    console.log(props.initialized)
     if (props.initialized === false) {
         return null
     }

@@ -11,6 +11,7 @@ const NewsAddUpdateContainer = (props) => {
     const { state } = location;
     let url = window.location.href;
     let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
+
     useEffect( () => {
         props.getCategory();
         if (state) {

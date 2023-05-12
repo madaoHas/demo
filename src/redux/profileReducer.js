@@ -4,7 +4,7 @@ const SET_PROFILE = 'SET_PROFILE';
 const SET_PASSWORD = 'SET_PASSWORD';
 
 let initialState = {
-    generalInfo: [],
+    generalInfo: {},
     password: ''
 }
 
@@ -40,8 +40,26 @@ export const setPassword = (password) => {
 }
 
 export const getGeneralInfo = () => async (dispatch) => {
-    let data = await ProfileAPI.getGeneralInfo()
-    dispatch(setProfile(data.items));
+    try {
+        let data = await ProfileAPI.getGeneralInfo()
+        console.log(data);
+        dispatch(setProfile(data));
+    }
+    catch (error) {
+        console.log(error)
+    }
+
+}
+
+export const setGeneralInfo = (name, surname, phone_number, city, birthday, avatar_url) => async (dispatch) => {
+    try {
+        await ProfileAPI.setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url)
+        dispatch(getGeneralInfo());
+    }
+    catch (error) {
+        console.log(error);
+    }
+
 }
 
 export const getPassword = () => async (dispatch) => {

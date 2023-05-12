@@ -122,7 +122,11 @@ export const CommentsAdminAPI = {
 
 export const ProfileAPI = {
     getGeneralInfo() {
-        return instance.get(`profile`)
+        return instance.post(`user/profile`)
+            .then(response => response.data)
+    },
+    setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url) {
+        return instance.post(`user/set-profile`, {name, surname, phone_number, city, birthday, avatar_url})
             .then(response => response.data)
     },
     getPassword() {

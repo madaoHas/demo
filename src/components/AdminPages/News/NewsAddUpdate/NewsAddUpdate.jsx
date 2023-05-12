@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Field, Form, Formik, replace} from "formik";
+import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {DateInput} from "../../../common/inputCustom/dateInput";
 import {SelectInput} from "../../../common/inputCustom/selectInput";
@@ -18,59 +18,97 @@ const SignupSchema = Yup.object().shape({
 });
 
 const NewsAddUpdate = (props) => {
-    console.log(props);
-    let [title, setTitle] = useState('');
-    let [date, setDate] = useState('');
-    let [category, setCategory] = useState('');
-    let [previewText, setPreviewText] = useState('');
-    let [newsText, setNewsText] = useState('');
-    let [status, setStatus] = useState(false);
-    let [previewPhoto, setPreviewPhoto] = useState('');
-    let [coverPhoto, setCoverPhoto] = useState('');
-    useEffect( () => {
-        // props.getNews(1, 10);
-        if (props.newsItem.title) {
-            setTitle(props.newsItem.title)
-        }
-        if (props.newsItem.date) {
-            setDate(props.newsItem.date)
-        }
-        if (props.newsItem.category) {
-            setCategory(props.newsItem.category)
-        }
-        if (props.newsItem.preview_text) {
-            setPreviewText(props.newsItem.preview_text)
-        }
-        if (props.newsItem.text) {
-            setNewsText(props.newsItem.text)
-        }
-        if (props.newsItem.is_active) {
-            setStatus(props.newsItem.is_active)
-        }
-        // if (props.newsItem.preview_image_url) {
-        //     setPreviewPhoto(props.newsItem.preview_image_url)
-        // }
-        // if (props.newsItem.text_image_url) {
-        //     setCoverPhoto(props.newsItem.text_image_url)
-        // }
-    },[props.newsItem] )
+    console.log(props)
+
+    // let [title, setTitle] = useState('');
+    // let [date, setDate] = useState('');
+    // let [category, setCategory] = useState('');
+    // let [previewText, setPreviewText] = useState('');
+    // let [newsText, setNewsText] = useState('');
+    // let [status, setStatus] = useState(false);
+
+    // let [previewPhoto, setPreviewPhoto] = useState('');
+    // let [coverPhoto, setCoverPhoto] = useState('');
+    // useEffect( () => {
+    //     // props.getNews(1, 10);
+    //
+    //     // if (props.newsItem.title) {
+    //     //     setTitle(props.newsItem.title)
+    //     // }
+    //     // if (props.newsItem.date) {
+    //     //     setDate(props.newsItem.date)
+    //     // }
+    //     // if (props.newsItem.category) {
+    //     //     setCategory(props.newsItem.category)
+    //     // }
+    //     // if (props.newsItem.preview_text) {
+    //     //     setPreviewText(props.newsItem.preview_text)
+    //     // }
+    //     // if (props.newsItem.text) {
+    //     //     setNewsText(props.newsItem.text)
+    //     // }
+    //     // if (props.newsItem.is_active) {
+    //     //     setStatus(props.newsItem.is_active)
+    //     // }
+    //
+    //     // if (props.newsItem.preview_image_url) {
+    //     //     setPreviewPhoto(props.newsItem.preview_image_url)
+    //     // }
+    //     // if (props.newsItem.text_image_url) {
+    //     //     setCoverPhoto(props.newsItem.text_image_url)
+    //     // }
+    // },[props.newsItem] )
     let navigate = useNavigate();
     let url = window.location.href;
     let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
+
+    const [imagePreview, setImagePreview] = useState(null);
+    const [imageCover, setImageCover] = useState(null);
+
+    useEffect( () => {
+        if (props.newsItem.preview_image_url) {
+            setImagePreview(process.env.REACT_APP_URL_BASE + props.newsItem.preview_image_url.slice(7))
+        }
+        else {
+            setImagePreview(null)
+        }
+    }, [props.newsItem.preview_image_url] )
+
+    useEffect( () => {
+        if (props.newsItem.text_image_url) {
+            setImageCover(process.env.REACT_APP_URL_BASE + props.newsItem.text_image_url.slice(7))
+        }
+        else {
+            setImageCover(null)
+        }
+    }, [props.newsItem.text_image_url] )
+
+    const onImagePreviewChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImagePreview(URL.createObjectURL(event.target.files[0]));
+        }
+    }
+    const onImageCoverChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImageCover(URL.createObjectURL(event.target.files[0]));
+        }
+    }
+
     return (
         <div className={classes.formContainer}>
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    header: title,
-                    date: date,
-                    category: category,
-                    status: status,
-                    previewPhoto: previewPhoto,
-                    coverPhoto: coverPhoto,
-                    newsText: newsText,
-                    previewText: previewText
+                    header: props.newsItem.title,
+                    date: props.newsItem.date,
+                    category: props.newsItem.category,
+                    status: props.newsItem.is_active,
+                    previewPhoto: props.newsItem.preview_image_url,
+                    coverPhoto: props.newsItem.text_image_url,
+                    newsText: props.newsItem.text,
+                    previewText: props.newsItem.preview_text
                 }}
+
                 validationSchema={SignupSchema}
                 onSubmit={values => {
                     if (infoPage === 'add') {
@@ -94,7 +132,10 @@ const NewsAddUpdate = (props) => {
                             <div className={classes.line}>
                                 <div className={classes.containerInput}>
                                     <label htmlFor={"header"} className={classes.label}>Заголовок новости</label>
-                                    <Field name={"header"} className={classNames(classes.input, {["is-danger"]: errors.header && touched.header})}></Field>
+                                    <Field
+                                        name={"header"}
+                                        value={values.header}
+                                        className={classNames(classes.input, {["is-danger"]: errors.header && touched.header})} />
                                     {errors.header && touched.header ? (
                                         <div className="has-text-danger">{errors.header}</div>
                                     ) : null}
@@ -144,7 +185,7 @@ const NewsAddUpdate = (props) => {
                             <div className={classes.previewPhoto}>
                                 <label htmlFor={"previewPhoto"} className={classes.label}>Превью новости</label>
                                 <div className={classes.photoContainer}>
-                                    <img className={classes.photo} />
+                                    <img className={classes.photo} src={imagePreview} alt={''} />
                                     <div className={classes.controlsButtonPhoto}>
                                         <div>
                                             <label htmlFor={'uploadPreviewPhoto'} className={classes.buttonPhoto}>
@@ -152,12 +193,14 @@ const NewsAddUpdate = (props) => {
                                             </label>
                                             <input
                                                 id={'uploadPreviewPhoto'}
+                                                // value={values.previewPhoto}
                                                 type='file'
                                                 name={'previewPhoto'}
                                                 className={classes.photoInput}
-                                                onChange={(e) =>
+                                                onChange={(e) => {
                                                     setFieldValue('previewPhoto', e.currentTarget.files[0])
-                                                }
+                                                    onImagePreviewChange(e)
+                                                }}
                                                 accept='uploads//*'
                                             />
                                         </div>
@@ -170,7 +213,7 @@ const NewsAddUpdate = (props) => {
                             <div className={classes.coverPhoto}>
                                 <label className={classes.label} htmlFor={"coverPhoto"}>Обложка новости</label>
                                 <div className={classes.photoContainer}>
-                                    <img className={classes.photo} src={'/img/pic.jpeg'} />
+                                    <img className={classes.photo} src={imageCover} alt={''} />
                                     <div className={classes.controlsButtonPhoto}>
                                         <div>
                                             <label htmlFor={'uploadCoverPhoto'}  className={classes.buttonPhoto}>
@@ -178,12 +221,14 @@ const NewsAddUpdate = (props) => {
                                             </label>
                                             <input
                                                 type='file'
+                                                // value={values.coverPhoto || ''}
                                                 id={'uploadCoverPhoto'}
                                                 name={"coverPhoto"}
                                                 className={classes.photoInput}
-                                                onChange={(e) =>
-                                                    setFieldValue('coverPhoto', e.currentTarget.files[0])
-                                                }
+                                                onChange={(e) => {
+                                                    setFieldValue('coverPhoto', e.currentTarget.files[0]);
+                                                    onImageCoverChange(e)
+                                                }}
                                                 accept='uploads//*'
                                             />
                                         </div>
@@ -197,14 +242,14 @@ const NewsAddUpdate = (props) => {
                         <div className={classes.newsTexts}>
                             <div className={classes.containerTextarea}>
                                 <label htmlFor={"newsText"} className={classes.label}>Текст новости</label>
-                                <textarea name={"newsText"} onChange={handleChange} className={classes.newsText} value={values.newsText}></textarea>
+                                <textarea name={"newsText"} onChange={handleChange} className={classes.newsText} value={values.newsText} />
                                 {errors.newsText && touched.newsText ? (
                                     <div className="has-text-danger">{errors.newsText}</div>
                                 ) : null}
                             </div>
                             <div className={classes.containerTextarea}>
                                 <label htmlFor={"previewText"} className={classes.label}>Текст превью</label>
-                                <textarea name={"previewText"} onChange={handleChange} className={classes.previewText} value={values.previewText}></textarea>
+                                <textarea name={"previewText"} onChange={handleChange} className={classes.previewText} value={values.previewText} />
                                 {errors.previewText && touched.previewText ? (
                                     <div className="has-text-danger">{errors.previewText}</div>
                                 ) : null}

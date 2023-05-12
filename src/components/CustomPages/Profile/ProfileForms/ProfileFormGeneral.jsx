@@ -2,6 +2,7 @@ import classes from "../Profile.module.css";
 import {Field, Form, Formik, useFormikContext, useField} from "formik";
 import React, {useState} from "react";
 import InputMask from "react-input-mask";
+import PhoneInput from "../phoneInput";
 import * as Yup from "yup";
 import classNames from "classnames";
 
@@ -16,34 +17,46 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
-function PhoneInput(props) {
-    return (
-        <InputMask
-            name={props.name}
-            className="input"
-            mask='(+7) 999 999 9999'
-            value={props.value}
-            onChange={props.onChange}>
-        </InputMask>
-    );
-}
+// function PhoneInput(props) {
+//     return (
+//         <InputMask
+//             name={props.name}
+//             className="input"
+//             mask='(+7) 999 999 9999'
+//             value={props.value}
+//             onChange={props.onChange}>
+//         </InputMask>
+//     );
+// }
 
-const ProfileFormGeneral = () => {
-    const [phone, setPhone] = useState('');
-    const handleInput = ({target: {value}}) => setPhone(value);
+const ProfileFormGeneral = (props) => {
+    // const [phone, setPhone] = useState('');
+    // const handleInput = ({target: {value}}) => setPhone(value);
+    console.log(props.profile.phone_number)
     return (
         <div className={classes.general}>
             <Formik
                 initialValues={{
-                    firstName: '', lastName: '', email: '',
-                    numberPhone: '', birthday: '', city: '', photo: ''
+                    firstName: props.profile.name,
+                    lastName: props.profile.surname,
+                    email: props.email,
+                    numberPhone: props.profile.phone_number,
+                    birthday: props.profile.birthday,
+                    city: props.profile.city,
+                    photo: ''
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
+                    // values.date = values.date.split("-").reverse().join("-");
                     console.log(values);
                 }}
             >
-                {({values,errors, touched, setFieldValue}) => (
+                {({
+                      values,
+                      errors,
+                      touched,
+                      setFieldValue,
+                      handleChange}) => (
                     <Form className={classes.form}>
                         <div className={classes.avatar}>
                             <label htmlFor="photo" className={classes.label}>Аватар</label>
@@ -73,12 +86,17 @@ const ProfileFormGeneral = () => {
                             </div>
                             <div>
                                 <label htmlFor="numberPhone" className={classes.label}>Номер телефона</label>
-                                <PhoneInput
+                                <Field
+                                    component={PhoneInput}
+                                    value={values.numberPhone}
+                                    onChange={ handleChange }
                                     name="numberPhone"
-                                    value={phone}
-                                    onChange={handleInput}>
-                                </PhoneInput>
-                                {console.log(phone)}
+                                />
+                                {/*<PhoneInput*/}
+                                {/*    name="numberPhone"*/}
+                                {/*    value={phone}*/}
+                                {/*    onChange={handleInput}>*/}
+                                {/*</PhoneInput>*/}
                                 {/*<Field id="numberPhone" type="text" name="numberPhone" />*/}
                             </div>
                         </div>
