@@ -26,7 +26,7 @@ const SelectedNews = (props) => {
                 </div>
             </div>
             <div className={classes.newsBlock}>
-                <img src={props.text_image_url ? props.text_image_url : '/img/images.jpeg'}/>
+                <img src={props.text_image_url ? process.env.REACT_APP_URL_BASE + props.text_image_url.slice(7) : null}/>
                 <div className={classes.textBlock}>
                     <div className={classes.textHeader}>
                         {props.title}

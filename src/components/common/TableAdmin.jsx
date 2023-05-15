@@ -4,6 +4,7 @@ import classes from "./TableAdmin.module.css";
 import {matchSorter} from "match-sorter";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames";
+import {deleteNews, updateActiveNews} from "../../redux/newsAdminReducer";
 
 function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, {keys: [row => row.values[id]]})
@@ -11,7 +12,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = val => !val
 
-export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
+export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews, deleteNews}) => {
     const filterTypes = React.useMemo(
         () => ({
             fuzzyText: fuzzyTextFilterFn,
@@ -47,7 +48,11 @@ export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
         useFilters,
     )
 
-
+    const onDeleteRow = (id) => {
+        if (infoTable === 'news') {
+            deleteNews(id)
+        }
+    }
 
     return (
         <div className={classes.tableWrap}>
@@ -75,7 +80,17 @@ export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
                                            {...cell.getCellProps()}
                                            data-label={cell.column.Header != "Активен" ? cell.column.Header : null}>
                                 <span>
-                                    {cell.render('Cell')}
+                                    {cell.column.Header === "Активен" ?
+                                        <label className={classes.switch}>
+                                            <input type="checkbox"
+                                                   checked={cell.row.values.is_active}
+                                                   onChange={ ()=>{
+                                                       cell.row.values.is_active = !cell.row.values.is_active;
+                                                       updateActiveNews(cell.row.values.id, cell.row.values.is_active)
+                                                   } } />
+                                            <span className={classNames(classes.slider, classes.round)}></span>
+                                        </label> :
+                                        cell.render('Cell')}
                                 </span>
                                 </td>
                             })}
@@ -90,7 +105,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable}) => {
                                 </NavLink>
                             </td>
                             <td className={classNames(classes.link, classes.deleteLink)}>
-                                <NavLink to={"/"}><img src={"/img/delete.svg"}/></NavLink>
+                                <NavLink><img src={"/img/delete.svg"} onClick={() => { onDeleteRow(row.values.id) }}/></NavLink>
                             </td>
                         </tr>
                     )

@@ -97,11 +97,44 @@ export const NewsAdminAPI = {
             .then(response => response.data)
     },
     updateNews(id, category_id, title, preview_text, preview_image_url, text, text_image_url, date, is_active) {
+        if (typeof text_image_url === 'string' && typeof preview_image_url === 'string') {
+            return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, text, date, is_active}, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            })
+                .then(response => response.data)
+        }
+        if (typeof preview_image_url === 'string') {
+            return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, text, text_image_url, date, is_active}, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            })
+                .then(response => response.data)
+        }
+        if (typeof text_image_url === 'string') {
+            return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, preview_image_url, text, date, is_active}, {
+                headers: {
+                    'Content-Type': "multipart/form-data"
+                }
+            })
+                .then(response => response.data)
+        }
+        console.log(131241324)
         return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, preview_image_url, text, text_image_url, date, is_active}, {
             headers: {
                 'Content-Type': "multipart/form-data"
             }
         })
+            .then(response => response.data)
+    },
+    updateActive(id, is_active) {
+        return instance.post(`admin/news-item-set-active`, {id, is_active})
+            .then(response => response.data)
+    },
+    deleteNews(id) {
+        return instance.post(`admin/news-item-delete`, {id})
             .then(response => response.data)
     }
 

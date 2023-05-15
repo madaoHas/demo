@@ -70,6 +70,7 @@ export const setNewsItem = (data) => {
 export const getNews = (currentPage, limit) => async (dispatch) => {
     let data = await NewsAdminAPI.getNews(currentPage, limit)
     dispatch(setNews(data));
+    dispatch(setNewsItem({}));
 
     // dispatch(setCurrentPage(currentPage));
     // dispatch(setTotalNewsCount(data.totalCount));
@@ -82,7 +83,7 @@ export const getNewsItem = (id) => async (dispatch) => {
 
 export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
     try {
-        let data = await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
+        await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
         dispatch(getNews(1, 10))
     }
     catch ( error ) {
@@ -92,13 +93,37 @@ export const addNews = (categoryId, title, previewText, previewImageUrl, text, t
 
 export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch) => {
     try {
-        let data = await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
+        await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
         dispatch(getNews(1, 10))
     }
     catch ( error ) {
         console.log(error)
     }
 }
+
+export const updateActiveNews = (id, is_active, page = 1, limit = 10) => async (dispatch) => {
+    try {
+        await NewsAdminAPI.updateActive(id, is_active)
+        dispatch(getNews(page, limit))
+    }
+    catch ( error ) {
+        console.log(error)
+    }
+}
+
+export const deleteNews = (id, page = 1, limit = 10) => async (dispatch) => {
+    try {
+        await NewsAdminAPI.deleteNews(id)
+        dispatch(getNews(page, limit))
+    }
+    catch ( error ) {
+        console.log(error)
+    }
+}
+
+
+
+
 
 // export const getSelectedNews = (idNews) => async (dispatch) => {
 //     let data = await NewsAPI.getSelectedNews(idNews)

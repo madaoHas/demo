@@ -1,7 +1,7 @@
 import NewsAdmin from "./NewsAdmin";
 import {connect} from "react-redux";
 import {useEffect} from "react";
-import {getNews} from "../../../redux/newsAdminReducer";
+import {getNews, updateActiveNews, deleteNews} from "../../../redux/newsAdminReducer";
 
 const NewsContainerAdmin = (props) => {
     useEffect( () => {
@@ -18,4 +18,4 @@ const mapStateToProps = (state) => ({
     news: state.newsAdminPage.news
 })
 
-export default connect(mapStateToProps, {getNews})(NewsContainerAdmin);
+export default connect(mapStateToProps, {getNews, updateActiveNews, deleteNews})(NewsContainerAdmin);

@@ -94,6 +94,12 @@ const NewsAddUpdate = (props) => {
         }
     }
 
+    const onDeletePreviewPhoto = (e) => {
+        props.newsItem.preview_image_url = null;
+        setImagePreview(null)
+        e.preventDefault();
+    }
+
     return (
         <div className={classes.formContainer}>
             <Formik
@@ -111,6 +117,7 @@ const NewsAddUpdate = (props) => {
 
                 validationSchema={SignupSchema}
                 onSubmit={values => {
+                    console.log(values)
                     if (infoPage === 'add') {
                         props.addNews(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
                     }
@@ -205,7 +212,7 @@ const NewsAddUpdate = (props) => {
                                             />
                                         </div>
                                         <div>
-                                            <button className={classes.buttonPhoto}>Удалить фото</button>
+                                            <button className={classes.buttonPhoto} onClick={onDeletePreviewPhoto}>Удалить фото</button>
                                         </div>
                                     </div>
                                 </div>

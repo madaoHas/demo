@@ -5,6 +5,7 @@ import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 import {useEffect} from "react";
+import {deleteNews, updateActiveNews} from "../../../redux/newsAdminReducer";
 
 
 function NewsTable(props) {
@@ -90,7 +91,7 @@ function NewsTable(props) {
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={true} infoTable={"news"} />
+            <TableAdmin columns={columns} data={data} linkCom={true} infoTable={"news"} updateActiveNews={props.updateActiveNews} deleteNews={props.deleteNews} />
         </div>
     )
 }

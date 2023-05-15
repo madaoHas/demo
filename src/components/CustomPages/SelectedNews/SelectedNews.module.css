@@ -25,6 +25,8 @@
     gap: 37px;
     color: #1E1E1E;
 }
+
+
 @media (min-width: 320px) and (max-width: 679px) {
     .news .header .backBlock {
         gap: 15px;
@@ -145,7 +147,8 @@
     height: 600px;
     width: 100%;
     /*width: 100%;*/
-    object-fit: contain;
+    object-fit: inherit;
+    background-color: #C4C4C4;
 }
 
 @media (min-width: 681px) and (max-width: 991px) {
