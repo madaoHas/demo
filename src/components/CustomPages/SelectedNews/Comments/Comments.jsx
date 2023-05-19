@@ -7,7 +7,6 @@ import {addComment} from "../../../../redux/commentsReducer";
 
 
 const Comments = (props) => {
-    console.log(props)
     return (
         <div className={classes.commentsBlock}>
             <div className={classes.header}>Комментарии</div>

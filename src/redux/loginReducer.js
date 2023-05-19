@@ -67,6 +67,9 @@ export const login = (email, password, setStatus) => async (dispatch) => {
         if (error.response.status === 401) {
             setStatus({error: 'Неверный логин или пароль'})
         }
+        if (error.response.status === 400) {
+            setStatus({error: 'Такого пользователя нет в системе'})
+        }
     }
 }
 
