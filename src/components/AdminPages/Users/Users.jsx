@@ -10,7 +10,7 @@ const Users = (props) => {
                     <div className={classes.headerName}>Пользователи</div>
                     <div className={classes.headerLink}><NavLink to={"/admin/users/add"}>Добавить</NavLink></div>
                 </div>
-                <UsersTable {...props} />
+                <UsersTable users={props.users} updateActiveUser={props.updateActiveUser} deleteUser={props.deleteUser} />
             </div>
         </div>
     )

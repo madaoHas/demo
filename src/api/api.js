@@ -29,7 +29,7 @@ instance.interceptors.response.use(function (response) {
 });
 
 export const NewsAPI = {
-    getNews(category_id, currentPage = 1, pageSize = 10) {
+    getNews(category_id, currentPage = 1, pageSize = 8) {
         let pager_in = {page: currentPage, limit: pageSize}
         return instance.post(`user/news-list`, {category_id, pager_in})
             .then(response => response.data)
@@ -68,10 +68,23 @@ export const CategoryAPI = {
 }
 
 export const UsersAdminAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get(`admin/users?page=${currentPage}&count=${pageSize}`)
+    getUsers(page = 1, limit = 10) {
+        let pager_in = {page: page, limit: limit}
+        return instance.post(`admin/users-list`, {pager_in})
             .then(response => response.data)
     },
+    addUsers(email, password) {
+        return instance.post(`admin/users-item-add`, {email, password})
+            .then(response => response.data)
+    },
+    deleteUser(id) {
+        return instance.post(`admin/users-item-delete`, {id})
+            .then(response => response.data)
+    },
+    updateActiveUser(id, is_active) {
+        return instance.post(`admin/users-item-set-active`, {id, is_active})
+            .then(response => response.data)
+    }
     // getSelectedNews(idNews) {
     //     return instance.get(`news?id=${idNews}`)
     //         .then(response => response.data)
@@ -106,6 +119,9 @@ export const NewsAdminAPI = {
                 .then(response => response.data)
         }
         if (typeof preview_image_url === 'string') {
+            if (text_image_url === null) {
+                text_image_url = 'null'
+            }
             return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, text, text_image_url, date, is_active}, {
                 headers: {
                     'Content-Type': "multipart/form-data"
@@ -114,6 +130,9 @@ export const NewsAdminAPI = {
                 .then(response => response.data)
         }
         if (typeof text_image_url === 'string') {
+            if (preview_image_url === null) {
+                preview_image_url = 'null'
+            }
             return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, preview_image_url, text, date, is_active}, {
                 headers: {
                     'Content-Type': "multipart/form-data"
@@ -121,7 +140,12 @@ export const NewsAdminAPI = {
             })
                 .then(response => response.data)
         }
-        console.log(131241324)
+        if (preview_image_url === null) {
+            preview_image_url = 'null'
+        }
+        if (text_image_url === null) {
+            text_image_url = 'null'
+        }
         return instance.post(`admin/news-item-update`, {id, category_id, title, preview_text, preview_image_url, text, text_image_url, date, is_active}, {
             headers: {
                 'Content-Type': "multipart/form-data"
@@ -158,12 +182,18 @@ export const ProfileAPI = {
         return instance.post(`user/profile`)
             .then(response => response.data)
     },
-    setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url) {
-        return instance.post(`user/set-profile`, {name, surname, phone_number, city, birthday, avatar_url})
+    setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url, email) {
+        let avatar = {avatar_url: avatar_url}
+        let profile = {name: name, surname: surname, phone_number: phone_number, city: city, birthday: birthday}
+        return instance.post(`user/set-profile`, {email, profile, avatar}, {
+            headers: {
+                'Content-Type': "multipart/form-data"
+            }
+        })
             .then(response => response.data)
     },
-    getPassword() {
-        return instance.get(`profile`)
+    setPassword(old_password, password) {
+        return instance.post(`user/set-profile-password`, {old_password, password})
             .then(response => response.data)
     }
 }

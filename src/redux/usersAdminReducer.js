@@ -6,51 +6,6 @@ const SET_USERS = 'SET_USERS';
 
 let initialState = {
     users: [
-        {
-            id: 1,
-            date: "02-04-2023",
-            email: "dfsdsfd@gmail.com",
-            firstName: "Gigi",
-            lastName: "Hadit",
-            role: "user",
-            active: true,
-        },
-        {
-            id: 2,
-            date: "04-02-2023",
-            email: "qwerty@gmail.com",
-            firstName: "Darina",
-            lastName: "Ivanova",
-            role: "admin",
-            active: true,
-        },
-        {
-            id: 3,
-            date: "05-02-2023",
-            email: "qwerty@gmail.com",
-            firstName: "qweas",
-            lastName: "xczxc",
-            role: "user",
-            active: true,
-        },
-        {
-            id: 4,
-            date: "05-01-2023",
-            email: "sda2dwe@gmail.com",
-            firstName: "xcxzc",
-            lastName: "LLdddw",
-            role: "user",
-            active: true,
-        },
-        {
-            id: 5,
-            date: "12-01-2023",
-            email: "ginsan@gmail.com",
-            firstName: "Wivi",
-            lastName: "Karida",
-            role: "user",
-            active: true,
-        },
     ],
     // currentPage: 1,
     // pageSize: 8,
@@ -63,7 +18,7 @@ const usersAdminReducer = (state = initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: action.users
+                users: action.users.data
             }
         // case SET_CURRENT_PAGE:
         //     return {
@@ -98,12 +53,55 @@ export const setUsers = (users) => {
 //     }
 // }
 
-export const getUsers = (currentPage, pageSize) => async (dispatch) => {
-    let data = await UsersAdminAPI.getUsers(currentPage, pageSize)
-    // dispatch(setCurrentPage(currentPage));
-    dispatch(setUsers(data.items));
-    // dispatch(setTotalNewsCount(data.totalCount));
+export const getUsers = (page, limit) => async (dispatch) => {
+    try {
+        let data = await UsersAdminAPI.getUsers(page, limit);
+        // dispatch(setCurrentPage(currentPage));
+        dispatch(setUsers(data));
+        // dispatch(setTotalNewsCount(data.totalCount));
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
+
+export const addUser = (email, password, setStatus) => async (dispatch) => {
+    try {
+        await UsersAdminAPI.addUsers(email, password)
+        // dispatch(setCurrentPage(currentPage));
+        dispatch(getUsers(1, 10));
+        // dispatch(setTotalNewsCount(data.totalCount));
+    }
+    catch (error) {
+        console.log(error)
+        if (error.response.status === 400) {
+            setStatus({error: 'Такой пользователь уже есть в системе'})
+        }
+    }
+}
+
+export const updateActiveUser = (id, active) => async (dispatch) => {
+    try {
+        await UsersAdminAPI.updateActiveUser(id, active);
+        // dispatch(setCurrentPage(currentPage));
+        dispatch(getUsers(1, 10));
+        // dispatch(setTotalNewsCount(data.totalCount));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+        await UsersAdminAPI.deleteUser(id);
+        dispatch(getUsers(1, 10));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 
 // export const getSelectedNews = (idNews) => async (dispatch) => {
 //     let data = await NewsAPI.getSelectedNews(idNews)

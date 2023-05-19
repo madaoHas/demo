@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import classes from "./UserAdd.module.css";
 import classNames from "classnames";
+import {useNavigate} from "react-router-dom";
 
 
 const SignupSchema = Yup.object().shape({
@@ -10,7 +11,8 @@ const SignupSchema = Yup.object().shape({
     password: Yup.string().required('Обязательное поле')
 });
 
-const UserAdd = () => {
+const UserAdd = (props) => {
+    let navigate = useNavigate();
     return (
         <div className={classes.formContainer}>
             <Formik
@@ -19,11 +21,18 @@ const UserAdd = () => {
                     password: ''
                 }}
                 validationSchema={SignupSchema}
-                onSubmit={values => {
-                    console.log(values);
+                onSubmit={(values, actions) => {
+                    props.addUser(values.email, values.password, actions.setStatus);
+                    navigate('/admin/users', {replace: false});
                 }}
             >
-                {({values, errors, touched, setFieldValue}) => (
+                {({
+                      values,
+                      errors,
+                      touched,
+                      setFieldValue,
+                      status={ error: [] }
+                }) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>
@@ -38,12 +47,14 @@ const UserAdd = () => {
                                 <label htmlFor="password" className={classes.label}>Пароль</label>
                                 <Field
                                     className={classNames(classes.input, {["is-danger"]: errors.password && touched.password})}
-                                    name="password"/>
+                                    name="password"
+                                    type="password"/>
                                 {errors.password && touched.password ? (
                                     <div className="has-text-danger">{errors.password}</div>
                                 ) : null}
                             </div>
                         </div>
+                        {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
                         <button type="submit" className={classes.button}>
                             Сохранить
                         </button>

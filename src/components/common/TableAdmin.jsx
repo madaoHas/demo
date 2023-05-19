@@ -4,7 +4,7 @@ import classes from "./TableAdmin.module.css";
 import {matchSorter} from "match-sorter";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames";
-import {deleteNews, updateActiveNews} from "../../redux/newsAdminReducer";
+import ModalPage from "./Modal/ModalPage";
 
 function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, {keys: [row => row.values[id]]})
@@ -12,7 +12,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = val => !val
 
-export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews, deleteNews}) => {
+export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, deleteRow}) => {
     const filterTypes = React.useMemo(
         () => ({
             fuzzyText: fuzzyTextFilterFn,
@@ -35,11 +35,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews,
         getTableBodyProps,
         headerGroups,
         rows,
-        prepareRow,
-        state,
-        visibleColumns,
-        preGlobalFilteredRows,
-        setGlobalFilter,
+        prepareRow
     } = useTable({
             columns,
             data,
@@ -49,10 +45,15 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews,
     )
 
     const onDeleteRow = (id) => {
-        if (infoTable === 'news') {
-            deleteNews(id)
-        }
+        deleteRow(id)
     }
+
+    const [isModal, setModal] = React.useState(false);
+    const [selectedRow, setSelectedRow] = React.useState(null);
+    const handleButtonClick = (row) => {
+        setSelectedRow(row);
+    };
+
 
     return (
         <div className={classes.tableWrap}>
@@ -71,24 +72,36 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews,
                 ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                {rows.map((row, i) => {
+                {rows.map((row) => {
                     prepareRow(row)
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map(cell => {
                                 return <td className={classNames(classes.ellipsis, {[classes.switch]: cell.column.Header === "Активен"})}
                                            {...cell.getCellProps()}
-                                           data-label={cell.column.Header != "Активен" ? cell.column.Header : null}>
+                                           data-label={cell.column.Header !== "Активен" ? cell.column.Header : null}>
                                 <span>
                                     {cell.column.Header === "Активен" ?
                                         <label className={classes.switch}>
                                             <input type="checkbox"
-                                                   checked={cell.row.values.is_active}
-                                                   onChange={ ()=>{
-                                                       cell.row.values.is_active = !cell.row.values.is_active;
-                                                       updateActiveNews(cell.row.values.id, cell.row.values.is_active)
+                                                   checked={cell.row.original.is_active}
+                                                   onChange={ () => {
+                                                       if (infoTable === 'users') {
+                                                           if (cell.row.original.is_active === true) {
+                                                               handleButtonClick({id: cell.row.original.id, active: !cell.row.original.is_active})
+                                                               setModal(true);
+                                                           }
+                                                           else {
+                                                               cell.row.original.is_active = !cell.row.original.is_active;
+                                                               updateActive(cell.row.original.id, cell.row.original.is_active)
+                                                           }
+                                                       }
+                                                       else if (infoTable === 'news') {
+                                                           cell.row.original.is_active = !cell.row.original.is_active;
+                                                           updateActive(cell.row.original.id, cell.row.original.is_active)
+                                                       }
                                                    } } />
-                                            <span className={classNames(classes.slider, classes.round)}></span>
+                                            <span className={classNames(classes.slider, classes.round)} />
                                         </label> :
                                         cell.render('Cell')}
                                 </span>
@@ -96,22 +109,32 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActiveNews,
                             })}
                             {linkCom ?
                                 <td className={classNames(classes.link, classes.navLink)}>
-                                    <NavLink to={"/"}><img src={"/img/linkCom.svg"}/></NavLink>
+                                    <NavLink to={"/"}><img src={"/img/linkCom.svg"} alt={''}/></NavLink>
                                 </td> : null
                             }
                             <td className={classNames(classes.link)}>
                                 <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
-                                    <img src={"/img/update.svg"} />
+                                    <img src={"/img/update.svg"} alt={''} />
                                 </NavLink>
                             </td>
                             <td className={classNames(classes.link, classes.deleteLink)}>
-                                <NavLink><img src={"/img/delete.svg"} onClick={() => { onDeleteRow(row.values.id) }}/></NavLink>
+                                <NavLink><img src={"/img/delete.svg"} onClick={() => { onDeleteRow(row.values.id) }} alt={''}/></NavLink>
                             </td>
                         </tr>
                     )
                 })}
                 </tbody>
             </table>
+            {isModal && (
+                <ModalPage
+                    isVisible={isModal}
+                    content={<p>Вы уверены, что хотите деактивировать аккаунт?</p>}
+                    onClose={() => setModal(false)}
+                    updateActive={updateActive}
+                    id={selectedRow.id}
+                    active={selectedRow.active}
+                />
+            )}
         </div>
     )
 }

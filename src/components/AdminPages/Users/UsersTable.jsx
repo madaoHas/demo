@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import classes from "./UsersTable.module.css";
-import classNames from "classnames";
 import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
 import {TableAdmin} from "../../common/TableAdmin";
 import { useState } from 'react'
+import moment from 'moment'
 
 
 
 function UsersTable(props) {
-    const [enabled, setEnabled] = useState(false)
+    let [data, setData] = useState([]);
+    useEffect( () => {
+        setData(props.users)
+    },[props.users] )
     const columns = React.useMemo(() => [
             {
                 Header: 'ID',
@@ -17,7 +20,7 @@ function UsersTable(props) {
             },
             {
                 Header: 'Дата регистрации',
-                accessor: 'date',
+                accessor: 'created_at',
                 // Cell: ({value}) => {
                 //     return format(new Date(value), "dd-MM-yyyy")
                 // },
@@ -30,25 +33,24 @@ function UsersTable(props) {
             },
             {
                 Header: 'Имя',
-                accessor: 'firstName',
+                accessor: 'name',
                 Filter: ColumnFilter
             },
             {
                 Header: 'Фамилия',
-                accessor: 'lastName',
+                accessor: 'surname',
                 Filter: ColumnFilter
             },
             {
                 Header: 'Роль',
                 accessor: 'role',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
             },
             {
                 Header: 'Активен',
                 accessor: 'active',
                 Filter: ColumnFilter,
-                Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
-
+                Cell: ''
 },
         ],
         []
@@ -56,7 +58,23 @@ function UsersTable(props) {
 
     const optionRef = React.createRef();
 
-    const data = React.useMemo(() => props.users, [])
+    if (data[0]) {
+        for (let i = 0; i < data.length; i++) {
+            if (typeof data[i].profile === 'object') {
+                data[i].name = data[i].profile.name
+                data[i].surname = data[i].profile.surname
+            }
+            data[i].created_at = moment(data[i].created_at).format('DD-MM-yyyy');
+            if (data[i].role === 1) {
+                data[i].role = 'Пользователь'
+            }
+            if (data[i].role === 10) {
+                data[i].role = 'Админ'
+            }
+        }
+    }
+
+    // const data = React.useMemo(() => props.users, [])
 
     let [inputText, setInputText] = useState(false);
     let [inputDate, setInputDate] = useState(false);
@@ -92,11 +110,17 @@ function UsersTable(props) {
             <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
                 {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
             </select>
-            {console.log(columns)}
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
             {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={true} />
+            <TableAdmin
+                columns={columns}
+                data={data}
+                linkCom={true}
+                updateActive={props.updateActiveUser}
+                infoTable={"users"}
+                deleteRow={props.deleteUser}
+            />
         </div>
     )
 }

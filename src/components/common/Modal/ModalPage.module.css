@@ -1,0 +1,91 @@
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.25);
+    animation-name: appear;
+    animation-duration: 300ms;
+}
+
+.modalDialog {
+    width: 100%;
+    max-width: 433px;
+    background: white;
+    position: relative;
+    margin: 0 30px;
+    height: 137px;
+    text-align: center;
+    display: flex;
+    gap: 27px;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+
+.modalClose {
+    cursor: pointer;
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+}
+
+.modalBody {
+    overflow: auto;
+    padding-top: 30px;
+}
+
+.modalContent {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.buttons {
+    display: flex;
+    gap: 21px;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.buttons button {
+    background: #B8B8B8;
+    mix-blend-mode: normal;
+    border-radius: 3px;
+    box-sizing: border-box;
+    border: none;
+    width: 64px;
+    height: 33px;
+    font-family: 'Inter';
+    color: #FFFFFF;
+    font-size: 13px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateY(-150px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}

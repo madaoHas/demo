@@ -1,10 +1,17 @@
 import React from "react";
 import UserAdd from "./UserAdd";
+import {connect} from "react-redux";
+import {addUser} from "../../../../redux/usersAdminReducer";
 
-const UserAddContainer = () => {
+const UserAddContainer = (props) => {
     return (
-        <UserAdd />
+        <UserAdd {...props} />
     )
 }
 
-export default UserAddContainer;
+
+const mapStateToProps = (state) => ({
+})
+
+
+export default connect(mapStateToProps, {addUser})(UserAddContainer);
