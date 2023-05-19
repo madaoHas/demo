@@ -6,7 +6,7 @@ export default function PhoneInput(props) {
         <InputMask
             name={props.field.name}
             className="input"
-            mask='(+7) 999 999 9999'
+            mask='+7 999 999 9999'
             value={props.field.value}
             onChange={props.field.onChange}>
         </InputMask>

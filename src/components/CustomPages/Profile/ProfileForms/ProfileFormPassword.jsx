@@ -40,7 +40,7 @@ const validateConfirmPassword = (pass, value) => {
 };
 
 
-const ProfileFormPassword = () => {
+const ProfileFormPassword = (props) => {
     return (
         <div className={classes.general}>
             <Formik
@@ -48,11 +48,17 @@ const ProfileFormPassword = () => {
                     oldPassword: '', password: '', confirmPassword: ''
                 }}
                 // validationSchema={SignupSchema}
-                onSubmit={values => {
+                onSubmit={(values, actions) => {
                     console.log(values);
+                    props.setPasswordProfile(values.oldPassword, values.password, actions.setStatus);
+                    actions.resetForm({values: ''});
                 }}
             >
-                {({values, errors,touched}) => (
+                {({
+                      values,
+                      errors,
+                      touched,
+                      status={ error: [] }}) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>
@@ -79,6 +85,7 @@ const ProfileFormPassword = () => {
                                 {errors.confirmPassword && touched.confirmPassword && (<div className="has-text-danger">{errors.confirmPassword}</div>)}
                             </div>
                         </div>
+                        {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             Сохранить
                         </button>

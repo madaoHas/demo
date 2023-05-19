@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import Profile from "./Profile";
-import {getGeneralInfo} from "../../../redux/profileReducer";
+import {getGeneralInfo, setGeneralInfo, setPasswordProfile} from "../../../redux/profileReducer";
 import {connect} from "react-redux";
 
 const ProfileContainer = (props) => {
@@ -13,7 +13,6 @@ const ProfileContainer = (props) => {
 }
 const mapStateToProps = (state) => ({
     profile: state.profilePage.generalInfo,
-    email: state.login.auth.email,
 })
 
-export default connect(mapStateToProps, {getGeneralInfo})(ProfileContainer);
+export default connect(mapStateToProps, {getGeneralInfo, setGeneralInfo, setPasswordProfile})(ProfileContainer);
