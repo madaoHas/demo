@@ -22,9 +22,7 @@ const News = (props) => {
             <div className={classes.container}>
                 {props.newsUserPage ? props.newsUserPage.map(n => <NewsOne className={classes.newsOne} news={n} key={n.id} />) : null}
             </div>
-            {/*<Paginator totalCount={props.newsUserPage.totalNewsCount}*/}
-            {/*           pageSize={props.newsUserPage.pageSize}*/}
-            {/*           currentPage={props.newsUserPage.currentPage} />*/}
+            <Paginator {...props.pager} />
         </div>
     )
 }

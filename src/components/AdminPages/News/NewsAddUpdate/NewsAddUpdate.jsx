@@ -58,6 +58,7 @@ const NewsAddUpdate = (props) => {
     //     //     setCoverPhoto(props.newsItem.text_image_url)
     //     // }
     // },[props.newsItem] )
+
     let navigate = useNavigate();
     let url = window.location.href;
     let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
@@ -97,6 +98,11 @@ const NewsAddUpdate = (props) => {
     const onDeletePreviewPhoto = (e) => {
         props.newsItem.preview_image_url = null;
         setImagePreview(null)
+        e.preventDefault();
+    }
+    const onDeleteCoverPhoto = (e) => {
+        props.newsItem.text_image_url = null;
+        setImageCover(null)
         e.preventDefault();
     }
 
@@ -240,7 +246,7 @@ const NewsAddUpdate = (props) => {
                                             />
                                         </div>
                                         <div>
-                                            <button className={classes.buttonPhoto}>Удалить фото</button>
+                                            <button className={classes.buttonPhoto} onClick={onDeleteCoverPhoto}>Удалить фото</button>
                                         </div>
                                     </div>
                                 </div>

@@ -5,7 +5,6 @@ const SET_PASSWORD = 'SET_PASSWORD';
 
 let initialState = {
     generalInfo: {},
-    password: ''
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -16,11 +15,6 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 generalInfo: action.generalInfo
             }
-        case SET_PASSWORD:
-            return {
-                ...state,
-                password: action.password
-            }
         default: return state;
     }
 }
@@ -29,13 +23,6 @@ export const setProfile = (generalInfo) => {
     return {
         type: SET_PROFILE,
         generalInfo
-    }
-}
-
-export const setPassword = (password) => {
-    return {
-        type: SET_PASSWORD,
-        password
     }
 }
 
@@ -51,9 +38,9 @@ export const getGeneralInfo = () => async (dispatch) => {
 
 }
 
-export const setGeneralInfo = (name, surname, phone_number, city, birthday, avatar_url) => async (dispatch) => {
+export const setGeneralInfo = (name, surname, phone_number, city, birthday, avatar_url, email) => async (dispatch) => {
     try {
-        await ProfileAPI.setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url)
+        await ProfileAPI.setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url, email)
         dispatch(getGeneralInfo());
     }
     catch (error) {
@@ -62,9 +49,16 @@ export const setGeneralInfo = (name, surname, phone_number, city, birthday, avat
 
 }
 
-export const getPassword = () => async (dispatch) => {
-    let data = await ProfileAPI.getPassword()
-    dispatch(setPassword(data.items));
+export const setPasswordProfile = (old_password, password, setStatus) => async (dispatch) => {
+    try {
+        await ProfileAPI.setPassword(old_password, password)
+    }
+    catch (error) {
+        console.log(error);
+        if (error.response.status === 400) {
+            setStatus({error: 'Старый пароль неверен!'})
+        }
+    }
 }
 
 

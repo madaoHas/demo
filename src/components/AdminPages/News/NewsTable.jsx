@@ -1,11 +1,9 @@
 import React from "react";
 import classes from "../Users/UsersTable.module.css";
-import classNames from "classnames";
 import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 import {useEffect} from "react";
-import {deleteNews, updateActiveNews} from "../../../redux/newsAdminReducer";
 
 
 function NewsTable(props) {
@@ -42,7 +40,7 @@ function NewsTable(props) {
                 Header: 'Активен',
                 accessor: 'is_active',
                 Filter: ColumnFilter,
-                Cell: <label className={classes.switch}><input type="checkbox" /><span className={classNames(classes.slider, classes.round)}></span></label>
+                Cell: ''
             },
         ],
         []
@@ -90,8 +88,15 @@ function NewsTable(props) {
             </select>
             {inputDate ? <ColumnFilterDate column={""} /> : null}
             {inputText ? <ColumnFilter column={""} />: null}
-            {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
-            <TableAdmin columns={columns} data={data} linkCom={true} infoTable={"news"} updateActiveNews={props.updateActiveNews} deleteNews={props.deleteNews} />
+            {inputSelect ? <select ref={optionRef} className={classes.selectFilter} /> : null}
+            <TableAdmin
+                columns={columns}
+                data={data}
+                linkCom={true}
+                infoTable={"news"}
+                updateActive={props.updateActiveNews}
+                deleteRow={props.deleteNews}
+            />
         </div>
     )
 }
