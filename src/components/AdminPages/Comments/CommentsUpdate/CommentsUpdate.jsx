@@ -2,36 +2,46 @@ import React from "react";
 import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import classes from "./CommentsUpdate.module.css";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import moment from 'moment'
 
 const SignupSchema = Yup.object().shape({
     comment: Yup.string().required('Обязательное поле')
 });
 
 const CommentsUpdate = (props) => {
-    console.log(props.row)
+    let navigate = useNavigate();
     return (
         <div className={classes.formContainer}>
             <Formik
+                enableReinitialize={true}
                 initialValues={{
-                    id: props.row.id,
-                    date: props.row.date,
+                    id: props.newsItem.id,
+                    date: props.newsItem.created_at,
                     news: '',
                     user: '',
-                    comment: props.row.comment
+                    comment: props.newsItem.text
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
                     console.log(values);
+                    props.updateComment(values.id, values.comment);
+                    navigate('/admin/comments', {replace: false});
                 }}
             >
-                {({values, errors, touched, setFieldValue}) => (
+                {({
+                      values,
+                      errors,
+                      touched,
+                      setFieldValue,
+                      handleChange
+                }) => (
                     <Form className={classes.form}>
                         <div className={classes.generalInfo}>
                             <div className={classes.line}>
                                 <div>
                                     <label htmlFor="id" className={classes.label}>ID:</label>
-                                    <span name="id">{props.row.id}</span>
+                                    <span name="id">{values.id}</span>
                                 </div>
                                 <div>
                                     <label htmlFor="news" className={classes.label}>Новость:</label>
@@ -44,7 +54,7 @@ const CommentsUpdate = (props) => {
                             <div className={classes.line}>
                                 <div>
                                     <label htmlFor="date" className={classes.label}>Дата комментария:</label>
-                                    <span name="date">{props.row.date}</span>
+                                    <span name="date">{moment(values.date).format('DD-MM-YYYY')}</span>
                                 </div>
                                 <div>
                                     <label htmlFor="user" className={classes.label}>Пользователь:</label>
@@ -57,7 +67,12 @@ const CommentsUpdate = (props) => {
                         </div>
                         <div className={classes.commentText}>
                             <label htmlFor="comment" className={classes.label}>Текст комментария</label>
-                            <textarea name={"comment"} className={classes.comment} defaultValue={props.row.comment}></textarea>
+                            <textarea
+                                name={"comment"}
+                                className={classes.comment}
+                                value={values.comment}
+                                onChange={handleChange}
+                            />
                         </div>
                         <button type="submit" className={classes.button}>
                             Сохранить

@@ -167,14 +167,23 @@ export const NewsAdminAPI = {
 }
 
 export const CommentsAdminAPI = {
-    getComments(currentPage = 1, pageSize = 10) {
-        return instance.get(`admin/comments?page=${currentPage}&count=${pageSize}`)
+    getComments(page = 1, limit = 10) {
+        let pager_in = {page: page, limit: limit}
+        return instance.post(`admin/comments-list`, {pager_in})
             .then(response => response.data)
     },
-    // getSelectedNews(idNews) {
-    //     return instance.get(`news?id=${idNews}`)
-    //         .then(response => response.data)
-    // }
+    getCommentItem(id) {
+        return instance.post(`admin/comments-item`, {id})
+            .then(response => response.data)
+    },
+    updateComment(id, text) {
+        return instance.post(`admin/comments-item-update`, {id, text})
+            .then(response => response.data)
+    },
+    deleteComment(id) {
+        return instance.post(`admin/comments-item-delete`, {id})
+            .then(response => response.data)
+    },
 }
 
 export const ProfileAPI = {

@@ -87,14 +87,12 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                                                    checked={cell.row.original.is_active}
                                                    onChange={ () => {
                                                        if (infoTable === 'users') {
-                                                           if (cell.row.original.is_active === true) {
-                                                               handleButtonClick({id: cell.row.original.id, active: !cell.row.original.is_active})
-                                                               setModal(true);
-                                                           }
-                                                           else {
-                                                               cell.row.original.is_active = !cell.row.original.is_active;
-                                                               updateActive(cell.row.original.id, cell.row.original.is_active)
-                                                           }
+                                                           handleButtonClick({
+                                                               id: cell.row.original.id,
+                                                               active: !cell.row.original.is_active,
+                                                               content: !cell.row.original.is_active ? 'Вы уверены, что хотите активировать аккаунт' : 'Вы уверены, что хотите деактивировать аккаунт?'
+                                                           })
+                                                           setModal(true);
                                                        }
                                                        else if (infoTable === 'news') {
                                                            cell.row.original.is_active = !cell.row.original.is_active;
@@ -128,7 +126,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
             {isModal && (
                 <ModalPage
                     isVisible={isModal}
-                    content={<p>Вы уверены, что хотите деактивировать аккаунт?</p>}
+                    content={<p>{selectedRow.content}</p>}
                     onClose={() => setModal(false)}
                     updateActive={updateActive}
                     id={selectedRow.id}

@@ -4,7 +4,7 @@ import {getUsers, updateActiveUser, deleteUser} from "../../../redux/usersAdminR
 import React, {useEffect} from "react";
 
 const UsersContainer = (props) => {
-    useEffect( (props) => {
+    useEffect( () => {
         props.getUsers(1, 10)
     }, [] )
     return (
