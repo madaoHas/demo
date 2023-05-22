@@ -22,7 +22,7 @@ const SelectedNews = (props) => {
                             {props.date}
                         </div>
                     </div>
-                    <div className={classes.category}>{props.category.name}</div>
+                    <div className={classes.category}>{props.category?.name}</div>
                 </div>
             </div>
             <div className={classes.newsBlock}>

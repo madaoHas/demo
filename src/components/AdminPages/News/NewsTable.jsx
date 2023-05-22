@@ -49,6 +49,9 @@ function NewsTable(props) {
     const optionRef = React.createRef();
     if (data[0]) {
         for (let i = 0; i < data.length; i++) {
+            if (data[i].category === null) {
+                data[i].category = ''
+            }
             if (typeof data[i].category === 'object') {
                 data[i].category = data[i].category.name
             }

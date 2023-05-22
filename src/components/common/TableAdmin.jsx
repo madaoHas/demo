@@ -12,7 +12,30 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = val => !val
 
-export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, deleteRow}) => {
+export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, deleteRow, updateCategory}) => {
+    const [editingIndex, setEditingIndex] = React.useState(null);
+    const [editingValue, setEditingValue] = React.useState("");
+
+
+    const handleEditButtonClick = (index, value) => {
+        setEditingIndex(index);
+        setEditingValue(value);
+    };
+
+    const handleInputChange = (event) => {
+        setEditingValue(event.target.value);
+    };
+
+    const handleSaveButtonClick = (index, oldName) => {
+        if (oldName !== editingValue) {
+            updateCategory(index, editingValue);
+        }
+        // заканчиваем режим редактирования
+        setEditingIndex(null);
+        setEditingValue("");
+    };
+
+
     const filterTypes = React.useMemo(
         () => ({
             fuzzyText: fuzzyTextFilterFn,
@@ -48,6 +71,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
         deleteRow(id)
     }
 
+
     const [isModal, setModal] = React.useState(false);
     const [selectedRow, setSelectedRow] = React.useState(null);
     const handleButtonClick = (row) => {
@@ -76,11 +100,11 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                     prepareRow(row)
                     return (
                         <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
+                            {row.cells.map((cell, index) => {
                                 return <td className={classNames(classes.ellipsis, {[classes.switch]: cell.column.Header === "Активен"})}
                                            {...cell.getCellProps()}
                                            data-label={cell.column.Header !== "Активен" ? cell.column.Header : null}>
-                                <span>
+                                <span className={classes.rowTable}>
                                     {cell.column.Header === "Активен" ?
                                         <label className={classes.switch}>
                                             <input type="checkbox"
@@ -101,7 +125,11 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                                                    } } />
                                             <span className={classNames(classes.slider, classes.round)} />
                                         </label> :
-                                        cell.render('Cell')}
+                                        (editingIndex === cell.row.id && cell.column.Header !== "ID") ? (
+                                            <input type="text" value={editingValue} onChange={handleInputChange} className={classes.inputUpdate} />
+                                        ) : (
+                                            cell.render('Cell')
+                                        )}
                                 </span>
                                 </td>
                             })}
@@ -111,9 +139,22 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                                 </td> : null
                             }
                             <td className={classNames(classes.link)}>
-                                <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
+                                {infoTable !== 'categories' ?
+                                    <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
                                     <img src={"/img/update.svg"} alt={''} />
-                                </NavLink>
+                                    </NavLink> :
+                                    (editingIndex === row.id) ? (
+                                            <button className={classNames(classes.link, classes.buttonUpdate)}
+                                                    onClick={() => handleSaveButtonClick(row.values.id, row.original.name)}>
+                                                <img src={"/img/success.svg"} alt={''} className={classes.successImg} />
+                                            </button>
+                                    ) : (
+                                        <button className={classNames(classes.link, classes.buttonUpdate)}
+                                                onClick={() => handleEditButtonClick(row.id, row.values.name)}>
+                                            <img src={"/img/update.svg"} alt={''} />
+                                        </button>
+                                    )}
+
                             </td>
                             <td className={classNames(classes.link, classes.deleteLink)}>
                                 <NavLink><img src={"/img/delete.svg"} onClick={() => { onDeleteRow(row.values.id) }} alt={''}/></NavLink>

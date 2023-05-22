@@ -2,9 +2,11 @@ import {CategoryAPI} from "../api/api";
 
 const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
+const SET_PAGE = 'SET_PAGE'
 
 let initialState = {
     category: [],
+    pager_out: {}
 }
 
 const categoryReducer = (state = initialState, action) => {
@@ -15,11 +17,12 @@ const categoryReducer = (state = initialState, action) => {
                 ...state,
                 category: action.category
             }
+        case SET_PAGE:
+            return {
+                ...state,
+                pager_out: action.pager_out
+            }
         case ADD_CATEGORY:
-            // let newMessage = {
-            //     id: 4,
-            //     message: action.newCategory
-            // };
             return {
                 ...state,
                 category: [...state.category, action.newCategory]
@@ -35,6 +38,13 @@ export const setCategory = (category) => {
     }
 }
 
+export const setPage = (pager_out) => {
+    return {
+        type: SET_PAGE,
+        pager_out
+    }
+}
+
 export const addCategoryAC = (newCategory) => {
     return {
         type: ADD_CATEGORY,
@@ -44,14 +54,6 @@ export const addCategoryAC = (newCategory) => {
 
 
 export const getCategory = () => async (dispatch) => {
-    // let data = await CategoryAPI.getCategory();
-    // // console.log(data);
-    // if (data) {
-    //     dispatch(setCategory(data));
-    // }
-    // else {
-    //     console.log('not found categories')
-    // }
     try {
         let data = await CategoryAPI.getCategory();
         if (data.status === 200) {
@@ -62,20 +64,54 @@ export const getCategory = () => async (dispatch) => {
     }
 }
 
-export const addCategory = (name) => async (dispatch) => {
+export const getCategoryAdmin = () => async (dispatch) => {
     try {
-        let data = await CategoryAPI.addCategory(name)
-        dispatch(getCategory());
+        let data = await CategoryAPI.getCategoryAdmin();
+        if (data.status === 200) {
+            dispatch(setCategory(data.data.data));
+            dispatch(setPage(data.data.pager_out))
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const addCategory = (name, setStatus) => async (dispatch) => {
+    try {
+        await CategoryAPI.addCategory(name)
+        dispatch(getCategoryAdmin());
     }
     catch (error) {
         console.log(error)
+        if (error.response.status === 400) {
+            setStatus({error: 'Такая категория уже есть!'})
+        }
     }
+}
 
+export const updateCategory = (id, name, setStatus) => async (dispatch) => {
+    try {
+        console.log(name)
+        await CategoryAPI.updateCategory(id, name)
+        dispatch(getCategoryAdmin());
+    }
+    catch (error) {
+        console.log(error)
+        // if (error.response.status === 400) {
+        //     setStatus({error: 'Такая категория уже есть!'})
+        // }
+    }
 }
 
 export const deleteCategory = (id) => async (dispatch) => {
-    let data = await CategoryAPI.deleteCategory(id)
-    dispatch(setCategory(data.items));
+    try {
+        await CategoryAPI.deleteCategory(id)
+        dispatch(getCategoryAdmin());
+    }
+    catch (error) {
+
+    }
+
 }
 
 export default categoryReducer;

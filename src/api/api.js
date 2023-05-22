@@ -57,12 +57,21 @@ export const CategoryAPI = {
         return instance.post(`user/categories-list`,{})
             .then(response => response)
     },
+    getCategoryAdmin(page = 1, limit = 20) {
+        let pager_in = {page: page, limit: limit}
+        return instance.post(`admin/categories-list`,{pager_in})
+            .then(response => response)
+    },
     addCategory(name) {
         return instance.post(`admin/categories-item-add`, {name})
             .then(response => response.data)
     },
-    deleteCategory(idCategory) {
-        return instance.delete(`category`, {idCategory})
+    updateCategory(id, name) {
+        return instance.post(`admin/categories-item-update`, {id, name})
+            .then(response => response.data)
+    },
+    deleteCategory(id) {
+        return instance.post(`admin/categories-item-delete`, {id})
             .then(response => response.data)
     }
 }

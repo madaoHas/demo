@@ -1,7 +1,7 @@
-import {NavLink} from "react-router-dom";
 import classes from "./Categories.module.css"
 import CategoriesTable from "./CategoriesTable";
-import {Field, Form, Formik, useFormikContext, useField} from "formik";
+import {Field, Form, Formik} from "formik";
+import React from "react";
 
 const Categories = (props) => {
     return (
@@ -13,10 +13,13 @@ const Categories = (props) => {
                         initialValues={{
                             name: ''
                         }}
-                        onSubmit={values => {
-                            props.addCategory(values.name);
+                        onSubmit={(values, actions) => {
+                            props.addCategory(values.name, actions.setStatus);
+                            actions.resetForm({values: ''});
                         }}
                     >
+                        {({
+                                status={ error: [] }}) => (
                         <Form>
                             <div className={classes.addCategories}>
                                 <div className={classes.categoryName}>
@@ -25,7 +28,9 @@ const Categories = (props) => {
                                 </div>
                                 <button className={classes.headerLink}>Добавить</button>
                             </div>
+                            {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
                         </Form>
+                            )}
 
                     </Formik>
                 </div>

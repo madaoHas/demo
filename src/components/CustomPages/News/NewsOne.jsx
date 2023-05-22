@@ -16,7 +16,7 @@ const NewsOne = (props) => {
             <div className={classes.description}>
                 <div className={classes.headerContainer}>
                     <span className={classes.header}>{props.news.title}</span>
-                    <span className={classes.category}>{props.news.category.name}</span>
+                    <span className={classes.category}>{props.news.category?.name}</span>
                 </div>
                 <span className={classes.textNews}>
                     {props.news.preview_text}

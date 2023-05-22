@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
+import {deleteCategory} from "../../../redux/categoryReducer";
 
 
 function CategoriesTable(props) {
@@ -43,7 +44,14 @@ function CategoriesTable(props) {
                 {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
             </select>
             {inputText ? <ColumnFilter column={""} />: null}
-            <TableAdmin columns={columns} data={data} linkCom={false} />
+            <TableAdmin
+                columns={columns}
+                data={data}
+                linkCom={false}
+                deleteRow={props.deleteCategory}
+                infoTable={'categories'}
+                updateCategory={props.updateCategory}
+            />
         </div>
     )
 }
