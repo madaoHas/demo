@@ -6,8 +6,7 @@ const SET_NEWS_ITEM = 'SET_NEWS_ITEM'
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
-    news: [
-    ],
+    news: [],
     newsItem: {},
     pagerOut: {}
 }
@@ -68,17 +67,26 @@ export const setNewsItem = (data) => {
 // }
 
 export const getNews = (currentPage, limit) => async (dispatch) => {
-    let data = await NewsAdminAPI.getNews(currentPage, limit)
-    dispatch(setNews(data));
-    dispatch(setNewsItem({}));
-
+    try {
+        let data = await NewsAdminAPI.getNews(currentPage, limit)
+        dispatch(setNews(data));
+        dispatch(setNewsItem({}));
+    }
+    catch (error) {
+        console.log(error)
+    }
     // dispatch(setCurrentPage(currentPage));
     // dispatch(setTotalNewsCount(data.totalCount));
 }
 
 export const getNewsItem = (id) => async (dispatch) => {
-    let data = await NewsAdminAPI.getNewsItem(id);
-    dispatch(setNewsItem(data));
+    try {
+        let data = await NewsAdminAPI.getNewsItem(id);
+        dispatch(setNewsItem(data));
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
 
 export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {

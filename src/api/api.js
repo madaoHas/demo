@@ -82,6 +82,18 @@ export const UsersAdminAPI = {
         return instance.post(`admin/users-list`, {pager_in})
             .then(response => response.data)
     },
+    getUserItem(id) {
+        return instance.post(`admin/users-item`, {id})
+            .then(response => response.data)
+    },
+    updateUserItem(userItem) {
+        return instance.post(`admin/users-item-update`, userItem, {
+            headers: {
+                'Content-Type': "multipart/form-data"
+            }
+        })
+            .then(response => response.data)
+    },
     addUsers(email, password) {
         return instance.post(`admin/users-item-add`, {email, password})
             .then(response => response.data)

@@ -1,12 +1,13 @@
 import {UsersAdminAPI} from "../api/api";
 
 const SET_USERS = 'SET_USERS';
+const SET_USER_ITEM = 'SET_USER_ITEM'
 // const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
-    users: [
-    ],
+    users: [],
+    userItem: {}
     // currentPage: 1,
     // pageSize: 8,
     // totalNewsCount: 5
@@ -19,6 +20,11 @@ const usersAdminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 users: action.users.data
+            }
+        case SET_USER_ITEM:
+            return {
+                ...state,
+                userItem: action.user.data
             }
         // case SET_CURRENT_PAGE:
         //     return {
@@ -40,6 +46,12 @@ export const setUsers = (users) => {
         users
     }
 }
+export const setUserItem = (user) => {
+    return {
+        type: SET_USER_ITEM,
+        user
+    }
+}
 // export const setCurrentPage = (currentPage) => {
 //     return {
 //         type: SET_CURRENT_PAGE,
@@ -56,9 +68,26 @@ export const setUsers = (users) => {
 export const getUsers = (page, limit) => async (dispatch) => {
     try {
         let data = await UsersAdminAPI.getUsers(page, limit);
-        // dispatch(setCurrentPage(currentPage));
         dispatch(setUsers(data));
-        // dispatch(setTotalNewsCount(data.totalCount));
+        dispatch(setUserItem({}));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+export const getUserItem = (id) => async (dispatch) => {
+    try {
+        let data = await UsersAdminAPI.getUserItem(id);
+        dispatch(setUserItem({data}));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+export const updateUserItem = (userItem) => async (dispatch) => {
+    try {
+        await UsersAdminAPI.updateUserItem(userItem);
+        dispatch(getUsers(1, 10));
     }
     catch (error) {
         console.log(error)
@@ -101,11 +130,5 @@ export const deleteUser = (id) => async (dispatch) => {
         console.log(error)
     }
 }
-
-
-// export const getSelectedNews = (idNews) => async (dispatch) => {
-//     let data = await NewsAPI.getSelectedNews(idNews)
-//     dispatch(setNews(data.items));
-// }
 
 export default usersAdminReducer;

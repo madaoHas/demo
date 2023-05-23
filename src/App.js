@@ -19,6 +19,7 @@ import CommentsUpdateContainer from "./components/AdminPages/Comments/CommentsUp
 import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer";
 import {useEffect} from "react";
 import {initializeApp} from "./redux/appReducer";
+import UserUpdateContainer from "./components/AdminPages/Users/UserUpdate/UserUpdateContainer";
 
 
 function App(props) {
@@ -57,6 +58,7 @@ function App(props) {
                             <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
                             <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
                             <Route path="/admin/users/add" element={<UserAddContainer />}/>
+                            <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
                             <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
                             <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
                             <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>

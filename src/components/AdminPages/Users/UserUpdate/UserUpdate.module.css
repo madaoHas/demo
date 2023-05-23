@@ -1,0 +1,143 @@
+.form {
+    padding: 20px;
+    border: 1px solid #919191;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.headerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+}
+
+.line {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+}
+
+.stringInfo{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.label {
+    font-family: 'Inter';
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.input {
+    border: 1px solid #919191;
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+    width: 100%;
+}
+
+.line a {
+    font-family: 'Inter';
+    font-size: 16px;
+    text-decoration: none;
+    border-bottom: 1px #000000 solid;
+}
+
+.link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.linkImg {
+    background-image: url("../../../../img/linkCom.svg");
+    background-repeat: no-repeat;
+    width: 19px;
+    height: 19px;
+}
+
+.selectRole {
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
+    gap: 10px;
+    width: 50%;
+}
+
+.avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.photoContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.photo {
+    width: 100px;
+    height: 100px;
+    background-color: #D9D9D9;
+}
+
+.controlsButtonPhoto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttonPhoto {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    height: 40.52px;
+    width: 150px;
+    background: #919191;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.photoInput {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.line > div {
+    width: 50%;
+}
+
+.profileEdit {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.button {
+    width: 143px;
+    border-radius: 5px;
+    background-color: #919191;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: 'Inter';
+}

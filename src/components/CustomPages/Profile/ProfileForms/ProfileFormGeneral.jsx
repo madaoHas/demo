@@ -97,7 +97,6 @@ const ProfileFormGeneral = (props) => {
                                     </div>
                                 </div>
                             </div>
-                            {/*<Field type="file" name="photo"/>*/}
                         </div>
                         <div className={classes.line}>
                             <div>
