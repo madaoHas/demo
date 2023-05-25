@@ -7,6 +7,7 @@ import moment from "moment";
 
 
 function CommentsTable(props) {
+    console.log(props)
     let [data, setData] = useState([]);
     useEffect( () => {
         setData(props.comments)
@@ -37,7 +38,7 @@ function CommentsTable(props) {
             },
             {
                 Header: 'Новость',
-                accessor: 'postTitle',
+                accessor: 'title',
                 Filter: ColumnFilter
             },
             {
@@ -55,7 +56,7 @@ function CommentsTable(props) {
                 data[i].email = data[i].user.email
             }
             if (typeof data[i].post === 'object') {
-                data[i].postTitle = data[i].post.title
+                data[i].title = data[i].post.title
             }
             data[i].created_at = moment(data[i].created_at).format('DD-MM-yyyy');
         }

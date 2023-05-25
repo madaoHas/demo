@@ -5,7 +5,7 @@ import React, {useEffect} from "react";
 
 const UsersContainer = (props) => {
     useEffect( () => {
-        props.getUsers(1, 10)
+        props.getUsers({}, 1, 10)
     }, [] )
     return (
         <div>

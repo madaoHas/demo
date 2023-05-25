@@ -1,12 +1,18 @@
 import {CategoryAPI} from "../api/api";
+import {getComments} from "./commentsAdminReducer";
 
 const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
-const SET_PAGE = 'SET_PAGE'
+const SET_PAGE = 'SET_PAGE';
+const SET_FILTER = 'SET_FILTER';
 
 let initialState = {
     category: [],
-    pager_out: {}
+    pager_out: {},
+    filters: {
+        id: null,
+        name: ""
+    }
 }
 
 const categoryReducer = (state = initialState, action) => {
@@ -27,6 +33,11 @@ const categoryReducer = (state = initialState, action) => {
                 ...state,
                 category: [...state.category, action.newCategory]
             };
+        case SET_FILTER:
+            return {
+                ...state,
+                filters: action.filter
+            }
         default: return state;
     }
 }
@@ -52,6 +63,25 @@ export const addCategoryAC = (newCategory) => {
     }
 }
 
+export const setFilter = (filter) => {
+    return {
+        type: SET_FILTER,
+        filter
+    }
+}
+
+export const setFiltersCategories = (filterName, valueName) => async (dispatch, getState) => {
+    try {
+        let filter = getState().category.filters;
+        filter[filterName] = valueName
+        dispatch(setFilter(filter))
+        dispatch(getCategoryAdmin(getState().category.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 
 export const getCategory = () => async (dispatch) => {
     try {
@@ -64,9 +94,9 @@ export const getCategory = () => async (dispatch) => {
     }
 }
 
-export const getCategoryAdmin = (page, limit) => async (dispatch) => {
+export const getCategoryAdmin = (filter, page, limit) => async (dispatch, getState) => {
     try {
-        let data = await CategoryAPI.getCategoryAdmin(page, limit);
+        let data = await CategoryAPI.getCategoryAdmin(getState().category.filters, page, limit);
         if (data.status === 200) {
             dispatch(setCategory(data.data.data));
             dispatch(setPage(data.data.pager_out))
@@ -79,7 +109,7 @@ export const getCategoryAdmin = (page, limit) => async (dispatch) => {
 export const addCategory = (name, setStatus) => async (dispatch) => {
     try {
         await CategoryAPI.addCategory(name)
-        dispatch(getCategoryAdmin());
+        dispatch(getCategoryAdmin(1, 10));
     }
     catch (error) {
         if (error.response.status === 400) {
@@ -92,7 +122,7 @@ export const updateCategory = (id, name, setStatus) => async (dispatch) => {
     try {
         console.log(name)
         await CategoryAPI.updateCategory(id, name)
-        dispatch(getCategoryAdmin());
+        dispatch(getCategoryAdmin(1, 10));
     }
     catch (error) {
         console.log(error)
@@ -102,10 +132,10 @@ export const updateCategory = (id, name, setStatus) => async (dispatch) => {
     }
 }
 
-export const deleteCategory = (id) => async (dispatch) => {
+export const deleteCategory = (id) => async (dispatch, getState) => {
     try {
         await CategoryAPI.deleteCategory(id)
-        dispatch(getCategoryAdmin());
+        dispatch(getCategoryAdmin(getState().category.filters, 1, 10));
     }
     catch (error) {
 

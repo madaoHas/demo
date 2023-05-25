@@ -6,11 +6,11 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames";
 import ModalPage from "./Modal/ModalPage";
 
-function fuzzyTextFilterFn(rows, id, filterValue) {
-    return matchSorter(rows, filterValue, {keys: [row => row.values[id]]})
-}
+// function fuzzyTextFilterFn(rows, id, filterValue) {
+//     return matchSorter(rows, filterValue, {keys: [row => row.values[id]]})
+// }
 
-fuzzyTextFilterFn.autoRemove = val => !val
+// fuzzyTextFilterFn.autoRemove = val => !val
 
 export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, deleteRow, updateCategory}) => {
     const [editingIndex, setEditingIndex] = React.useState(null);
@@ -36,22 +36,22 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
     };
 
 
-    const filterTypes = React.useMemo(
-        () => ({
-            fuzzyText: fuzzyTextFilterFn,
-            text: (rows, id, filterValue) => {
-                return rows.filter(row => {
-                    const rowValue = row.values[id]
-                    return rowValue !== undefined
-                        ? String(rowValue)
-                            .toLowerCase()
-                            .startsWith(String(filterValue).toLowerCase())
-                        : true
-                })
-            },
-        }),
-        []
-    )
+    // const filterTypes = React.useMemo(
+    //     () => ({
+    //         fuzzyText: fuzzyTextFilterFn,
+    //         text: (rows, id, filterValue) => {
+    //             return rows.filter(row => {
+    //                 const rowValue = row.values[id]
+    //                 return rowValue !== undefined
+    //                     ? String(rowValue)
+    //                         .toLowerCase()
+    //                         .startsWith(String(filterValue).toLowerCase())
+    //                     : true
+    //             })
+    //         },
+    //     }),
+    //     []
+    // )
 
     const {
         getTableProps,
@@ -62,7 +62,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
     } = useTable({
             columns,
             data,
-            filterTypes,
+            // filterTypes,
         },
         useFilters,
     )
@@ -74,6 +74,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
 
     const [isModal, setModal] = React.useState(false);
     const [selectedRow, setSelectedRow] = React.useState(null);
+
     const handleButtonClick = (row) => {
         setSelectedRow(row);
     };
@@ -88,8 +89,9 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                         {headerGroup.headers.map(column => (
                             <th{...column.getHeaderProps()}>
                                 {column.render('Header')}
-                                <div
-                                    className={classes.filter}>{column.canFilter ? column.render('Filter') : null}</div>
+                                <div className={classes.filter}>
+                                    {column.canFilter ? column.render('Filter') : null}
+                                </div>
                             </th>
                         ))}
                     </tr>

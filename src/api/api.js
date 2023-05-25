@@ -57,9 +57,9 @@ export const CategoryAPI = {
         return instance.post(`user/categories-list`,{})
             .then(response => response)
     },
-    getCategoryAdmin(page = 1, limit = 10) {
+    getCategoryAdmin(filter = {}, page = 1, limit = 10) {
         let pager_in = {page: page, limit: limit}
-        return instance.post(`admin/categories-list`,{pager_in})
+        return instance.post(`admin/categories-list`,{filter, pager_in})
             .then(response => response)
     },
     addCategory(name) {
@@ -77,9 +77,9 @@ export const CategoryAPI = {
 }
 
 export const UsersAdminAPI = {
-    getUsers(page = 1, limit = 10) {
+    getUsers(filter = {}, page = 1, limit = 10) {
         let pager_in = {page: page, limit: limit}
-        return instance.post(`admin/users-list`, {pager_in})
+        return instance.post(`admin/users-list`, {filter, pager_in})
             .then(response => response.data)
     },
     getUserItem(id) {
@@ -113,9 +113,9 @@ export const UsersAdminAPI = {
 }
 
 export const NewsAdminAPI = {
-    getNews(page = 1, limit = 10) {
+    getNews(filter = {}, page = 1, limit = 10) {
         let pager_in = {page: page, limit: limit}
-        return instance.post(`admin/news-list`, {pager_in})
+        return instance.post(`admin/news-list`, {filter, pager_in})
             .then(response => response.data)
     },
     getNewsItem(id) {
@@ -188,9 +188,9 @@ export const NewsAdminAPI = {
 }
 
 export const CommentsAdminAPI = {
-    getComments(page = 1, limit = 10) {
+    getComments(filter = {}, page = 1, limit = 10) {
         let pager_in = {page: page, limit: limit}
-        return instance.post(`admin/comments-list`, {pager_in})
+        return instance.post(`admin/comments-list`, {filter, pager_in})
             .then(response => response.data)
     },
     getCommentItem(id) {

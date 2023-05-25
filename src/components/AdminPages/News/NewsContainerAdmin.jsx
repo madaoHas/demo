@@ -2,10 +2,12 @@ import NewsAdmin from "./NewsAdmin";
 import {connect} from "react-redux";
 import {useEffect} from "react";
 import {getNews, updateActiveNews, deleteNews} from "../../../redux/newsAdminReducer";
+import {getCategory} from "../../../redux/categoryReducer";
 
 const NewsContainerAdmin = (props) => {
     useEffect( () => {
-        props.getNews(1, 10);
+        props.getCategory();
+        props.getNews({},1, 10);
     },[] )
     return (
         <div>
@@ -16,7 +18,8 @@ const NewsContainerAdmin = (props) => {
 
 const mapStateToProps = (state) => ({
     news: state.newsAdminPage.news,
-    pager: state.newsAdminPage.pagerOut
+    pager: state.newsAdminPage.pagerOut,
+    categories: state.category.category
 })
 
-export default connect(mapStateToProps, {getNews, updateActiveNews, deleteNews})(NewsContainerAdmin);
+export default connect(mapStateToProps, {getNews, updateActiveNews, deleteNews, getCategory})(NewsContainerAdmin);

@@ -1,6 +1,11 @@
 import React, {useEffect} from "react";
 import classes from "./UsersTable.module.css";
-import {ColumnFilter, ColumnFilterDate} from "../../common/ColumnFilter";
+import {
+    ColumnFilter,
+    ColumnFilterDate,
+    ColumnFilterSelectActive,
+    ColumnFilterSelectRole
+} from "../../common/ColumnFilter";
 import {TableAdmin} from "../../common/TableAdmin";
 import { useState } from 'react'
 import moment from 'moment'
@@ -44,12 +49,12 @@ function UsersTable(props) {
             {
                 Header: 'Роль',
                 accessor: 'role',
-                Filter: ColumnFilter,
+                Filter: ColumnFilterSelectRole,
             },
             {
                 Header: 'Активен',
-                accessor: 'active',
-                Filter: ColumnFilter,
+                accessor: 'is_active',
+                Filter: ColumnFilterSelectActive,
                 Cell: ''
 },
         ],

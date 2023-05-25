@@ -1,17 +1,22 @@
 import { CommentsAdminAPI } from "../api/api";
+import {getUsers} from "./usersAdminReducer";
 
 const SET_COMMENTS_ADMIN = 'SET_COMMENTS_ADMIN';
 const SET_COMMENT_ITEM_ADMIN = 'SET_COMMENT_ITEM_ADMIN';
-// const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-// const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
+const SET_FILTER = 'SET_FILTER'
 
 let initialState = {
     comments: [],
     commentItem: {},
-    pager_out: {}
-    // currentPage: 1,
-    // pageSize: 8,
-    // totalNewsCount: 5
+    pager_out: {},
+    filters: {
+        id: null,
+        user_id: null,
+        email: "",
+        title: "",
+        text: "",
+        created_at: ""
+    }
 }
 
 const commentsAdminReducer = (state = initialState, action) => {
@@ -28,16 +33,11 @@ const commentsAdminReducer = (state = initialState, action) => {
                 ...state,
                 commentItem: action.comment
             }
-        // case SET_CURRENT_PAGE:
-        //     return {
-        //         ...state,
-        //         currentPage: action.currentPage
-        //     }
-        // case SET_TOTAL_NEWS_COUNT:
-        //     return {
-        //         ...state,
-        //         totalNewsCount: action.count
-        //     }
+        case SET_FILTER:
+            return {
+                ...state,
+                filters: action.filter
+            }
         default: return state;
     }
 }
@@ -55,22 +55,30 @@ export const setCommentItemAdmin = (comment) => {
         comment
     }
 }
-// export const setCurrentPage = (currentPage) => {
-//     return {
-//         type: SET_CURRENT_PAGE,
-//         currentPage
-//     }
-// }
-// export const setTotalNewsCount = (count) => {
-//     return{
-//         type: SET_TOTAL_NEWS_COUNT,
-//         count
-//     }
-// }
 
-export const getComments = (page, limit) => async (dispatch) => {
+export const setFilter = (filter) => {
+    return {
+        type: SET_FILTER,
+        filter
+    }
+}
+
+export const setFiltersComments = (filterName, valueName) => async (dispatch, getState) => {
     try {
-        let data = await CommentsAdminAPI.getComments(page, limit);
+        let filter = getState().commentsAdminPage.filters;
+        filter[filterName] = valueName
+        dispatch(setFilter(filter))
+        dispatch(getComments(getState().commentsAdminPage.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getComments = (filter, page, limit) => async (dispatch, getState) => {
+    try {
+        let data = await CommentsAdminAPI.getComments(getState().commentsAdminPage.filters, page, limit);
         dispatch(setCommentsAdmin(data));
         dispatch(setCommentItemAdmin({}));
     }
@@ -98,10 +106,10 @@ export const updateComment = (id, text) => async (dispatch) => {
     }
 }
 
-export const deleteComment = (id) => async (dispatch) => {
+export const deleteComment = (id) => async (dispatch, getState) => {
     try {
         await CommentsAdminAPI.deleteComment(id);
-        dispatch(getComments(1, 10));
+        dispatch(getComments(getState().commentsAdminPage.filters, 1, 10));
     }
     catch (error) {
         console.log(error)

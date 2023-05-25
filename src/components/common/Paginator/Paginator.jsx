@@ -13,7 +13,7 @@ const Paginator = ({pager, onChangePage, id = 0, info, postId}) => {
             onChangePage(postId, e.target.innerText, pager.limit);
         }
         else {
-            onChangePage(e.target.innerText, pager.limit);
+            onChangePage({}, e.target.innerText, pager.limit);
         }
     }
 

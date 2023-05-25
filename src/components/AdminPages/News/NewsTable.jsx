@@ -1,6 +1,11 @@
 import React from "react";
 import classes from "../Users/UsersTable.module.css";
-import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
+import {
+    ColumnFilter,
+    ColumnFilterDate,
+    ColumnFilterSelect, ColumnFilterSelectActive,
+    ColumnFilterSelectCategory
+} from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 import {useEffect} from "react";
@@ -11,6 +16,7 @@ function NewsTable(props) {
     useEffect( () => {
         setData(props.news)
     },[props.news] )
+
     // const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
             {
@@ -34,16 +40,17 @@ function NewsTable(props) {
             {
                 Header: 'Категория',
                 accessor: 'category',
-                Filter: ColumnFilter
+                Filter: ColumnFilterSelectCategory,
+                categories: props.categories
             },
             {
                 Header: 'Активен',
                 accessor: 'is_active',
-                Filter: ColumnFilter,
+                Filter: ColumnFilterSelectActive,
                 Cell: ''
             },
         ],
-        []
+        [{}]
     )
 
     const optionRef = React.createRef();

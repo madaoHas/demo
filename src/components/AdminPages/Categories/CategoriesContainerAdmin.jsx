@@ -5,7 +5,7 @@ import {useEffect} from "react";
 
 const CategoriesContainerAdmin = (props) => {
     useEffect( () => {
-        props.getCategoryAdmin(1, 10);
+        props.getCategoryAdmin({}, 1, 10);
     }, [])
     return (
         <div>

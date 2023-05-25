@@ -2,13 +2,21 @@ import { NewsAdminAPI } from "../api/api";
 
 const SET_NEWS = 'SET_NEWS';
 const SET_NEWS_ITEM = 'SET_NEWS_ITEM'
+const SET_FILTER = 'SET_FILTER'
 // const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
     news: [],
     newsItem: {},
-    pagerOut: {}
+    pagerOut: {},
+    filters: {
+        id: null,
+        category_id: null,
+        title: "",
+        date: "",
+        is_active: null
+    }
 }
 
 const newsAdminReducer = (state = initialState, action) => {
@@ -25,16 +33,11 @@ const newsAdminReducer = (state = initialState, action) => {
                 ...state,
                 newsItem: action.data
             }
-        // case SET_CURRENT_PAGE:
-        //     return {
-        //         ...state,
-        //         currentPage: action.currentPage
-        //     }
-        // case SET_TOTAL_NEWS_COUNT:
-        //     return {
-        //         ...state,
-        //         totalNewsCount: action.count
-        //     }
+        case SET_FILTER:
+            return {
+                ...state,
+                filters: action.filter
+            }
         default: return state;
     }
 }
@@ -53,30 +56,35 @@ export const setNewsItem = (data) => {
     }
 }
 
-// export const setCurrentPage = (currentPage) => {
-//     return {
-//         type: SET_CURRENT_PAGE,
-//         currentPage
-//     }
-// }
-// export const setTotalNewsCount = (count) => {
-//     return{
-//         type: SET_TOTAL_NEWS_COUNT,
-//         count
-//     }
-// }
+export const setFilter = (filter) => {
+    return {
+        type: SET_FILTER,
+        filter
+    }
+}
 
-export const getNews = (currentPage, limit) => async (dispatch) => {
+
+export const setFiltersNews = (filterName, valueName) => async (dispatch, getState) => {
     try {
-        let data = await NewsAdminAPI.getNews(currentPage, limit)
+        let filter = getState().newsAdminPage.filters;
+        filter[filterName] = valueName
+        dispatch(setFilter(filter))
+        dispatch(getNews(getState().newsAdminPage.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const getNews = (filters, currentPage, limit) => async (dispatch, getState) => {
+    try {
+        let data = await NewsAdminAPI.getNews(getState().newsAdminPage.filters, currentPage, limit)
         dispatch(setNews(data));
         dispatch(setNewsItem({}));
     }
     catch (error) {
         console.log(error)
     }
-    // dispatch(setCurrentPage(currentPage));
-    // dispatch(setTotalNewsCount(data.totalCount));
 }
 
 export const getNewsItem = (id) => async (dispatch) => {
@@ -89,40 +97,40 @@ export const getNewsItem = (id) => async (dispatch) => {
     }
 }
 
-export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
+export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch, getState) => {
     try {
         await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
-        dispatch(getNews(1, 10))
+        dispatch(getNews({},1, 10))
     }
     catch ( error ) {
         console.log(error)
     }
 }
 
-export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch) => {
+export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch, getState) => {
     try {
         await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
-        dispatch(getNews(1, 10))
+        dispatch(getNews({},1, 10))
     }
     catch ( error ) {
         console.log(error)
     }
 }
 
-export const updateActiveNews = (id, is_active, page = 1, limit = 10) => async (dispatch) => {
+export const updateActiveNews = (id, is_active, page = 1, limit = 10) => async (dispatch, getState) => {
     try {
         await NewsAdminAPI.updateActive(id, is_active)
-        dispatch(getNews(page, limit))
+        dispatch(getNews(getState().newsAdminPage.filters, page, limit))
     }
     catch ( error ) {
         console.log(error)
     }
 }
 
-export const deleteNews = (id, page = 1, limit = 10) => async (dispatch) => {
+export const deleteNews = (id, page = 1, limit = 10) => async (dispatch, getState) => {
     try {
         await NewsAdminAPI.deleteNews(id)
-        dispatch(getNews(page, limit))
+        dispatch(getNews(getState().newsAdminPage.filters, page, limit))
     }
     catch ( error ) {
         console.log(error)

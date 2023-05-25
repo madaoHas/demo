@@ -5,7 +5,7 @@ import React, {useEffect} from "react";
 
 const CommentsContainerAdmin = (props) => {
     useEffect( () => {
-        props.getComments(1, 10)
+        props.getComments({}, 1, 10)
     }, [] )
     return (
         <div>

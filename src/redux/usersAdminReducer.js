@@ -1,17 +1,23 @@
 import {UsersAdminAPI} from "../api/api";
+import {getNews} from "./newsAdminReducer";
 
 const SET_USERS = 'SET_USERS';
 const SET_USER_ITEM = 'SET_USER_ITEM'
-// const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-// const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
+const SET_FILTER = 'SET_FILTER'
 
 let initialState = {
     users: [],
     userItem: {},
-    pager_out: {}
-    // currentPage: 1,
-    // pageSize: 8,
-    // totalNewsCount: 5
+    pager_out: {},
+    filters: {
+        id: null,
+        email: "",
+        role: null,
+        is_active: null,
+        created_at: "",
+        name: "",
+        surname: ""
+    }
 }
 
 const usersAdminReducer = (state = initialState, action) => {
@@ -28,16 +34,11 @@ const usersAdminReducer = (state = initialState, action) => {
                 ...state,
                 userItem: action.user.data
             }
-        // case SET_CURRENT_PAGE:
-        //     return {
-        //         ...state,
-        //         currentPage: action.currentPage
-        //     }
-        // case SET_TOTAL_NEWS_COUNT:
-        //     return {
-        //         ...state,
-        //         totalNewsCount: action.count
-        //     }
+        case SET_FILTER:
+            return {
+                ...state,
+                filters: action.filter
+            }
         default: return state;
     }
 }
@@ -54,22 +55,29 @@ export const setUserItem = (user) => {
         user
     }
 }
-// export const setCurrentPage = (currentPage) => {
-//     return {
-//         type: SET_CURRENT_PAGE,
-//         currentPage
-//     }
-// }
-// export const setTotalNewsCount = (count) => {
-//     return{
-//         type: SET_TOTAL_NEWS_COUNT,
-//         count
-//     }
-// }
 
-export const getUsers = (page, limit) => async (dispatch) => {
+export const setFilter = (filter) => {
+    return {
+        type: SET_FILTER,
+        filter
+    }
+}
+
+export const setFiltersUsers = (filterName, valueName) => async (dispatch, getState) => {
     try {
-        let data = await UsersAdminAPI.getUsers(page, limit);
+        let filter = getState().usersAdminPage.filters;
+        filter[filterName] = valueName
+        dispatch(setFilter(filter))
+        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const getUsers = (filters, page, limit) => async (dispatch, getState) => {
+    try {
+        let data = await UsersAdminAPI.getUsers(getState().usersAdminPage.filters, page, limit);
         dispatch(setUsers(data));
         dispatch(setUserItem({}));
     }
@@ -111,11 +119,11 @@ export const addUser = (email, password, setStatus) => async (dispatch) => {
     }
 }
 
-export const updateActiveUser = (id, active) => async (dispatch) => {
+export const updateActiveUser = (id, active) => async (dispatch, getState) => {
     try {
         await UsersAdminAPI.updateActiveUser(id, active);
         // dispatch(setCurrentPage(currentPage));
-        dispatch(getUsers(1, 10));
+        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10));
         // dispatch(setTotalNewsCount(data.totalCount));
     }
     catch (error) {
@@ -123,10 +131,10 @@ export const updateActiveUser = (id, active) => async (dispatch) => {
     }
 }
 
-export const deleteUser = (id) => async (dispatch) => {
+export const deleteUser = (id) => async (dispatch, getState) => {
     try {
         await UsersAdminAPI.deleteUser(id);
-        dispatch(getUsers(1, 10));
+        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10));
     }
     catch (error) {
         console.log(error)
