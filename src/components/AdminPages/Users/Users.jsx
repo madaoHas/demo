@@ -1,6 +1,8 @@
 import {NavLink} from "react-router-dom";
 import classes from "./Users.module.css"
 import UsersTable from "./UsersTable";
+import Paginator from "../../common/Paginator/Paginator";
+import React from "react";
 
 const Users = (props) => {
     return (
@@ -12,6 +14,11 @@ const Users = (props) => {
                 </div>
                 <UsersTable users={props.users} updateActiveUser={props.updateActiveUser} deleteUser={props.deleteUser} />
             </div>
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getUsers}
+                info={'usersAdmin'}
+            />
         </div>
     )
 }

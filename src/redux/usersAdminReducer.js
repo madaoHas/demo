@@ -7,7 +7,8 @@ const SET_USER_ITEM = 'SET_USER_ITEM'
 
 let initialState = {
     users: [],
-    userItem: {}
+    userItem: {},
+    pager_out: {}
     // currentPage: 1,
     // pageSize: 8,
     // totalNewsCount: 5
@@ -19,7 +20,8 @@ const usersAdminReducer = (state = initialState, action) => {
         case SET_USERS:
             return {
                 ...state,
-                users: action.users.data
+                users: action.users.data,
+                pager_out: action.users.pager_out
             }
         case SET_USER_ITEM:
             return {

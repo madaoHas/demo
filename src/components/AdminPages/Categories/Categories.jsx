@@ -2,6 +2,7 @@ import classes from "./Categories.module.css"
 import CategoriesTable from "./CategoriesTable";
 import {Field, Form, Formik} from "formik";
 import React from "react";
+import Paginator from "../../common/Paginator/Paginator";
 
 const Categories = (props) => {
     return (
@@ -36,6 +37,11 @@ const Categories = (props) => {
                 </div>
                 <CategoriesTable {...props} />
             </div>
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getCategoryAdmin}
+                info={'categoriesAdmin'}
+            />
         </div>
     )
 }

@@ -8,7 +8,7 @@ const NewsOne = (props) => {
         <div className={classes.news}>
             <div className={classes.picture}>
                 <div className={classes.dateBlock}>
-                    <Icon path={mdiClockTimeNineOutline} size={0.8}/>
+                    <Icon path={mdiClockTimeNineOutline} size={0.8} className={classes.icon}/>
                     <div className={classes.date}>{props.news.date}</div>
                 </div>
             </div>

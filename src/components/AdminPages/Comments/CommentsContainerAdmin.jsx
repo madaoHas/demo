@@ -15,7 +15,8 @@ const CommentsContainerAdmin = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    comments: state.commentsAdminPage.comments
+    comments: state.commentsAdminPage.comments,
+    pager: state.commentsAdminPage.pager_out
 })
 
 export default connect(mapStateToProps, {getComments, deleteComment})(CommentsContainerAdmin);

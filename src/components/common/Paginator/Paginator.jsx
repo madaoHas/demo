@@ -1,61 +1,32 @@
-import React, {useState} from "react";
-import classes from "./Paginator.module.css";
-import classNames from "classnames";
+import React from 'react';
+import {Pagination} from '@mui/material'
 
-// let Paginator = (props) => {
-//
-//     console.log(props);
-//
-//     // let pagesCount = Math.ceil(props.totalCount/props.pageSize);
-//     let pages = [];
-//     for (let i = 1; i <= props.count; i++) {
-//         pages.push(i);
-//     }
-//     //
-//     // let portionSize = 10;
-//     //
-//     // let portionCount = Math.ceil(pagesCount/portionSize);
-//     let [portionNumber, setPortionNumber] = useState(props.page);
-//     let leftPortionPageNumber = (portionNumber - 1) * props.limit;
-//     let rightPortionPageNumber = portionNumber * props.limit;
-//     //
-//     return (
-//         <div className={classes.page}>
-//                 <button onClick={() => {setPortionNumber(portionNumber - 1)}}>PREV</button>
-//             {pages
-//                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-//                 .map(p => {
-//                     return <span key={p} className={classNames(classes.point, {[classes.selected]: props.currentPage === p})}>{ p }</span>
-//                 })}
-//                 <button onClick={ () => {setPortionNumber(portionNumber + 1)} }>NEXT</button>
-//         </div>
-//     )
-// }
 
-// export default Paginator;
 
-function Paginator(props) {
-    const [currentPage, setCurrentPage] = useState(1);
+const Paginator = ({pager, onChangePage, id = 0, info, postId}) => {
 
-    const handleClick = (pageNumber) => {
-        console.log(pageNumber)
-        setCurrentPage(pageNumber);
+    const onClickPage = (e) => {
+        if (info === 'news') {
+            id === 0 ? onChangePage(null, e.target.innerText, pager.limit) : onChangePage(id, e.target.innerText, pager.limit)
+        }
+        else if (info === 'comments') {
+            onChangePage(postId, e.target.innerText, pager.limit);
+        }
+        else {
+            onChangePage(e.target.innerText, pager.limit);
+        }
     }
 
-    const pageNumbers = [];
-    for (let i = 1; i <= props.count; i++) {
-        pageNumbers.push(i);
+    if (pager.count > 1) {
+        return (
+            <Pagination
+                count={pager.count}
+                onChange={ (e) => { onClickPage(e) } }
+            />
+        )
     }
 
-    return (
-        <ul className='paginator'>
-            {pageNumbers.map(number => (
-                <li key={number} className={number === currentPage ? 'active' : null}>
-                    <button onClick={() => handleClick(number)}>{number}</button>
-                </li>
-            ))}
-        </ul>
-    );
 }
+
 
 export default Paginator;

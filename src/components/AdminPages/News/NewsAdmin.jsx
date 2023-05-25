@@ -1,6 +1,8 @@
 import {NavLink} from "react-router-dom";
 import classes from "../Users/Users.module.css"
 import NewsTable from "./NewsTable";
+import Paginator from "../../common/Paginator/Paginator";
+import React from "react";
 
 const NewsAdmin = (props) => {
     return (
@@ -12,6 +14,11 @@ const NewsAdmin = (props) => {
                 </div>
                 <NewsTable {...props} />
             </div>
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getNews}
+                info={'newsAdmin'}
+            />
         </div>
     )
 }

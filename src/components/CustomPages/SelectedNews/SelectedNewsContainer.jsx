@@ -19,7 +19,16 @@ const SelectedNewsContainer = (props) => {
     return (
         <div className={classes.newsCommentBlock}>
             {props.newsItem.id ? <SelectedNews {...props.newsItem} /> : null}
-            {props.newsItem.id ? <Comments postId={infoPage} comments={props.comments} auth={props.auth} addComment={props.addComment} getComments={props.getComments} /> : null}
+            {props.newsItem.id ?
+                <Comments
+                    postId={infoPage}
+                    comments={props.comments}
+                    auth={props.auth}
+                    addComment={props.addComment}
+                    getComments={props.getComments}
+                    pager={props.pager}
+                /> :
+                null}
             {/*<Comments {...location} />*/}
             <ScrollButton className={classes.scroll} />
         </div>
@@ -30,7 +39,8 @@ const mapStateToProps = (state) => {
     return {
         newsItem: state.newsPage.selectedNews,
         comments: state.comments.comments,
-        auth: state.login.auth
+        auth: state.login.auth,
+        pager: state.comments.pager_out
     }
 }
 

@@ -64,9 +64,9 @@ export const getCategory = () => async (dispatch) => {
     }
 }
 
-export const getCategoryAdmin = () => async (dispatch) => {
+export const getCategoryAdmin = (page, limit) => async (dispatch) => {
     try {
-        let data = await CategoryAPI.getCategoryAdmin();
+        let data = await CategoryAPI.getCategoryAdmin(page, limit);
         if (data.status === 200) {
             dispatch(setCategory(data.data.data));
             dispatch(setPage(data.data.pager_out))
@@ -82,7 +82,6 @@ export const addCategory = (name, setStatus) => async (dispatch) => {
         dispatch(getCategoryAdmin());
     }
     catch (error) {
-        console.log(error)
         if (error.response.status === 400) {
             setStatus({error: 'Такая категория уже есть!'})
         }

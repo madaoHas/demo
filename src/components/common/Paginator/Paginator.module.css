@@ -1,3 +1,43 @@
+.paginator {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.paginator ul li {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.paginator ul li:first-child {
+    display: none !important;
+}
+.paginator ul li:last-child {
+    display: none !important;
+}
+
+.paginator ul li:nth-child(2) {
+    /*border: 1px solid #919191;*/
+    /*border-radius: 5px 0px 0px 5px;*/
+}
+
+.paginator ul li button {
+    border-radius: 0 !important;
+}
+
+.paginator ul li button span {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.paginator ul li:nth-child(2) button span {
+    border: 1px solid #919191;
+    border-radius: 5px 0px 0px 5px;
+}
+
+
+
 .selected {
     font-weight: bold;
 }

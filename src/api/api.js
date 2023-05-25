@@ -57,7 +57,7 @@ export const CategoryAPI = {
         return instance.post(`user/categories-list`,{})
             .then(response => response)
     },
-    getCategoryAdmin(page = 1, limit = 20) {
+    getCategoryAdmin(page = 1, limit = 10) {
         let pager_in = {page: page, limit: limit}
         return instance.post(`admin/categories-list`,{pager_in})
             .then(response => response)

@@ -1,6 +1,8 @@
 import {NavLink} from "react-router-dom";
 import classes from "../Users/Users.module.css"
 import CommentsTable from "./CommentsTable";
+import Paginator from "../../common/Paginator/Paginator";
+import React from "react";
 
 const Comments = (props) => {
     return (
@@ -11,6 +13,11 @@ const Comments = (props) => {
                 </div>
                 <CommentsTable {...props} />
             </div>
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getComments}
+                info={'commentsAdmin'}
+            />
         </div>
     )
 }

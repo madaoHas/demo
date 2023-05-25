@@ -6,49 +6,9 @@ const SET_COMMENT_ITEM_ADMIN = 'SET_COMMENT_ITEM_ADMIN';
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
-    comments: [
-        // {
-        //     id: 1,
-        //     date: "02-04-2023",
-        //     idUser: 2,
-        //     user: "ffff@mail.ru",
-        //     news: "Да ладно",
-        //     comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Imperdiet massa tincidunt nunc pulvinar sapien et. Mauris ultrices eros in cursus turpis. Justo eget magna fermentum iaculis eu non diam. Tellus in metus vulputate eu scelerisque. Odio morbi quis commodo odio aenean sed adipiscing diam donec. Volutpat odio facilisis mauris sit amet. Auctor eu augue ut lectus arcu. Vel elit scelerisque mauris pellentesque pulvinar pellentesque. Nulla pharetra diam sit amet. Donec ultrices tincidunt arcu non sodales neque. Laoreet non curabitur gravida arcu.",
-        // },
-        // {
-        //     id: 2,
-        //     date: "12-02-2023",
-        //     idUser: 5,
-        //     user: "dlfmlsdmls@gmail.com",
-        //     news: "Да ладно",
-        //     comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        // },
-        // {
-        //     id: 3,
-        //     date: "14-02-2023",
-        //     idUser: 1,
-        //     user: "vbnmxm@gmail.com",
-        //     news: "Да ладно",
-        //     comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        // },
-        // {
-        //     id: 4,
-        //     date: "10-01-2023",
-        //     idUser: 6,
-        //     user: "qq22ww333@gmail.com",
-        //     news: "Да ладно",
-        //     comment: "Lorem ipsum dolor sit amet.",
-        // },
-        // {
-        //     id: 5,
-        //     date: "12-01-2023",
-        //     idUser: 6,
-        //     user: "qq22ww333@gmail.com",
-        //     news: "Да ладно",
-        //     comment: "sdfsdfdsfsd.",
-        // },
-    ],
-    commentItem: {}
+    comments: [],
+    commentItem: {},
+    pager_out: {}
     // currentPage: 1,
     // pageSize: 8,
     // totalNewsCount: 5
@@ -60,7 +20,8 @@ const commentsAdminReducer = (state = initialState, action) => {
         case SET_COMMENTS_ADMIN:
             return {
                 ...state,
-                comments: action.comments
+                comments: action.comments.data,
+                pager_out: action.comments.pager_out
             }
         case SET_COMMENT_ITEM_ADMIN:
             return {
@@ -110,7 +71,7 @@ export const setCommentItemAdmin = (comment) => {
 export const getComments = (page, limit) => async (dispatch) => {
     try {
         let data = await CommentsAdminAPI.getComments(page, limit);
-        dispatch(setCommentsAdmin(data.data));
+        dispatch(setCommentsAdmin(data));
         dispatch(setCommentItemAdmin({}));
     }
     catch (error) {

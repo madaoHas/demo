@@ -80,7 +80,7 @@ const UserUpdate = ({userItem, updateUserItem}) => {
                             birthday: userItem.profile?.birthday === values.birthday ? undefined : values.birthday
                         },
                         avatar: {
-                            avatar_url: typeof values.photo === 'string' ? undefined : values.photo
+                            avatar_url: typeof values.photo === Symbol ? undefined : values.photo
                         }
                     }
                     if (obj.avatar.avatar_url === null) {

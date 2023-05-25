@@ -3,7 +3,7 @@ import classNames from "classnames";
 import React from "react";
 import CommentsForm from "./CommentsForm";
 import Comment from "./Comment";
-import {addComment} from "../../../../redux/commentsReducer";
+import Paginator from "../../../common/Paginator/Paginator";
 
 
 const Comments = (props) => {
@@ -12,8 +12,14 @@ const Comments = (props) => {
             <div className={classes.header}>Комментарии</div>
             {props.auth.id ? <CommentsForm postId={props.postId} auth={props.auth} addComment={props.addComment} getComments={props.getComments} /> : null}
             <div className={classes.comments}>
-                { props.comments.length > 0 ? props.comments.map(c => <Comment comment={c} key={c.id} />) : 'Комментариев пока нет(' }
+                { props.comments.length > 0 ? props.comments.map(c => <Comment comment={c} key={c.id}  />) : 'Комментариев пока нет(' }
             </div>
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getComments}
+                info={'comments'}
+                postId={props.postId}
+            />
         </div>
     )
 }

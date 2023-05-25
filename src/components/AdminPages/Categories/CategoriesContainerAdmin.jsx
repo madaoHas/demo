@@ -4,9 +4,8 @@ import {addCategory, getCategoryAdmin, deleteCategory, updateCategory} from "../
 import {useEffect} from "react";
 
 const CategoriesContainerAdmin = (props) => {
-    console.log(props);
     useEffect( () => {
-        props.getCategoryAdmin();
+        props.getCategoryAdmin(1, 10);
     }, [])
     return (
         <div>
@@ -16,7 +15,8 @@ const CategoriesContainerAdmin = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    categories: state.category.category
+    categories: state.category.category,
+    pager: state.category.pager_out
 })
 
 export default connect(mapStateToProps, {getCategoryAdmin, addCategory, deleteCategory, updateCategory})(CategoriesContainerAdmin);

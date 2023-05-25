@@ -6,7 +6,7 @@ import {getNews, updateActiveNews, deleteNews} from "../../../redux/newsAdminRed
 const NewsContainerAdmin = (props) => {
     useEffect( () => {
         props.getNews(1, 10);
-    },[props.news.length] )
+    },[] )
     return (
         <div>
             <NewsAdmin {...props} />
@@ -15,7 +15,8 @@ const NewsContainerAdmin = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    news: state.newsAdminPage.news
+    news: state.newsAdminPage.news,
+    pager: state.newsAdminPage.pagerOut
 })
 
 export default connect(mapStateToProps, {getNews, updateActiveNews, deleteNews})(NewsContainerAdmin);

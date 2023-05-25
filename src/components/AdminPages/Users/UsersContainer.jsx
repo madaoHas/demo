@@ -15,7 +15,8 @@ const UsersContainer = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    users: state.usersAdminPage.users
+    users: state.usersAdminPage.users,
+    pager: state.usersAdminPage.pager_out
 })
 
 export default connect(mapStateToProps, {getUsers, updateActiveUser, deleteUser})(UsersContainer);

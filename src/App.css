@@ -4,6 +4,46 @@
   color: transparent;
 }
 
+.css-1oj2twp-MuiPagination-root {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+}
+
+
+.css-wjh20t-MuiPagination-ul li {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.css-wjh20t-MuiPagination-ul li:first-child {
+  display: none !important;
+}
+.css-wjh20t-MuiPagination-ul li:last-child {
+  display: none !important;
+}
+
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+  border-radius: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 1px solid #919191 !important;
+  color: #919191 !important;
+}
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background: #919191 !important;
+  color: white !important;
+}
+
+.css-wjh20t-MuiPagination-ul li:nth-child(2) .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+  border-radius: 5px 0 0 5px !important;
+}
+.css-wjh20t-MuiPagination-ul li:nth-last-child(2) .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+  border-radius: 0 5px 5px 0 !important;
+}
+
+
 .app-main {
   display: flex;
   flex-direction: column;

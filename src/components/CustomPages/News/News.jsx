@@ -1,16 +1,24 @@
 import NewsOne from "./NewsOne";
 import classes from "./News.module.css";
 import Paginator from "../../common/Paginator/Paginator";
-import React from "react";
+import React, {useEffect} from "react";
 
 const News = (props) => {
+    let idCategory = 0
+    useEffect( () => {
+
+    }, [props.pager.count] )
+
+
+
     const selectChange = (event) => {
-        let idNews = props.category[event.target.selectedIndex].id-1;
-        if (idNews === 0) {
-            props.getNews(null, 1, 10);
+        idCategory = props.category[event.target.selectedIndex].id-1;
+
+        if (idCategory === 0) {
+            props.getNews(null, 1, 8);
         }
         else {
-            props.getNews(props.category[event.target.selectedIndex].id-1, 1, 10);
+            props.getNews(props.category[event.target.selectedIndex].id-1, 1, 8);
         }
     }
     return (
@@ -22,7 +30,12 @@ const News = (props) => {
             <div className={classes.container}>
                 {props.newsUserPage ? props.newsUserPage.map(n => <NewsOne className={classes.newsOne} news={n} key={n.id} />) : null}
             </div>
-            <Paginator {...props.pager} />
+            <Paginator
+                pager={props.pager}
+                onChangePage={props.getNews}
+                id={props.categoryId}
+                info={'news'}
+            />
         </div>
     )
 }

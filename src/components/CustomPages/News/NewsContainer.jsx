@@ -10,6 +10,7 @@ const NewsContainer = (props) => {
         props.getNews(null, 1, 8);
         props.getCategory();
     }, [] )
+
     return (
         <News {...props} />
     )
@@ -18,7 +19,8 @@ const NewsContainer = (props) => {
 const mapStateToProps = (state) => ({
     newsUserPage: state.newsPage.news,
     category: state.category.category,
-    pager: state.newsPage.pager_out
+    pager: state.newsPage.pager_out,
+    categoryId: state.newsPage.idCategory
 })
 
 export default connect(mapStateToProps,{getCategory, getNews})(NewsContainer);
