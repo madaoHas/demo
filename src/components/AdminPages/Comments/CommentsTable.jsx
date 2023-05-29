@@ -7,7 +7,6 @@ import moment from "moment";
 
 
 function CommentsTable(props) {
-    console.log(props)
     let [data, setData] = useState([]);
     useEffect( () => {
         setData(props.comments)
@@ -29,7 +28,8 @@ function CommentsTable(props) {
             {
                 Header: 'ID пользователя',
                 accessor: 'user_id',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
+                defaultValue: props.state
             },
             {
                 Header: 'Пользователь',
@@ -39,7 +39,8 @@ function CommentsTable(props) {
             {
                 Header: 'Новость',
                 accessor: 'title',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
+                defaultValueTitle: props.state
             },
             {
                 Header: 'Комментарий',

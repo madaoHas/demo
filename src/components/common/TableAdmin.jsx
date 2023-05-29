@@ -6,11 +6,6 @@ import {NavLink} from "react-router-dom";
 import classNames from "classnames";
 import ModalPage from "./Modal/ModalPage";
 
-// function fuzzyTextFilterFn(rows, id, filterValue) {
-//     return matchSorter(rows, filterValue, {keys: [row => row.values[id]]})
-// }
-
-// fuzzyTextFilterFn.autoRemove = val => !val
 
 export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, deleteRow, updateCategory}) => {
     const [editingIndex, setEditingIndex] = React.useState(null);
@@ -35,23 +30,6 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
         setEditingValue("");
     };
 
-
-    // const filterTypes = React.useMemo(
-    //     () => ({
-    //         fuzzyText: fuzzyTextFilterFn,
-    //         text: (rows, id, filterValue) => {
-    //             return rows.filter(row => {
-    //                 const rowValue = row.values[id]
-    //                 return rowValue !== undefined
-    //                     ? String(rowValue)
-    //                         .toLowerCase()
-    //                         .startsWith(String(filterValue).toLowerCase())
-    //                     : true
-    //             })
-    //         },
-    //     }),
-    //     []
-    // )
 
     const {
         getTableProps,
@@ -137,7 +115,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                             })}
                             {linkCom ?
                                 <td className={classNames(classes.link, classes.navLink)}>
-                                    <NavLink to={"/"}><img src={"/img/linkCom.svg"} alt={''}/></NavLink>
+                                    <NavLink to={"/admin/comments"} state={infoTable === 'users' ? {id: row.values.id} : {title: row.values.title}}><img src={"/img/linkCom.svg"} alt={''}/></NavLink>
                                 </td> : null
                             }
                             <td className={classNames(classes.link)}>

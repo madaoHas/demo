@@ -35,7 +35,8 @@ function NewsTable(props) {
             {
                 Header: 'Заголовок',
                 accessor: 'title',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
+                defaultValueTitle: ''
             },
             {
                 Header: 'Категория',

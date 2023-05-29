@@ -3,7 +3,7 @@ import {getNews} from "./newsAdminReducer";
 
 const SET_USERS = 'SET_USERS';
 const SET_USER_ITEM = 'SET_USER_ITEM'
-const SET_FILTER = 'SET_FILTER'
+const SET_FILTER_USERS = 'SET_FILTER_USERS'
 
 let initialState = {
     users: [],
@@ -34,7 +34,7 @@ const usersAdminReducer = (state = initialState, action) => {
                 ...state,
                 userItem: action.user.data
             }
-        case SET_FILTER:
+        case SET_FILTER_USERS:
             return {
                 ...state,
                 filters: action.filter
@@ -56,9 +56,9 @@ export const setUserItem = (user) => {
     }
 }
 
-export const setFilter = (filter) => {
+export const setFilterUsers = (filter) => {
     return {
-        type: SET_FILTER,
+        type: SET_FILTER_USERS,
         filter
     }
 }
@@ -67,7 +67,7 @@ export const setFiltersUsers = (filterName, valueName) => async (dispatch, getSt
     try {
         let filter = getState().usersAdminPage.filters;
         filter[filterName] = valueName
-        dispatch(setFilter(filter))
+        dispatch(setFilterUsers(filter))
         dispatch(getUsers(getState().usersAdminPage.filters, 1, 10))
     }
     catch (error) {

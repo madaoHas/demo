@@ -4,7 +4,7 @@ import {getComments} from "./commentsAdminReducer";
 const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
 const SET_PAGE = 'SET_PAGE';
-const SET_FILTER = 'SET_FILTER';
+const SET_FILTER_CATEGORIES = 'SET_FILTER_CATEGORIES';
 
 let initialState = {
     category: [],
@@ -33,7 +33,7 @@ const categoryReducer = (state = initialState, action) => {
                 ...state,
                 category: [...state.category, action.newCategory]
             };
-        case SET_FILTER:
+        case SET_FILTER_CATEGORIES:
             return {
                 ...state,
                 filters: action.filter
@@ -63,9 +63,9 @@ export const addCategoryAC = (newCategory) => {
     }
 }
 
-export const setFilter = (filter) => {
+export const setFilterCategories = (filter) => {
     return {
-        type: SET_FILTER,
+        type: SET_FILTER_CATEGORIES,
         filter
     }
 }
@@ -74,7 +74,7 @@ export const setFiltersCategories = (filterName, valueName) => async (dispatch, 
     try {
         let filter = getState().category.filters;
         filter[filterName] = valueName
-        dispatch(setFilter(filter))
+        dispatch(setFilterCategories(filter))
         dispatch(getCategoryAdmin(getState().category.filters, 1, 10))
     }
     catch (error) {

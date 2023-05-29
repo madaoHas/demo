@@ -2,7 +2,7 @@ import { NewsAdminAPI } from "../api/api";
 
 const SET_NEWS = 'SET_NEWS';
 const SET_NEWS_ITEM = 'SET_NEWS_ITEM'
-const SET_FILTER = 'SET_FILTER'
+const SET_FILTER_NEWS = 'SET_FILTER_NEWS'
 // const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 // const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
@@ -33,7 +33,7 @@ const newsAdminReducer = (state = initialState, action) => {
                 ...state,
                 newsItem: action.data
             }
-        case SET_FILTER:
+        case SET_FILTER_NEWS:
             return {
                 ...state,
                 filters: action.filter
@@ -56,9 +56,9 @@ export const setNewsItem = (data) => {
     }
 }
 
-export const setFilter = (filter) => {
+export const setFilterNews = (filter) => {
     return {
-        type: SET_FILTER,
+        type: SET_FILTER_NEWS,
         filter
     }
 }
@@ -68,7 +68,7 @@ export const setFiltersNews = (filterName, valueName) => async (dispatch, getSta
     try {
         let filter = getState().newsAdminPage.filters;
         filter[filterName] = valueName
-        dispatch(setFilter(filter))
+        dispatch(setFilterNews(filter))
         dispatch(getNews(getState().newsAdminPage.filters, 1, 10))
     }
     catch (error) {

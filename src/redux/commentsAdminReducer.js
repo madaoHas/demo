@@ -3,7 +3,7 @@ import {getUsers} from "./usersAdminReducer";
 
 const SET_COMMENTS_ADMIN = 'SET_COMMENTS_ADMIN';
 const SET_COMMENT_ITEM_ADMIN = 'SET_COMMENT_ITEM_ADMIN';
-const SET_FILTER = 'SET_FILTER'
+const SET_FILTER_COMMENTS = 'SET_FILTER_COMMENTS'
 
 let initialState = {
     comments: [],
@@ -33,7 +33,7 @@ const commentsAdminReducer = (state = initialState, action) => {
                 ...state,
                 commentItem: action.comment
             }
-        case SET_FILTER:
+        case SET_FILTER_COMMENTS:
             return {
                 ...state,
                 filters: action.filter
@@ -56,9 +56,9 @@ export const setCommentItemAdmin = (comment) => {
     }
 }
 
-export const setFilter = (filter) => {
+export const setFilterComments = (filter) => {
     return {
-        type: SET_FILTER,
+        type: SET_FILTER_COMMENTS,
         filter
     }
 }
@@ -67,7 +67,7 @@ export const setFiltersComments = (filterName, valueName) => async (dispatch, ge
     try {
         let filter = getState().commentsAdminPage.filters;
         filter[filterName] = valueName
-        dispatch(setFilter(filter))
+        dispatch(setFilterComments(filter))
         dispatch(getComments(getState().commentsAdminPage.filters, 1, 10))
     }
     catch (error) {

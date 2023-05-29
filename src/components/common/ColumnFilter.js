@@ -1,5 +1,5 @@
 import classes from "./ColumnFilter.module.css";
-import React from "react";
+import React, {useEffect} from "react";
 import moment from "moment";
 import Flatpickr from "react-flatpickr";
 import {connect} from "react-redux";
@@ -49,9 +49,21 @@ const mapStateToProps = (state) => ({
 })
 
 const ColumnFilterContainer = (props) => {
+    useEffect( () => {
+        if (props.column.defaultValue) {
+            props.setFiltersComments(props.column.id, props.column.defaultValue.id)
+        }
+    }, [props.column.defaultValue] )
+    useEffect( () => {
+        if (props.column.defaultValueTitle) {
+            console.log(props.column.defaultValueTitle)
+            props.setFiltersComments('title', props.column.defaultValueTitle.title)
+        }
+    }, [props.column.defaultValueTitle] )
     return (
         <input
             className={classes.inputFilter}
+            defaultValue={props.column.defaultValue ? props.column.defaultValue.id : (props.column.defaultValueTitle ? props.column.defaultValueTitle.title : '')}
             // value={filterValue || ''}
             onChange={(e) => {onChangeFilter(props,e)}}
         />
