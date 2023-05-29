@@ -3,6 +3,10 @@ import {NavLink} from "react-router-dom";
 
 
 const HeaderAdmin = (props) => {
+    let exit = () => {
+        props.logout();
+        window.location.reload();
+    }
     return (
         <header className={classes.header}>
             <input className={classes.sideMenu} type="checkbox" id="sideMenu" />
@@ -23,16 +27,22 @@ const HeaderAdmin = (props) => {
                     <li><NavLink to={"/admin/comments"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Комментарии</NavLink></li>
                     <li><NavLink to={"/admin/categories"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Категории</NavLink></li>
                     <li>
-                        { props.isAuth ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Выход</NavLink> : null }
-                        { !props.isAuth ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Вход</NavLink> : null }
+                        { props.email ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Выход</NavLink> : null }
+                        { !props.email ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Вход</NavLink> : null }
                     </li>
                 </ul>
                 <ul className={classes.menuDesktop}>
-                    <li>{ props.isAuth && props.role==="admin" ? <NavLink to={'/admin/users'} >Админка</NavLink> : null }</li>
-                    <li>{ props.isAuth ? <NavLink to={'/profile'}>{props.email}</NavLink> : null }</li>
+                    <li>{ props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null }</li>
                     <li>
-                        { props.isAuth ? <NavLink to={'/login'}>Выход</NavLink> : null }
-                        { !props.isAuth ? <NavLink to={'/login'}>Вход</NavLink> : null }
+                        { props.email ?
+                            <button
+                                className={classes.exitButton}
+                                onClick={ exit }
+                            >
+                                Выход
+                            </button>
+                            : null }
+                        { !props.email ? <NavLink to={'/login'}>Вход</NavLink> : null }
                     </li>
                 </ul>
             </nav>

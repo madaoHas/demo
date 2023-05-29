@@ -207,6 +207,10 @@ input:checked + .slider:before {
         /*min-height: 193px;*/
     }
 
+    table td:not([align]), table th:not([align]) {
+        text-align: right;
+    }
+
     table td {
         display: block;
         text-align: right;
@@ -218,7 +222,10 @@ input:checked + .slider:before {
     }
 
     .ellipsis span {
-        right: 0;
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*justify-content: end;*/
+        position: relative;
     }
 
     table td:last-child {
@@ -229,6 +236,7 @@ input:checked + .slider:before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
+        padding-right: 50px;
     }
     .switch {
         display: inline-block;

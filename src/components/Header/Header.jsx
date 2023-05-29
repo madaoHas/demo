@@ -16,8 +16,10 @@ const Header = (props) => {
                 <div className={ classes.mobileHeader }>
                     { props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null }
                     { props.email ?
-                        <button className={classes.exitButton}
-                                            onClick={ exit }>
+                        <button
+                            className={classes.exitButton}
+                            onClick={ exit }
+                        >
                             Выход
                         </button>
                         : null }

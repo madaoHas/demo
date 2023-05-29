@@ -1,6 +1,6 @@
 import './App.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, Switch} from "react-router-dom";
 import NewsContainer from "./components/CustomPages/News/NewsContainer";
 import ProfileContainer from "./components/CustomPages/Profile/ProfileContainer";
 import Login from "./components/authorization/Login";
@@ -28,47 +28,68 @@ function App(props) {
         props.initializeApp();
     }, [props.initialized])
 
+
+
     if (props.initialized === false) {
         return null
     }
+    console.log(props)
     return (
         <div className="app-main">
-            {props.isAuth && props.role === "admin" ? <HeaderAdminContainer /> : <HeaderContainer />}
-            <div className="app-wrapper">
-                <div className="app-wrapper-content">
+            <Routes>
+                <Route path="/admin/*" element={<AdminPage />} />
+                <Route path="/*" element={<UserPage />} />
+            </Routes>
+            <div className="app-wrapper-content">
+                <Routes>
+                    <Route path="/" element={<NewsContainer />}/>
+                    <Route path="profile" element={<ProfileContainer/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/recovery" element={<RecoveryPassword/>}/>
+                    <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
+                </Routes>
+            </div>
+            <div className="Admin">
+                <div className="AdminPageMenu">
                     <Routes>
-                        <Route path="/" element={<NewsContainer />}/>
-                        <Route path="/profile" element={<ProfileContainer/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/recovery" element={<RecoveryPassword/>}/>
-                        <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
+                        <Route path="/admin/*" element={<Menu />} />
+                    </Routes>
+
+                </div>
+                <div className="AdminPage">
+                    <Routes>
+                        <Route path="/admin/users" element={<UsersContainer />}/>
+                        <Route path="/admin/news" element={<NewsContainerAdmin />}/>
+                        <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
+                        <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
+                        <Route path="/admin/users/add" element={<UserAddContainer />}/>
+                        <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
+                        <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
+                        <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
+                        <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
                     </Routes>
                 </div>
-                {/*{props.email && props.role === 10 ?*/}
-                    <div className="Admin">
-                    <div className="AdminPageMenu">
-                        <Routes>
-                            <Route path="/admin/*" element={<Menu/>}/>
-                        </Routes>
-                    </div>
-                    <div className="AdminPage">
-                        <Routes>
-                            <Route path="/admin/users" element={<UsersContainer />}/>
-                            <Route path="/admin/news" element={<NewsContainerAdmin />}/>
-                            <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
-                            <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
-                            <Route path="/admin/users/add" element={<UserAddContainer />}/>
-                            <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
-                            <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
-                            <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
-                            <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
-                        </Routes>
-                    </div>
-                </div>
-                    {/*: null}*/}
             </div>
         </div>
     );
+}
+
+export const UserPage = () => {
+    return (
+        <div className="app-wrapper">
+            <HeaderContainer />
+        </div>
+    )
+}
+
+
+export const AdminPage = () => {
+    console.log(1234)
+    return (
+        <div className="app-wrapper">
+            <HeaderAdminContainer />
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => ({
