@@ -5,6 +5,7 @@
     padding-right: 8%;
     display: flex;
     height: 58px;
+    gap: 8px;
 }
 
 .news {
@@ -20,8 +21,9 @@
     float: left;
 }
 .loginBlock {
-    margin: auto 0 auto auto;
+    /*margin: auto 0 auto auto;*/
     display: flex;
+    flex-grow: 0.5;
 }
 
 .userInfo {
@@ -31,7 +33,6 @@
 a {
     text-decoration: none;
     color: black;
-    /*padding-left: 20px;*/
 }
 
 .loginBlock a {
@@ -49,14 +50,47 @@ a {
     color: #0d6efd;
 }
 
+.logoAdmin {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 30;
+}
+
+.mobileHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.mobileHeader a {
+    padding-left: 0;
+}
+
+.mobileHeader img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+    object-fit: cover;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
 
 
 @media (min-width: 320px) and (max-width: 450px) {
+    .logoAdmin {
+        flex-grow: 1;
+    }
     .header {
         height: 80px;
+        flex-direction: column;
+        gap: 0;
+        justify-content: start;
     }
-    .header img {
-        height: 50%;
+    .header .logoAdmin img {
+        height: 30px;
         margin-top: 3px;
     }
     .loginBlock {
@@ -69,5 +103,10 @@ a {
         width: 100%;
         display: flex;
         justify-content: space-between;
+    }
+    .mobileHeader img {
+        height: 30px;
+        width: 30px;
+        margin: 0;
     }
 }

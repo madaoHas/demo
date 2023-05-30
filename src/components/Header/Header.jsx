@@ -9,12 +9,20 @@ const Header = (props) => {
     }
     return (
         <div className={classes.header}>
-            <NavLink to={'/'}><img src="/logo192.png" alt="Лого"/></NavLink>
+            <div className={classes.logoAdmin}>
+                <NavLink to={'/'}><img src="/logo192.png" alt="Лого"/></NavLink>
+                { props.email && props.role===10 ? <NavLink to={'/admin/users'} >Админка</NavLink> : null }
+            </div>
             <div className={ classes.loginBlock }>
                 {/*<NavLink to={'/admin/users'} >Админка</NavLink>*/}
-                { props.email && props.role===10 ? <NavLink to={'/admin/users'} >Админка</NavLink> : null }
+
                 <div className={ classes.mobileHeader }>
-                    { props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null }
+                    <NavLink to={'/profile'}><img src={props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg'} /></NavLink>
+                    { props.info?.name ?
+                        <NavLink to={'/profile'}>{props.info.name + ' ' + props.info.surname}</NavLink> :
+                        (props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null)
+                    }
+                    {/*{ props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null }*/}
                     { props.email ?
                         <button
                             className={classes.exitButton}

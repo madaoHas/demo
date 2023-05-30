@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0px;
+    padding: 0;
     background: #545454;
-    width: 230px;
+    width: 257px;
     height: 100%
 }
 

@@ -49,6 +49,10 @@ ul{
     font-size: 14px;
 }
 
+.name span {
+    color: white;
+}
+
 /* Nav menu */
 .nav{
     width: 100%;
@@ -61,6 +65,14 @@ ul{
 .menuDesktop {
     display: none;
 }
+
+.menuDesktop img {
+    width: 36px;
+    height: 36px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
 .menu {
     display: flex;
     flex-direction: column;
@@ -181,6 +193,13 @@ ul{
         display: block;
         height: 50px;
         padding: 0;
+    }
+    .menuDesktop img {
+        width: 36px;
+        height: 36px;
+        border-radius: 100px;
+        object-fit: cover;
+        margin-right: 8px;
     }
     .nav{
         max-height: none;

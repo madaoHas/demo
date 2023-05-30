@@ -4,7 +4,6 @@ import {useEffect} from "react";
 import {auth, logout} from "../../redux/loginReducer";
 
 const HeaderContainer = (props) => {
-    console.log(props)
     useEffect( () => {
         props.auth();
     },[] )
