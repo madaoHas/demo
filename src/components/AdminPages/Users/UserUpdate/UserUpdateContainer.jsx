@@ -3,6 +3,9 @@ import {connect} from "react-redux";
 import UserUpdate from "./UserUpdate";
 import {useLocation} from "react-router-dom";
 import {getUserItem, updateUserItem} from "../../../../redux/usersAdminReducer";
+import {compose} from "redux";
+import {withRouter} from "../../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
 
 
 const UserUpdateContainer = (props) => {
@@ -26,4 +29,5 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default connect(mapStateToProps, {getUserItem, updateUserItem})(UserUpdateContainer);
+export default compose(connect(mapStateToProps, {getUserItem, updateUserItem}),
+    withRouter, withAuthRedirect)(UserUpdateContainer);

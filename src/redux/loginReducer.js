@@ -2,10 +2,12 @@ import {AuthAPI} from "../api/api";
 // import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
+const SET_HASH = 'auth/SET_HASH'
 
 
 let initialState = {
-    auth: {}
+    auth: {},
+    hashRight: true
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -16,6 +18,11 @@ const loginReducer = (state = initialState, action) => {
                 ...state,
                 auth: action.userInfo
             }
+        case SET_HASH:
+            return {
+                ...state,
+                hashRight: action.hashResult
+            }
         default: return state;
     }
 }
@@ -24,6 +31,13 @@ export const setAuthUserData = (userInfo) => {
     return {
         type: SET_USER_DATA,
         userInfo
+    }
+}
+
+export const setHash = (hashResult) => {
+    return {
+        type: SET_HASH,
+        hashResult
     }
 }
 
@@ -85,8 +99,39 @@ export const logout = () => async (dispatch) => {
     catch(error) {
         console.log(error);
     }
+}
 
+export const recoveryPassword = (email, setStatus) => async (dispatch) => {
+    try {
+        await AuthAPI.recovery(email);
+        setStatus({success: 'Отправлено письмо на почту'})
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
 
+export const checkHash = (hash) => async (dispatch) => {
+    try {
+        await AuthAPI.checkHash(hash);
+        dispatch(setHash(true))
+    }
+    catch (error) {
+        console.log(error)
+        dispatch(setHash(false))
+    }
+}
+
+export const changePassword = (password, hash, setStatus) => async (dispatch) => {
+    try {
+        await AuthAPI.changePassword(password, hash);
+    }
+    catch (error) {
+        console.log(error)
+        if (error.response.status === 400) {
+            setStatus({error: 'Ой, что-то пошло не так'})
+        }
+    }
 }
 
 export default loginReducer;

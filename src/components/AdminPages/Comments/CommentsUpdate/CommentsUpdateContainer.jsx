@@ -3,6 +3,9 @@ import CommentsUpdate from "./CommentsUpdate";
 import {Navigate, useLocation} from "react-router-dom";
 import {connect} from "react-redux";
 import {getCommentItem, updateComment} from "../../../../redux/commentsAdminReducer";
+import {compose} from "redux";
+import {withRouter} from "../../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
 
 const CommentsUpdateContainer = (props) => {
     const location = useLocation();
@@ -29,4 +32,6 @@ const mapStateToProps = (state) => ({
     newsItem: state.commentsAdminPage.commentItem
 })
 
-export default connect(mapStateToProps, {getCommentItem, updateComment})(CommentsUpdateContainer);
+export default compose(connect(mapStateToProps, {getCommentItem, updateComment}),
+    withRouter, withAuthRedirect)(CommentsUpdateContainer);
+

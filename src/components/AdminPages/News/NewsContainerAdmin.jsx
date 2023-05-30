@@ -3,6 +3,9 @@ import {connect} from "react-redux";
 import {useEffect} from "react";
 import {getNews, updateActiveNews, deleteNews} from "../../../redux/newsAdminReducer";
 import {getCategory} from "../../../redux/categoryReducer";
+import {compose} from "redux";
+import {withRouter} from "../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 const NewsContainerAdmin = (props) => {
     useEffect( () => {
@@ -22,4 +25,5 @@ const mapStateToProps = (state) => ({
     categories: state.category.category
 })
 
-export default connect(mapStateToProps, {getNews, updateActiveNews, deleteNews, getCategory})(NewsContainerAdmin);
+export default compose(connect(mapStateToProps, {getNews, updateActiveNews, deleteNews, getCategory}),
+    withRouter, withAuthRedirect)(NewsContainerAdmin);

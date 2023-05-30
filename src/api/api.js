@@ -244,6 +244,18 @@ export const AuthAPI = {
     logout() {
         return instance.post(`logout`)
             .then(response => response.data)
+    },
+    recovery(email) {
+        return instance.post('password-recovery', email)
+            .then(response => response.data)
+    },
+    checkHash(hash) {
+        return instance.post('check-password-recovery-hash', {hash: hash})
+            .then(response => response.data)
+    },
+    changePassword(password, hash) {
+        return instance.post('changing-password', {password: password, hash: hash})
+            .then(response => response.data)
     }
 }
 

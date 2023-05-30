@@ -20,6 +20,7 @@ import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/N
 import {useEffect} from "react";
 import {initializeApp} from "./redux/appReducer";
 import UserUpdateContainer from "./components/AdminPages/Users/UserUpdate/UserUpdateContainer";
+import NewPassword from "./components/authorization/NewPassword";
 
 
 function App(props) {
@@ -47,6 +48,7 @@ function App(props) {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/recovery" element={<RecoveryPassword/>}/>
                     <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
+                    <Route path="/password-recovery/?" element={<NewPassword />} />
                 </Routes>
             </div>
             <div className="Admin">

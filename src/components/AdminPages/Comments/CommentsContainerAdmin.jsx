@@ -3,6 +3,9 @@ import Comments from "./Comments";
 import {getComments, deleteComment} from "../../../redux/commentsAdminReducer";
 import React, {useEffect} from "react";
 import {useLocation} from "react-router-dom";
+import {compose} from "redux";
+import {withRouter} from "../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 const CommentsContainerAdmin = (props) => {
     const location = useLocation();
@@ -22,4 +25,5 @@ const mapStateToProps = (state) => ({
     pager: state.commentsAdminPage.pager_out
 })
 
-export default connect(mapStateToProps, {getComments, deleteComment})(CommentsContainerAdmin);
+export default compose(connect(mapStateToProps, {getComments, deleteComment}),
+    withRouter, withAuthRedirect)(CommentsContainerAdmin);

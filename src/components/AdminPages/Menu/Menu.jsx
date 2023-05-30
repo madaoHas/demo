@@ -1,5 +1,10 @@
 import {NavLink} from "react-router-dom";
 import classes from "./Menu.module.css";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {getCommentItem, updateComment} from "../../../redux/commentsAdminReducer";
+import {withRouter} from "../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 const Menu = () => {
     return (
@@ -18,4 +23,9 @@ const Menu = () => {
     )
 }
 
-export default Menu;
+const mapStateToProps = () => ({
+
+})
+
+export default compose(connect(mapStateToProps, {}),
+    withRouter, withAuthRedirect)(Menu);

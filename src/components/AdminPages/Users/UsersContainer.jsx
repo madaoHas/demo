@@ -2,6 +2,9 @@ import Users from "./Users";
 import {connect} from "react-redux";
 import {getUsers, updateActiveUser, deleteUser} from "../../../redux/usersAdminReducer";
 import React, {useEffect} from "react";
+import {compose} from "redux";
+import {withRouter} from "../../../hoc/withRouter";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 const UsersContainer = (props) => {
     useEffect( () => {
@@ -19,4 +22,5 @@ const mapStateToProps = (state) => ({
     pager: state.usersAdminPage.pager_out
 })
 
-export default connect(mapStateToProps, {getUsers, updateActiveUser, deleteUser})(UsersContainer);
+export default compose(connect(mapStateToProps, {getUsers, updateActiveUser, deleteUser}),
+    withRouter, withAuthRedirect)(UsersContainer);
