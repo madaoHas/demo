@@ -7,7 +7,6 @@ import moment from "moment";
 
 
 function CommentsTable(props) {
-    console.log(props.state)
     let [data, setData] = useState([]);
     useEffect( () => {
         setData(props.comments)

@@ -1,26 +1,40 @@
 import './App.css';
+import React, {lazy, Suspense} from "react";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import {Route, Routes, Switch} from "react-router-dom";
-import NewsContainer from "./components/CustomPages/News/NewsContainer";
-import ProfileContainer from "./components/CustomPages/Profile/ProfileContainer";
+import {Route, Routes} from "react-router-dom";
+// import NewsContainer from "./components/CustomPages/News/NewsContainer";
+// import ProfileContainer from "./components/CustomPages/Profile/ProfileContainer";
 import Login from "./components/authorization/Login";
 import RecoveryPassword from "./components/authorization/RecoveryPassword";
-import SelectedNewsContainer from "./components/CustomPages/SelectedNews/SelectedNewsContainer";
-import UsersContainer from "./components/AdminPages/Users/UsersContainer";
+// import SelectedNewsContainer from "./components/CustomPages/SelectedNews/SelectedNewsContainer";
+// import UsersContainer from "./components/AdminPages/Users/UsersContainer";
 import Menu from "./components/AdminPages/Menu/Menu";
 import {connect} from "react-redux";
 import 'flatpickr/dist/flatpickr.css';
 import HeaderAdminContainer from "./components/Header/HeaderAdmin/HeaderAdminContainer";
-import NewsContainerAdmin from "./components/AdminPages/News/NewsContainerAdmin";
-import CommentsContainerAdmin from "./components/AdminPages/Comments/CommentsContainerAdmin";
-import CategoriesContainerAdmin from "./components/AdminPages/Categories/CategoriesContainerAdmin";
-import UserAddContainer from "./components/AdminPages/Users/UserAdd/UserAddContainer";
-import CommentsUpdateContainer from "./components/AdminPages/Comments/CommentsUpdate/CommentsUpdateContainer";
-import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer";
+// import NewsContainerAdmin from "./components/AdminPages/News/NewsContainerAdmin";
+// import CommentsContainerAdmin from "./components/AdminPages/Comments/CommentsContainerAdmin";
+// import CategoriesContainerAdmin from "./components/AdminPages/Categories/CategoriesContainerAdmin";
+// import UserAddContainer from "./components/AdminPages/Users/UserAdd/UserAddContainer";
+// import CommentsUpdateContainer from "./components/AdminPages/Comments/CommentsUpdate/CommentsUpdateContainer";
+// import NewsAddUpdateContainer from "./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer";
 import {useEffect} from "react";
 import {initializeApp} from "./redux/appReducer";
-import UserUpdateContainer from "./components/AdminPages/Users/UserUpdate/UserUpdateContainer";
+// import UserUpdateContainer from "./components/AdminPages/Users/UserUpdate/UserUpdateContainer";
 import NewPassword from "./components/authorization/NewPassword";
+import Preloader from "./components/common/Preloader/Preloader";
+
+const NewsContainer = lazy( () => import('./components/CustomPages/News/NewsContainer') );
+const ProfileContainer = lazy( () => import('./components/CustomPages/Profile/ProfileContainer') );
+const SelectedNewsContainer = lazy( () => import('./components/CustomPages/SelectedNews/SelectedNewsContainer') );
+const UsersContainer = lazy( () => import('./components/AdminPages/Users/UsersContainer') );
+const NewsContainerAdmin = lazy( () => import('./components/AdminPages/News/NewsContainerAdmin') );
+const CommentsContainerAdmin = lazy( () => import('./components/AdminPages/Comments/CommentsContainerAdmin') );
+const CategoriesContainerAdmin = lazy( () => import('./components/AdminPages/Categories/CategoriesContainerAdmin') );
+const UserAddContainer = lazy( () => import('./components/AdminPages/Users/UserAdd/UserAddContainer') );
+const CommentsUpdateContainer = lazy( () => import('./components/AdminPages/Comments/CommentsUpdate/CommentsUpdateContainer') );
+const NewsAddUpdateContainer = lazy( () => import('./components/AdminPages/News/NewsAddUpdate/NewsAddUpdateContainer') );
+const UserUpdateContainer = lazy( () => import('./components/AdminPages/Users/UserUpdate/UserUpdateContainer') );
 
 
 function App(props) {
@@ -32,46 +46,47 @@ function App(props) {
 
 
     if (props.initialized === false) {
-        return null
+        return <Preloader />
     }
-    console.log(props)
     return (
         <div className="app-main">
-            <Routes>
-                <Route path="/admin/*" element={<AdminPage />} />
-                <Route path="/*" element={<UserPage />} />
-            </Routes>
-            <div className="app-wrapper-content">
+            <Suspense fallback={<Preloader />}>
                 <Routes>
-                    <Route path="/" element={<NewsContainer />}/>
-                    <Route path="profile" element={<ProfileContainer/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/recovery" element={<RecoveryPassword/>}/>
-                    <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
-                    <Route path="/password-recovery/?" element={<NewPassword />} />
+                    <Route path="/admin/*" element={<AdminPage />} />
+                    <Route path="/*" element={<UserPage />} />
                 </Routes>
-            </div>
-            <div className="Admin">
-                <div className="AdminPageMenu">
+                <div className="app-wrapper-content">
                     <Routes>
-                        <Route path="/admin/*" element={<Menu />} />
+                        <Route path="/" element={<NewsContainer />}/>
+                        <Route path="profile" element={<ProfileContainer/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/recovery" element={<RecoveryPassword/>}/>
+                        <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
+                        <Route path="/password-recovery/?" element={<NewPassword />} />
                     </Routes>
+                </div>
+                <div className="Admin">
+                    <div className="AdminPageMenu">
+                        <Routes>
+                            <Route path="/admin/*" element={<Menu />} />
+                        </Routes>
 
+                    </div>
+                    <div className="AdminPage">
+                        <Routes>
+                            <Route path="/admin/users" element={<UsersContainer />}/>
+                            <Route path="/admin/news" element={<NewsContainerAdmin />}/>
+                            <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
+                            <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
+                            <Route path="/admin/users/add" element={<UserAddContainer />}/>
+                            <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
+                            <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
+                            <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
+                            <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
+                        </Routes>
+                    </div>
                 </div>
-                <div className="AdminPage">
-                    <Routes>
-                        <Route path="/admin/users" element={<UsersContainer />}/>
-                        <Route path="/admin/news" element={<NewsContainerAdmin />}/>
-                        <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
-                        <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
-                        <Route path="/admin/users/add" element={<UserAddContainer />}/>
-                        <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
-                        <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
-                        <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
-                        <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
-                    </Routes>
-                </div>
-            </div>
+            </Suspense>
         </div>
     );
 }
@@ -86,7 +101,6 @@ export const UserPage = () => {
 
 
 export const AdminPage = () => {
-    console.log(1234)
     return (
         <div className="app-wrapper">
             <HeaderAdminContainer />
