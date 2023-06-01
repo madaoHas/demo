@@ -1,5 +1,4 @@
-import { CommentsAdminAPI } from "../api/api";
-import {getUsers} from "./usersAdminReducer";
+import {CommentsAdminAPI} from "../api/api";
 
 const SET_COMMENTS_ADMIN = 'SET_COMMENTS_ADMIN';
 const SET_COMMENT_ITEM_ADMIN = 'SET_COMMENT_ITEM_ADMIN';
@@ -69,6 +68,18 @@ export const setFiltersComments = (filterName, valueName) => async (dispatch, ge
         filter[filterName] = valueName
         dispatch(setFilterComments(filter))
         dispatch(getComments(getState().commentsAdminPage.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const filterMobileComments = (filterName, valueName) => async (dispatch) => {
+    try {
+        let filter = {[filterName]: valueName}
+        let data = await CommentsAdminAPI.getComments(filter, 1, 10);
+        dispatch(setCommentsAdmin(data));
+        dispatch(setCommentItemAdmin({}));
     }
     catch (error) {
         console.log(error)

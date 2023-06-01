@@ -9,7 +9,7 @@
 }
 
 .dateFilter {
-    width: 80%;
+    width: 100%;
     box-sizing: border-box;
     margin: 0;
     height: 30px;
@@ -37,6 +37,13 @@
     left: 0;
     font-size: 40px;
     color: rgb(238, 238, 238);
+}
+
+.dateContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+
 }
 
 .selectFilter {

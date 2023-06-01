@@ -42,6 +42,10 @@ table td {
     white-space: nowrap;
 }
 
+table td:first-child {
+    width: 50px;
+}
+
 table tr:has(.inputUpdate) {
     height: 39px;
 }
@@ -171,6 +175,7 @@ input:checked + .slider:before {
     .tableWrap {
         overflow-y: scroll;
     }
+
     /*table th {*/
     /*    font-size: 14px;*/
     /*    max-width: 130px;*/
@@ -221,6 +226,10 @@ input:checked + .slider:before {
         margin-bottom: 20px;
     }
 
+    table td:first-child {
+        width: 100%;
+    }
+
     .ellipsis span {
         /*display: flex;*/
         /*flex-direction: row;*/
@@ -244,6 +253,11 @@ input:checked + .slider:before {
         height: 25px;
         margin-bottom: 0;
         margin-right: 20%;
+    }
+    .switch > span {
+        position: absolute;
+        display: grid;
+        overflow: visible;
     }
     .link {
         display: inline-block;

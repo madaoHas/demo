@@ -58,7 +58,8 @@ const ProfileFormPassword = (props) => {
                       values,
                       errors,
                       touched,
-                      status={ error: [] }}) => (
+                      status={ error: [] }
+                }) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>

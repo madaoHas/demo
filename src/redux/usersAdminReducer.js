@@ -75,6 +75,18 @@ export const setFiltersUsers = (filterName, valueName) => async (dispatch, getSt
     }
 }
 
+export const filterMobileUsers = (filterName, valueName) => async (dispatch) => {
+    try {
+        let filter = {[filterName]: valueName}
+        let data = await UsersAdminAPI.getUsers(filter, 1, 10);
+        dispatch(setUsers(data));
+        dispatch(setUserItem({}));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 export const getUsers = (filters, page, limit) => async (dispatch, getState) => {
     try {
         let data = await UsersAdminAPI.getUsers(getState().usersAdminPage.filters, page, limit);
@@ -94,15 +106,29 @@ export const getUserItem = (id) => async (dispatch) => {
         console.log(error)
     }
 }
-export const updateUserItem = (userItem) => async (dispatch) => {
+export const updateUserItem = (userItem, setStatus) => async (dispatch) => {
     try {
         await UsersAdminAPI.updateUserItem(userItem);
-        dispatch(getUsers(1, 10));
+        setStatus({success: 'Успешно измененно!'})
+        // dispatch(getUsers(1, 10));
     }
     catch (error) {
         console.log(error)
     }
 }
+
+export const updateUserItemPassword = (password, setStatus) => async (dispatch) => {
+    try {
+        await UsersAdminAPI.updateUserItemPassword(password);
+        setStatus({success: 'Успешно измененно!'})
+        // dispatch(getUsers(1, 10));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 export const addUser = (email, password, setStatus) => async (dispatch) => {
     try {

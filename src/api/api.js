@@ -94,6 +94,10 @@ export const UsersAdminAPI = {
         })
             .then(response => response.data)
     },
+    updateUserItemPassword(password) {
+        return instance.post(`admin/users-item-set-password`, password)
+            .then(response => response.data)
+    },
     addUsers(email, password) {
         return instance.post(`admin/users-item-add`, {email, password})
             .then(response => response.data)

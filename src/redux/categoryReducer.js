@@ -1,5 +1,4 @@
 import {CategoryAPI} from "../api/api";
-import {getComments} from "./commentsAdminReducer";
 
 const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
@@ -82,6 +81,16 @@ export const setFiltersCategories = (filterName, valueName) => async (dispatch, 
     }
 }
 
+export const filterMobileCategories = (filterName, valueName) => async (dispatch) => {
+    try {
+        let filter = {[filterName]: valueName}
+        let data = await CategoryAPI.getCategoryAdmin(filter, 1, 10);
+        dispatch(setCategory(data.data.data));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
 
 export const getCategory = () => async (dispatch) => {
     try {
@@ -99,7 +108,7 @@ export const getCategoryAdmin = (filter, page, limit) => async (dispatch, getSta
         let data = await CategoryAPI.getCategoryAdmin(getState().category.filters, page, limit);
         if (data.status === 200) {
             dispatch(setCategory(data.data.data));
-            dispatch(setPage(data.data.pager_out))
+            dispatch(setPage(data.data.pager_out));
         }
     } catch (error) {
         console.log(error);

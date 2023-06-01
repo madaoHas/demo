@@ -12,7 +12,7 @@ const Comment = (props) => {
                     <div className={classes.username}>{props.comment.user.profile.name ? props.comment.user.profile.name : props.comment.user.email}</div>
                     <div className={classes.dateBlock}>
                         <Icon path={mdiClockTimeNineOutline} size={0.7}/>
-                        <div className={classes.date}>{moment(props.comment.created_at).format('DD-MM-yyyy HH:mm')}</div>
+                        <div className={classes.date}>{moment(props.comment.created_at).format('DD.MM.yyyy HH:mm')}</div>
                     </div>
                 </div>
                 <div className={classes.commentText}>{props.comment.text}</div>

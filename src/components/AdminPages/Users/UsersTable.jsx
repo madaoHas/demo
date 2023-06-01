@@ -79,52 +79,70 @@ function UsersTable(props) {
         }
     }
 
-    // const data = React.useMemo(() => props.users, [])
 
-    let [inputText, setInputText] = useState(false);
+    let [inputId, setInputId] = useState(true);
     let [inputDate, setInputDate] = useState(false);
-    let [inputSelect, setInputSelect] = useState(false);
+    let [inputEmail, setInputEmail] = useState(false);
+    let [inputName, setInputName] = useState(false);
+    let [inputSurname, setInputSurname] = useState(false);
+    let [inputSelectRole, setInputSelectRole] = useState(false);
+    let [inputSelectActive, setInputSelectActive] = useState(false);
 
     const ShowInput = () => {
-        let valueOption = optionRef.current.value;
-        console.log(valueOption);
-        setInputText(false);
+        let elemOnId = document.getElementById('selectFilter')
+        let valueOption = elemOnId.value;
+        setInputId(false)
         setInputDate(false);
-        setInputSelect(false);
+        setInputEmail(false);
+        setInputName(false);
+        setInputSurname(false);
+        setInputSelectRole(false);
+        setInputSelectActive(false);
 
         if (valueOption === 'Дата регистрации') {
-            console.log('date!')
             setInputDate(true);
         }
         else if (valueOption === 'Активен') {
-            setInputSelect(true);
+            setInputSelectActive(true);
         }
         else if (valueOption === 'Роль') {
-            setInputSelect(true);
+            setInputSelectRole(true);
         }
-        else {
-            setInputText(true);
+        else if (valueOption === 'ID') {
+            setInputId(true)
         }
-        console.log('inputText - ' + inputText);
-        console.log('inputDate - ' + inputDate);
-        console.log('inputSelect - ' + inputSelect);
+        else if (valueOption === 'e-mail') {
+            setInputEmail(true)
+        }
+        else if (valueOption === 'Имя') {
+            setInputName(true)
+        }
+        else if (valueOption === 'Фамилия') {
+            setInputSurname(true)
+        }
     }
 
     return (
         <div className={classes.container}>
-            <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
-                {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
-            </select>
-            {inputDate ? <ColumnFilterDate column={""} /> : null}
-            {inputText ? <ColumnFilter column={""} />: null}
-            {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
+            <div className={classes.inputFilterMobile}>
+                <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}>
+                    {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
+                </select>
+                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
+                {inputEmail ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
+                {inputName ? <ColumnFilter column={{id: 'name'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
+                {inputSurname ? <ColumnFilter column={{id: 'surname'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
+                {inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
+                {inputSelectRole ? <ColumnFilterSelectRole column={{id: 'role'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}
+                {inputSelectActive ? <ColumnFilterSelectActive column={{id: 'is_active'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}
+            </div>
             <TableAdmin
-                columns={columns}
-                data={data}
-                linkCom={true}
-                updateActive={props.updateActiveUser}
-                infoTable={"users"}
-                deleteRow={props.deleteUser}
+            columns={columns}
+            data={data}
+            linkCom={true}
+            updateActive={props.updateActiveUser}
+            infoTable={"users"}
+            deleteRow={props.deleteUser}
             />
         </div>
     )

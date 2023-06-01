@@ -9,7 +9,7 @@ const NewsOne = (props) => {
             <div className={classes.picture}>
                 <div className={classes.dateBlock}>
                     <Icon path={mdiClockTimeNineOutline} size={0.8} className={classes.icon}/>
-                    <div className={classes.date}>{props.news.date}</div>
+                    <div className={classes.date}>{props.news.date.split("-").reverse().join(".")}</div>
                 </div>
             </div>
             <img src={props.news.preview_image_url ? process.env.REACT_APP_URL_BASE + props.news.preview_image_url.slice(7) : null} />

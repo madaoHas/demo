@@ -3,10 +3,10 @@ import React, {useEffect} from "react";
 import moment from "moment";
 import Flatpickr from "react-flatpickr";
 import {connect} from "react-redux";
-import {setFiltersNews} from "../../redux/newsAdminReducer";
-import {setFiltersUsers} from "../../redux/usersAdminReducer";
-import {setFiltersComments} from "../../redux/commentsAdminReducer";
-import {setFiltersCategories} from "../../redux/categoryReducer";
+import {filterMobileNews, setFiltersNews} from "../../redux/newsAdminReducer";
+import {filterMobileUsers, setFiltersUsers} from "../../redux/usersAdminReducer";
+import {filterMobileComments, setFiltersComments} from "../../redux/commentsAdminReducer";
+import {filterMobileCategories, setFiltersCategories} from "../../redux/categoryReducer";
 
 
 const onChangeFilter = (props, e) => {
@@ -23,7 +23,12 @@ const onChangeFilter = (props, e) => {
         if (props.column.id === 'category') {
             props.column.id = props.column.id + '_id'
         }
-        props.setFiltersNews(props.column.id, e)
+        if (props.type === 'mobile') {
+            props.filterMobileNews(props.column.id, e)
+        }
+        else {
+            props.setFiltersNews(props.column.id, e)
+        }
     }
     else if (props.columns.length === 7) {
         if (props.column.id === 'role') {
@@ -31,16 +36,31 @@ const onChangeFilter = (props, e) => {
                 e = Number(e)
             }
         }
-        props.setFiltersUsers(props.column.id, e)
+        if (props.type === 'mobile') {
+            props.filterMobileUsers(props.column.id, e)
+        }
+        else {
+            props.setFiltersUsers(props.column.id, e)
+        }
     }
     else if (props.columns.length === 6) {
         if (props.column.id === 'postTitle') {
             props.column.id = 'title'
         }
-        props.setFiltersComments(props.column.id, e)
+        if (props.type === 'mobile') {
+            props.filterMobileComments(props.column.id, e)
+        }
+        else {
+            props.setFiltersComments(props.column.id, e)
+        }
     }
     else if (props.columns.length === 2) {
-        props.setFiltersCategories(props.column.id, e)
+        if (props.type === 'mobile') {
+            props.filterMobileCategories(props.column.id, e)
+        }
+        else {
+            props.setFiltersCategories(props.column.id, e)
+        }
     }
 }
 
@@ -64,7 +84,6 @@ const ColumnFilterContainer = (props) => {
         <input
             className={classes.inputFilter}
             defaultValue={props.column.defaultValue ? props.column.defaultValue.id : (props.column.defaultValueTitle ? props.column.defaultValueTitle.title : '')}
-            // value={filterValue || ''}
             onChange={(e) => {onChangeFilter(props,e)}}
         />
     )
@@ -73,7 +92,7 @@ const ColumnFilterContainer = (props) => {
 
 export const ColumnFilterDateContainer = (props) => {
     return (
-        <>
+        <div className={classes.dateContainer}>
             <img src={"/img/Calendar.svg"} className={classes.labelDate} />
             <Flatpickr
                 className={classes.dateFilter}
@@ -83,7 +102,7 @@ export const ColumnFilterDateContainer = (props) => {
                     dateFormat: "d-m-Y"
                 }}
             />
-        </>
+        </div>
     );
 }
 
@@ -147,15 +166,15 @@ export const ColumnFilterSelectRoleContainer = (props) => {
     )
 }
 
-export const ColumnFilter = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, setFiltersCategories})(ColumnFilterContainer);
+export const ColumnFilter = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, setFiltersCategories, filterMobileUsers, filterMobileNews, filterMobileCategories, filterMobileComments})(ColumnFilterContainer);
 
-export const ColumnFilterDate = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments})(ColumnFilterDateContainer);
+export const ColumnFilterDate = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, filterMobileUsers, filterMobileNews, filterMobileComments})(ColumnFilterDateContainer);
 
-export const ColumnFilterSelectCategory = connect(mapStateToProps, {setFiltersNews})(ColumnFilterSelectCategoryContainer);
+export const ColumnFilterSelectCategory = connect(mapStateToProps, {setFiltersNews, filterMobileNews})(ColumnFilterSelectCategoryContainer);
 
-export const ColumnFilterSelectActive = connect(mapStateToProps, {setFiltersNews, setFiltersUsers})(ColumnFilterSelectActiveContainer);
+export const ColumnFilterSelectActive = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, filterMobileUsers, filterMobileNews})(ColumnFilterSelectActiveContainer);
 
-export const ColumnFilterSelectRole = connect(mapStateToProps, {setFiltersUsers})(ColumnFilterSelectRoleContainer);
+export const ColumnFilterSelectRole = connect(mapStateToProps, {setFiltersUsers, filterMobileUsers})(ColumnFilterSelectRoleContainer);
 
 
 

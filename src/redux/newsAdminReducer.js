@@ -1,10 +1,8 @@
-import { NewsAdminAPI } from "../api/api";
+import {NewsAdminAPI} from "../api/api";
 
 const SET_NEWS = 'SET_NEWS';
 const SET_NEWS_ITEM = 'SET_NEWS_ITEM'
 const SET_FILTER_NEWS = 'SET_FILTER_NEWS'
-// const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-// const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
 
 let initialState = {
     news: [],
@@ -70,6 +68,18 @@ export const setFiltersNews = (filterName, valueName) => async (dispatch, getSta
         filter[filterName] = valueName
         dispatch(setFilterNews(filter))
         dispatch(getNews(getState().newsAdminPage.filters, 1, 10))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const filterMobileNews = (filterName, valueName) => async (dispatch) => {
+    try {
+        let filter = {[filterName]: valueName}
+        let data = await NewsAdminAPI.getNews(filter, 1, 10)
+        dispatch(setNews(data));
+        dispatch(setNewsItem({}));
     }
     catch (error) {
         console.log(error)

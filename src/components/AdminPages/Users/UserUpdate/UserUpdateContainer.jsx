@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import UserUpdate from "./UserUpdate";
 import {useLocation} from "react-router-dom";
-import {getUserItem, updateUserItem} from "../../../../redux/usersAdminReducer";
+import {getUserItem, updateUserItem, updateUserItemPassword} from "../../../../redux/usersAdminReducer";
 import {compose} from "redux";
 import {withRouter} from "../../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
@@ -18,7 +18,7 @@ const UserUpdateContainer = (props) => {
     }, [] )
     if (props.userItem) {
         return (
-            <UserUpdate userItem={props.userItem} updateUserItem={props.updateUserItem} />
+            <UserUpdate userItem={props.userItem} updateUserItem={props.updateUserItem} updateUserItemPassword={props.updateUserItemPassword} />
         )
     }
 }
@@ -29,5 +29,5 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default compose(connect(mapStateToProps, {getUserItem, updateUserItem}),
+export default compose(connect(mapStateToProps, {getUserItem, updateUserItem, updateUserItemPassword}),
     withRouter, withAuthRedirect)(UserUpdateContainer);

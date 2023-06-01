@@ -19,7 +19,7 @@ const SelectedNews = (props) => {
                     <div className={classes.dateBlock}>
                         <Icon path={mdiClockTimeNineOutline} size={1} className={classes.clock} />
                         <div className={classes.date}>
-                            {props.date}
+                            {props.date.split("-").reverse().join(".")}
                         </div>
                     </div>
                     <div className={classes.category}>{props.category?.name}</div>

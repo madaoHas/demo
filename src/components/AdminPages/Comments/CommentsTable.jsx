@@ -7,6 +7,7 @@ import moment from "moment";
 
 
 function CommentsTable(props) {
+    console.log(props.state)
     let [data, setData] = useState([]);
     useEffect( () => {
         setData(props.comments)
@@ -65,37 +66,59 @@ function CommentsTable(props) {
 
     const optionRef = React.createRef();
 
-    let [inputText, setInputText] = useState(false);
+
+    let [inputId, setInputId] = useState(true);
     let [inputDate, setInputDate] = useState(false);
-    let [inputSelect, setInputSelect] = useState(false);
+    let [inputIdUser, setInputIdUser] = useState(false);
+    let [inputUser, setInputUser] = useState(false);
+    let [inputNews, setInputNews] = useState(false);
+    let [inputComment, setInputComment] = useState(false);
 
     const ShowInput = () => {
         let valueOption = optionRef.current.value;
-        console.log(valueOption);
-        setInputText(false);
-        setInputDate(false);
-        setInputSelect(false);
 
-        if (valueOption === 'Дата регистрации') {
-            console.log('date!')
+        setInputId(false)
+        setInputDate(false);
+        setInputIdUser(false);
+        setInputUser(false);
+        setInputNews(false);
+        setInputComment(false);
+
+        if (valueOption === 'Дата комментария') {
             setInputDate(true);
         }
-        else {
-            setInputText(true);
+        else if (valueOption === 'ID') {
+            setInputId(true)
         }
-        console.log('inputText - ' + inputText);
-        console.log('inputDate - ' + inputDate);
-        console.log('inputSelect - ' + inputSelect);
+        else if (valueOption === 'ID пользователя') {
+            setInputIdUser(true)
+        }
+        else if (valueOption === 'Пользователь') {
+            setInputUser(true)
+        }
+        else if (valueOption === 'Новость') {
+            setInputNews(true)
+        }
+        else if (valueOption === 'Комментарий') {
+            setInputComment(true)
+        }
     }
 
     return (
         <div className={classes.container}>
-            <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText, setInputDate, setInputSelect)}}>
-                {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
-            </select>
-            {inputDate ? <ColumnFilterDate column={""} /> : null}
-            {inputText ? <ColumnFilter column={""} />: null}
-            {inputSelect ? <select ref={optionRef} className={classes.selectFilter}></select> : null}
+            <div className={classes.inputFilterMobile}>
+                <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}
+                        defaultValue={props.state ? (props.state.id ? 'ID пользователя' : 'Новость') : null}
+                >
+                    {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
+                </select>
+                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
+                {inputIdUser ? <ColumnFilter column={{ id: 'user_id', defaultValue: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
+                {inputUser ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
+                {inputNews ? <ColumnFilter column={{ id: 'title', defaultValueTitle: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
+                {inputComment ? <ColumnFilter column={{id: 'text'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
+                {inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6]} type={'mobile'} /> : null}
+            </div>
             <TableAdmin
                 columns={columns}
                 data={data}
