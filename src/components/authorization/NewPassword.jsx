@@ -78,9 +78,7 @@ const NewPassword = (props) => {
         )
     }
     if (props.hashResult === false) {
-        return (
-            <Navigate to={"/"} />
-        )
+        navigate('/error/recovery-password', {replace: false});
     }
 
 }

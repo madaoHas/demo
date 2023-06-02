@@ -12,6 +12,7 @@ import {useEffect} from "react";
 import {initializeApp} from "./redux/appReducer";
 import NewPassword from "./components/authorization/NewPassword";
 import Preloader from "./components/common/Preloader/Preloader";
+import OldHash from "./components/Errors/OldHash";
 
 const NewsContainer = lazy( () => import('./components/CustomPages/News/NewsContainer') );
 const ProfileContainer = lazy( () => import('./components/CustomPages/Profile/ProfileContainer') );
@@ -52,6 +53,7 @@ function App(props) {
                         <Route path="/recovery" element={<RecoveryPassword/>}/>
                         <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
                         <Route path="/password-recovery/?" element={<NewPassword />} />
+                        <Route path="/error/recovery-password" element={<OldHash />} />
                     </Routes>
                 </div>
                 <div className="Admin">
