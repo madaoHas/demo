@@ -6,6 +6,7 @@ import {getUserItem, updateUserItem, updateUserItemPassword} from "../../../../r
 import {compose} from "redux";
 import {withRouter} from "../../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 
 const UserUpdateContainer = (props) => {
@@ -30,4 +31,4 @@ const mapStateToProps = (state) => ({
 
 
 export default compose(connect(mapStateToProps, {getUserItem, updateUserItem, updateUserItemPassword}),
-    withRouter, withAuthRedirect)(UserUpdateContainer);
+    withRouter, withAuthRedirect, withAdminRedirect)(UserUpdateContainer);

@@ -22,7 +22,7 @@ export const SwitchInput = (props) => {
                 checked={isChecked}
                 value={isChecked}
             />
-            <span className={classNames(classes.slider, classes.round)}></span>
+            <span className={classNames(classes.slider, classes.round)} />
         </label>
     )
 }

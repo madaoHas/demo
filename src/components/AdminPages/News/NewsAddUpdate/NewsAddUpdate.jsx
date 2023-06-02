@@ -83,7 +83,6 @@ const NewsAddUpdate = (props) => {
 
                 validationSchema={SignupSchema}
                 onSubmit={values => {
-                    console.log(values)
                     if (infoPage === 'add') {
                         props.addNews(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
                     }
@@ -166,7 +165,6 @@ const NewsAddUpdate = (props) => {
                                             </label>
                                             <input
                                                 id={'uploadPreviewPhoto'}
-                                                // value={values.previewPhoto}
                                                 type='file'
                                                 name={'previewPhoto'}
                                                 className={classes.photoInput}
@@ -194,7 +192,6 @@ const NewsAddUpdate = (props) => {
                                             </label>
                                             <input
                                                 type='file'
-                                                // value={values.coverPhoto || ''}
                                                 id={'uploadCoverPhoto'}
                                                 name={"coverPhoto"}
                                                 className={classes.photoInput}

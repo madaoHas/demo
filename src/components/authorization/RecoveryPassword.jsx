@@ -14,7 +14,6 @@ const SignupSchema = Yup.object().shape({
 
 const RecoveryPassword = (props) => {
     let location = useLocation();
-    console.log(location)
     return (
         <div className={classes.authContainer}>
             <Formik
@@ -23,12 +22,10 @@ const RecoveryPassword = (props) => {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
-                    console.log(values);
                     props.recoveryPassword(values, actions.setStatus)
                 }}
             >
                 {({
-                      values,
                       errors,
                       touched,
                       status={ error: [] }}) => (

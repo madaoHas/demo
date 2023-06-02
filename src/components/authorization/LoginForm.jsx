@@ -4,8 +4,6 @@ import classNames from "classnames";
 import React from "react";
 import * as Yup from "yup";
 import {NavLink} from "react-router-dom";
-import {connect} from "react-redux";
-import {login} from "../../redux/loginReducer";
 
 
 const SignupSchema = Yup.object().shape({

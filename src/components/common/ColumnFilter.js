@@ -64,19 +64,25 @@ const onChangeFilter = (props, e) => {
     }
 }
 
-const mapStateToProps = (state) => ({
-    // categories: state.category.category,
+const mapStateToProps = () => ({
 })
 
 const ColumnFilterContainer = (props) => {
     useEffect( () => {
         if (props.column.defaultValue) {
-            props.setFiltersComments(props.column.id, props.column.defaultValue.id)
+            if (props.column.table === 'news') {
+                props.setFiltersNews(props.column.id, props.column.defaultValue.id)
+            }
+            else if (props.column.table === 'users') {
+                props.setFiltersUsers(props.column.id, props.column.defaultValue.id)
+            }
+            else {
+                props.setFiltersComments(props.column.id, props.column.defaultValue.id)
+            }
         }
     }, [props.column.defaultValue] )
     useEffect( () => {
         if (props.column.defaultValueTitle) {
-            console.log(props.column.defaultValueTitle)
             props.setFiltersComments('title', props.column.defaultValueTitle.title)
         }
     }, [props.column.defaultValueTitle] )
@@ -93,10 +99,9 @@ const ColumnFilterContainer = (props) => {
 export const ColumnFilterDateContainer = (props) => {
     return (
         <div className={classes.dateContainer}>
-            <img src={"/img/Calendar.svg"} className={classes.labelDate} />
+            <img src={"/img/Calendar.svg"} className={classes.labelDate} alt={""} />
             <Flatpickr
                 className={classes.dateFilter}
-                // value={filterValue || ''}
                 onChange={(e) => {onChangeFilter(props, e)}}
                 options={{
                     dateFormat: "d-m-Y"
@@ -110,7 +115,7 @@ export const ColumnFilterSelectCategoryContainer = (props) => {
     return (
         <select className={classes.selectFilter}
                 onChange={(e) => {onChangeFilter(props, e)}}
-                disabled={props.column.categories.length === 0 ? true : false}
+                disabled={props.column.categories.length === 0}
         >
             <option value={''} />
             {props.column.categories.map(v => <option id={v.id} key={v.id} value={v.id} className={classes.categoryOption}>{v.name}</option>)}

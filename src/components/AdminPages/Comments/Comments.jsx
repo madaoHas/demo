@@ -1,4 +1,3 @@
-import {NavLink} from "react-router-dom";
 import classes from "../Users/Users.module.css"
 import CommentsTable from "./CommentsTable";
 import Paginator from "../../common/Paginator/Paginator";

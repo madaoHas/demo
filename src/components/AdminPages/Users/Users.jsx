@@ -12,7 +12,7 @@ const Users = (props) => {
                     <div className={classes.headerName}>Пользователи</div>
                     <div className={classes.headerLink}><NavLink to={"/admin/users/add"}>Добавить</NavLink></div>
                 </div>
-                <UsersTable users={props.users} updateActiveUser={props.updateActiveUser} deleteUser={props.deleteUser} />
+                <UsersTable state={props.state} users={props.users} updateActiveUser={props.updateActiveUser} deleteUser={props.deleteUser} />
             </div>
             <Paginator
                 pager={props.pager}

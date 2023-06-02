@@ -7,7 +7,7 @@ import React from "react";
 import * as Yup from "yup";
 
 
-const validatePassword = values => {
+const validatePassword = (values) => {
     let error = "";
     const passwordRegex = /(?=.*[0-9])/;
     if (!values) {
@@ -49,10 +49,12 @@ const RegistrationForm = ({registration}) => {
                     registration(values.email, values.password, actions.setStatus);
                 }}
             >
-                {({values,
+                {({
+                      values,
                       errors,
                       touched,
-                      status={ error: [] }}) => (
+                      status={ error: [] }
+                }) => (
                     <Form className={classes.form}>
                         <Field name="email" type="email" placeholder="Email"
                                className={classNames("input", "is-medium", {["is-danger"]: errors.email && touched.email})}
@@ -62,7 +64,7 @@ const RegistrationForm = ({registration}) => {
                                className={classNames("input", "is-medium", {["is-danger"]: errors.password && touched.password})}
                         />
                         {errors.password && touched.password ? <div className="has-text-danger">{errors.password}</div> : null}
-                       <Field type="confirmPassword" name="confirmPassword" placeholder="Повторите пароль" type="password"
+                       <Field name="confirmPassword" placeholder="Повторите пароль" type="password"
                               validate={value => validateConfirmPassword(values.password, value)}
                                className={classNames("input", "is-medium", {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
                         />
@@ -79,11 +81,7 @@ const RegistrationForm = ({registration}) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    // isAuth: state.auth.isAuth,
-    // captchaUrl: state.auth.captchaUrl
+const mapStateToProps = () => ({
 })
 
 export default connect(mapStateToProps, {registration})(RegistrationForm);
-
-// export default RegistrationForm;

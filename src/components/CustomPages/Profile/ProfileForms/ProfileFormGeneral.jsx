@@ -56,11 +56,15 @@ const ProfileFormGeneral = (props) => {
                     photo: props.profile.avatar_url
                 }}
                 validationSchema={SignupSchema}
-                onSubmit={values => {
-                    // values.date = values.date.split("-").reverse().join("-");
+                onSubmit={(values, actions) => {
                     values.numberPhone = values.numberPhone.split(" ").join("");
-                    console.log(values);
-                    props.setGeneralInfo(values.firstName, values.lastName, values.numberPhone, values.city, values.birthday, values.photo, values.email)
+                    if (typeof values.photo === 'string') {
+                        values.photo = undefined
+                    }
+                    if (values.photo === null) {
+                        values.photo = 'null'
+                    }
+                    props.setGeneralInfo(values.firstName, values.lastName, values.numberPhone, values.city, values.birthday, values.photo, values.email, actions.setStatus)
                 }}
             >
                 {({
@@ -68,7 +72,9 @@ const ProfileFormGeneral = (props) => {
                       errors,
                       touched,
                       setFieldValue,
-                      handleChange}) => (
+                      handleChange,
+                      status={ error: [] }
+                }) => (
                     <Form className={classes.form} encType="multipart/form-data" method="POST">
                         <div className={classes.avatar}>
                             <label htmlFor="photo" className={classes.label}>Аватар</label>
@@ -81,7 +87,6 @@ const ProfileFormGeneral = (props) => {
                                         </label>
                                         <input
                                             type='file'
-                                            // value={values.coverPhoto || ''}
                                             id={'uploadAvatarPhoto'}
                                             name={"photo"}
                                             className={classes.photoInput}
@@ -140,6 +145,7 @@ const ProfileFormGeneral = (props) => {
                                 <Field className="input" name="city"/>
                             </div>
                         </div>
+                        {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             Сохранить
                         </button>

@@ -3,9 +3,9 @@ import Categories from "./Categories";
 import {addCategory, getCategoryAdmin, deleteCategory, updateCategory} from "../../../redux/categoryReducer";
 import {useEffect} from "react";
 import {compose} from "redux";
-import {getGeneralInfo, setGeneralInfo, setPasswordProfile} from "../../../redux/profileReducer";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../hoc/withAdminRedirect";
 
 const CategoriesContainerAdmin = (props) => {
     useEffect( () => {
@@ -24,4 +24,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(connect(mapStateToProps, {getCategoryAdmin, addCategory, deleteCategory, updateCategory}),
-    withRouter, withAuthRedirect)(CategoriesContainerAdmin);
+    withRouter, withAuthRedirect, withAdminRedirect)(CategoriesContainerAdmin);

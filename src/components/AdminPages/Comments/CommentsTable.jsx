@@ -20,9 +20,6 @@ function CommentsTable(props) {
             {
                 Header: 'Дата комментария',
                 accessor: 'created_at',
-                // Cell: ({value}) => {
-                //     return format(new Date(value), "dd-MM-yyyy")
-                // },
                 Filter: ColumnFilterDate
             },
             {
@@ -63,8 +60,6 @@ function CommentsTable(props) {
         }
     }
 
-    const optionRef = React.createRef();
-
 
     let [inputId, setInputId] = useState(true);
     let [inputDate, setInputDate] = useState(false);
@@ -74,7 +69,8 @@ function CommentsTable(props) {
     let [inputComment, setInputComment] = useState(false);
 
     const ShowInput = () => {
-        let valueOption = optionRef.current.value;
+        let elemOnId = document.getElementById('selectFilter')
+        let valueOption = elemOnId.value;
 
         setInputId(false)
         setInputDate(false);
@@ -106,7 +102,7 @@ function CommentsTable(props) {
     return (
         <div className={classes.container}>
             <div className={classes.inputFilterMobile}>
-                <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}
+                <select className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}
                         defaultValue={props.state ? (props.state.id ? 'ID пользователя' : 'Новость') : null}
                 >
                     {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}

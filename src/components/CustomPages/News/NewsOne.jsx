@@ -12,7 +12,7 @@ const NewsOne = (props) => {
                     <div className={classes.date}>{props.news.date.split("-").reverse().join(".")}</div>
                 </div>
             </div>
-            <img src={props.news.preview_image_url ? process.env.REACT_APP_URL_BASE + props.news.preview_image_url.slice(7) : null} />
+            <img alt={""} src={props.news.preview_image_url ? process.env.REACT_APP_URL_BASE + props.news.preview_image_url.slice(7) : null} />
             <div className={classes.description}>
                 <div className={classes.headerContainer}>
                     <span className={classes.header}>{props.news.title}</span>

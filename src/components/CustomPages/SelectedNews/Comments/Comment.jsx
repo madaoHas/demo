@@ -6,7 +6,7 @@ import moment from "moment"
 const Comment = (props) => {
     return (
         <div className={classes.commentBlock}>
-            <img src={props.comment.user.profile.avatar_url ? process.env.REACT_APP_URL_BASE + props.comment.user.profile.avatar_url.slice(7) : '/img/images.jpeg'} />
+            <img alt={""} src={props.comment.user.profile.avatar_url ? process.env.REACT_APP_URL_BASE + props.comment.user.profile.avatar_url.slice(7) : '/img/images.jpeg'} />
             <div className={classes.comment}>
                 <div className={classes.info}>
                     <div className={classes.username}>{props.comment.user.profile.name ? props.comment.user.profile.name : props.comment.user.email}</div>

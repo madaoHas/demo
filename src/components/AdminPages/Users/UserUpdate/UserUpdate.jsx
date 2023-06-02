@@ -21,7 +21,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
 });
 
-const validatePassword = values => {
+const validatePassword = (values) => {
     let error = "";
     const passwordRegex = /(?=.*[0-9])/;
     if (!values) {
@@ -48,7 +48,6 @@ const validateConfirmPassword = (pass, value) => {
 };
 
 const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
-
 
     const [imageAvatar, setImageAvatar] = useState(null);
 
@@ -143,8 +142,8 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                 <div className={classes.stringInfo}>
                                     <label htmlFor={"comment"} className={classes.label}>Комментарии:</label>
                                     <div className={classes.link}>
-                                        <NavLink name={"comment"} to={"/admin/comments"}>Ссылка</NavLink>
-                                        <div className={classes.linkImg}></div>
+                                        <NavLink name={"comment"} to={"/admin/comments"} state={{id: userItem.id}}>Ссылка</NavLink>
+                                        <div className={classes.linkImg} />
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +208,6 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                         </label>
                                         <input
                                             type='file'
-                                            // value={values.coverPhoto || ''}
                                             id={'uploadAvatarPhoto'}
                                             name={"photo"}
                                             className={classes.photoInput}

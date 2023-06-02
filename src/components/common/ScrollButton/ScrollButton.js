@@ -25,12 +25,10 @@ const ScrollButton = () =>{
     window.addEventListener('scroll', toggleVisible);
 
     return (
-        // <Button>
-            <div onClick={scrollToTop}
-                 style={{display: visible ? 'inline' : 'none'}} className={classes.scrollBtn}>
-                <img src={"/img/ScrollBtn.svg"} />
-            </div>
-        // </Button>
+        <div onClick={scrollToTop}
+             style={{display: visible ? 'inline' : 'none'}} className={classes.scrollBtn}>
+            <img src={"/img/ScrollBtn.svg"} alt={""} />
+        </div>
     );
 }
 

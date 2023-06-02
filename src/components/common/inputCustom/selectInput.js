@@ -26,7 +26,7 @@ export const SelectInput = (props) => {
         <select className={classes.selectFilter}
                 onChange={onChange}
                 id={"selectInput"}
-                disabled={props.values.length === 0 ? true : false}
+                disabled={props.values.length === 0}
                 value={defaultValue ? defaultValue.name : ''}
         >
             <option hidden disabled value={''}> -- select an option -- </option>

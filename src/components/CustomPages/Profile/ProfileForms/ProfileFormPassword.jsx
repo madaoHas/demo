@@ -1,7 +1,6 @@
 import classes from "../Profile.module.css";
 import {Field, Form, Formik} from "formik";
 import React from "react";
-import * as Yup from "yup";
 import classNames from "classnames";
 
 
@@ -47,9 +46,7 @@ const ProfileFormPassword = (props) => {
                 initialValues={{
                     oldPassword: '', password: '', confirmPassword: ''
                 }}
-                // validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
-                    console.log(values);
                     props.setPasswordProfile(values.oldPassword, values.password, actions.setStatus);
                     actions.resetForm({values: ''});
                 }}
@@ -86,7 +83,8 @@ const ProfileFormPassword = (props) => {
                                 {errors.confirmPassword && touched.confirmPassword && (<div className="has-text-danger">{errors.confirmPassword}</div>)}
                             </div>
                         </div>
-                        {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
+                        {status && status.error ? (<div className="has-text-danger" style={status.error.length !== 0 ? {display: "block"} : {display: "none"}}>{status.error}</div>) : null}
+                        {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
                         <button type="submit" className={classNames("button", "has-background-grey", "has-text-white")}>
                             Сохранить
                         </button>

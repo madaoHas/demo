@@ -1,5 +1,4 @@
 import SelectedNews from "./SelectedNews";
-import {getNewsSuper} from "../../../redux/SelectedNewsSelector";
 import Comments from "./Comments/Comments";
 import classes from "./SelectedNewsContainer.module.css";
 import ScrollButton from "../../common/ScrollButton/ScrollButton";
@@ -29,7 +28,6 @@ const SelectedNewsContainer = (props) => {
                     pager={props.pager}
                 /> :
                 null}
-            {/*<Comments {...location} />*/}
             <ScrollButton className={classes.scroll} />
         </div>
     )

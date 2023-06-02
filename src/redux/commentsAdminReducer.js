@@ -92,6 +92,7 @@ export const getComments = (filter, page, limit) => async (dispatch, getState) =
         let data = await CommentsAdminAPI.getComments(getState().commentsAdminPage.filters, page, limit);
         dispatch(setCommentsAdmin(data));
         dispatch(setCommentItemAdmin({}));
+        // getState().commentsAdminPage.filters = {}
     }
     catch (error) {
         console.log(error)
@@ -110,7 +111,7 @@ export const getCommentItem = (id) => async (dispatch) => {
 export const updateComment = (id, text) => async (dispatch) => {
     try {
         await CommentsAdminAPI.updateComment(id, text);
-        dispatch(getComments(1, 10));
+        dispatch(getComments({}, 1, 10));
     }
     catch (error) {
         console.log(error)
@@ -127,11 +128,5 @@ export const deleteComment = (id) => async (dispatch, getState) => {
     }
 }
 
-
-
-// export const getSelectedNews = (idNews) => async (dispatch) => {
-//     let data = await NewsAPI.getSelectedNews(idNews)
-//     dispatch(setNews(data.items));
-// }
 
 export default commentsAdminReducer;

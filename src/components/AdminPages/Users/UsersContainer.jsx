@@ -5,14 +5,18 @@ import React, {useEffect} from "react";
 import {compose} from "redux";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../hoc/withAdminRedirect";
+import {useLocation} from "react-router-dom";
 
 const UsersContainer = (props) => {
+    const location = useLocation();
+    const { state } = location;
     useEffect( () => {
         props.getUsers({}, 1, 10)
     }, [] )
     return (
         <div>
-            <Users {...props} />
+            <Users {...props} state={state} />
         </div>
     )
 }
@@ -23,4 +27,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(connect(mapStateToProps, {getUsers, updateActiveUser, deleteUser}),
-    withRouter, withAuthRedirect)(UsersContainer);
+    withRouter, withAuthRedirect, withAdminRedirect)(UsersContainer);

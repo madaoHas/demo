@@ -3,7 +3,7 @@ import classes from "../Users/UsersTable.module.css";
 import {
     ColumnFilter,
     ColumnFilterDate,
-    ColumnFilterSelect, ColumnFilterSelectActive,
+    ColumnFilterSelectActive,
     ColumnFilterSelectCategory
 } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
@@ -18,19 +18,17 @@ function NewsTable(props) {
         setData(props.news)
     },[props.news] )
 
-    // const [enabled, setEnabled] = useState(false)
     const columns = React.useMemo(() => [
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
+                defaultValue: props.state,
+                table: 'news'
             },
             {
                 Header: 'Дата публикации',
                 accessor: 'date',
-                // Cell: ({value}) => {
-                //     return format(new Date(value), "dd-MM-yyyy")
-                // },
                 Filter: ColumnFilterDate
             },
             {
@@ -68,7 +66,6 @@ function NewsTable(props) {
         }
     }
 
-    let [inputSelect, setInputSelect] = useState(false);
 
     let [inputId, setInputId] = useState(true);
     let [inputDate, setInputDate] = useState(false);

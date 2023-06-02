@@ -8,8 +8,7 @@ const CommentsForm = (props) => {
     return (
         <div className={classes.formContainer}>
             <div className={classes.username}>
-                {/*process.env.REACT_APP_URL_BASE + userItem.profile.avatar_url.slice(7)*/}
-                <img src={props.auth.profile.avatar_url ? process.env.REACT_APP_URL_BASE + props.auth.profile.avatar_url.slice(7) : '/img/images.jpeg'} />
+                <img alt={""} src={props.auth.profile.avatar_url ? process.env.REACT_APP_URL_BASE + props.auth.profile.avatar_url.slice(7) : '/img/images.jpeg'} />
                 <div>Username</div>
             </div>
             <Formik
@@ -21,7 +20,7 @@ const CommentsForm = (props) => {
                     values.comment = '';
                 }}
             >
-                {({values, errors, touched, setFieldValue}) => (
+                {({errors, touched}) => (
                     <Form className={classes.form}>
                         <div className={classes.commentInput}>
                             <Field

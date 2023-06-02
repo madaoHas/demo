@@ -3,7 +3,6 @@ import Profile from "./Profile";
 import {getGeneralInfo, setGeneralInfo, setPasswordProfile} from "../../../redux/profileReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {auth, logout} from "../../../redux/loginReducer";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 

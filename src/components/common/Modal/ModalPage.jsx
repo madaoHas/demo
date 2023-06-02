@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import classes from "./ModalPage.module.css";
 
-const ModalPage = ({ isVisible = false, content, footer, onClose, updateActive, id, active }) => {
+const ModalPage = ({ isVisible = false, content, onClose, updateActive, id, active }) => {
     const keydownHandler = ({ key }) => {
         switch (key) {
             case 'Escape':

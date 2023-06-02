@@ -1,7 +1,6 @@
 import React from "react";
 import {useFilters, useTable} from "react-table";
 import classes from "./TableAdmin.module.css";
-import {matchSorter} from "match-sorter";
 import {NavLink} from "react-router-dom";
 import classNames from "classnames";
 import ModalPage from "./Modal/ModalPage";
@@ -25,7 +24,6 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
         if (oldName !== editingValue) {
             updateCategory(index, editingValue);
         }
-        // заканчиваем режим редактирования
         setEditingIndex(null);
         setEditingValue("");
     };
@@ -40,7 +38,6 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
     } = useTable({
             columns,
             data,
-            // filterTypes,
         },
         useFilters,
     )
@@ -80,7 +77,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                     prepareRow(row)
                     return (
                         <tr {...row.getRowProps()}>
-                            {row.cells.map((cell, index) => {
+                            {row.cells.map((cell) => {
                                 return <td className={classNames(classes.ellipsis, {[classes.switch]: cell.column.Header === "Активен"})}
                                            {...cell.getCellProps()}
                                            data-label={cell.column.Header !== "Активен" ? cell.column.Header : null}>

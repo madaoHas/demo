@@ -1,10 +1,8 @@
 import React from "react";
 import classes from "../Users/UsersTable.module.css";
-import classNames from "classnames";
-import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
+import { ColumnFilter } from "../../common/ColumnFilter";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
-import {deleteCategory} from "../../../redux/categoryReducer";
 
 
 function CategoriesTable(props) {
@@ -28,14 +26,12 @@ function CategoriesTable(props) {
     const data = props.categories
 
 
-
     let [inputId, setInputId] = useState(true);
     let [inputText, setInputText] = useState(false);
 
     const ShowInput = () => {
         let elemOnId = document.getElementById('selectFilter')
         let valueOption = elemOnId.value;
-        console.log(valueOption);
         setInputId(false)
         setInputText(false);
 
@@ -46,7 +42,6 @@ function CategoriesTable(props) {
             setInputText(true);
         }
 
-        console.log('inputText - ' + inputText);
     }
 
     return (

@@ -110,6 +110,7 @@ export const getCategoryAdmin = (filter, page, limit) => async (dispatch, getSta
             dispatch(setCategory(data.data.data));
             dispatch(setPage(data.data.pager_out));
         }
+        // getState().category.filters = {}
     } catch (error) {
         console.log(error);
     }
@@ -118,7 +119,7 @@ export const getCategoryAdmin = (filter, page, limit) => async (dispatch, getSta
 export const addCategory = (name, setStatus) => async (dispatch) => {
     try {
         await CategoryAPI.addCategory(name)
-        dispatch(getCategoryAdmin(1, 10));
+        dispatch(getCategoryAdmin({}, 1, 10));
     }
     catch (error) {
         if (error.response.status === 400) {
@@ -127,17 +128,14 @@ export const addCategory = (name, setStatus) => async (dispatch) => {
     }
 }
 
-export const updateCategory = (id, name, setStatus) => async (dispatch) => {
+export const updateCategory = (id, name) => async (dispatch) => {
     try {
         console.log(name)
         await CategoryAPI.updateCategory(id, name)
-        dispatch(getCategoryAdmin(1, 10));
+        dispatch(getCategoryAdmin({}, 1, 10));
     }
     catch (error) {
         console.log(error)
-        // if (error.response.status === 400) {
-        //     setStatus({error: 'Такая категория уже есть!'})
-        // }
     }
 }
 
@@ -147,9 +145,8 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
         dispatch(getCategoryAdmin(getState().category.filters, 1, 10));
     }
     catch (error) {
-
+        console.log(error)
     }
-
 }
 
 export default categoryReducer;

@@ -15,7 +15,7 @@ export const DateInput = (props) => {
 
     return (
         <div className={classes.dateContainer}>
-            <img src={"/img/Calendar.svg"} className={classes.labelDate} />
+            <img src={"/img/Calendar.svg"} className={classes.labelDate} alt={""} />
             <Flatpickr
                 type={props.type}
                 className={classes.dateFilter}

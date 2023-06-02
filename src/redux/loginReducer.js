@@ -1,5 +1,4 @@
 import {AuthAPI} from "../api/api";
-// import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_HASH = 'auth/SET_HASH'
@@ -41,12 +40,11 @@ export const setHash = (hashResult) => {
     }
 }
 
-export const registration = (email, password, setStatus) => async (dispatch) => {
+export const registration = (email, password, setStatus) => async () => {
     try {
         let data = await AuthAPI.registration(email, password);
         console.log(data);
         setStatus({success: 'Регистрация прошла успешно'})
-        // dispatch
     }
     catch (error) {
         console.log(error);
@@ -77,7 +75,6 @@ export const login = (email, password, setStatus) => async (dispatch) => {
         dispatch(auth());
     }
     catch (error) {
-        console.log(error.response.status)
         if (error.response.status === 401) {
             setStatus({error: 'Неверный логин или пароль'})
         }
@@ -90,18 +87,14 @@ export const login = (email, password, setStatus) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
     try {
         await AuthAPI.logout();
-        // localStorage.clear();
         dispatch(setAuthUserData(null));
-        // if (data.resultCode === 0) {
-        //     dispatch(setAuthUserData(null, null, false));
-        // }
     }
     catch(error) {
         console.log(error);
     }
 }
 
-export const recoveryPassword = (email, setStatus) => async (dispatch) => {
+export const recoveryPassword = (email, setStatus) => async () => {
     try {
         await AuthAPI.recovery(email);
         setStatus({success: 'Отправлено письмо на почту'})
@@ -122,7 +115,7 @@ export const checkHash = (hash) => async (dispatch) => {
     }
 }
 
-export const changePassword = (password, hash, setStatus) => async (dispatch) => {
+export const changePassword = (password, hash, setStatus) => async () => {
     try {
         await AuthAPI.changePassword(password, hash);
     }

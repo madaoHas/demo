@@ -27,10 +27,8 @@ const UserAdd = (props) => {
                 }}
             >
                 {({
-                      values,
                       errors,
                       touched,
-                      setFieldValue,
                       status={ error: [] }
                 }) => (
                     <Form className={classes.form}>

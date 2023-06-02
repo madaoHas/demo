@@ -91,6 +91,7 @@ export const getNews = (filters, currentPage, limit) => async (dispatch, getStat
         let data = await NewsAdminAPI.getNews(getState().newsAdminPage.filters, currentPage, limit)
         dispatch(setNews(data));
         dispatch(setNewsItem({}));
+        // getState().newsAdminPage.filters = {}
     }
     catch (error) {
         console.log(error)
@@ -107,7 +108,7 @@ export const getNewsItem = (id) => async (dispatch) => {
     }
 }
 
-export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch, getState) => {
+export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
     try {
         await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
         dispatch(getNews({},1, 10))
@@ -117,7 +118,7 @@ export const addNews = (categoryId, title, previewText, previewImageUrl, text, t
     }
 }
 
-export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch, getState) => {
+export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch) => {
     try {
         await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
         dispatch(getNews({},1, 10))
@@ -147,13 +148,5 @@ export const deleteNews = (id, page = 1, limit = 10) => async (dispatch, getStat
     }
 }
 
-
-
-
-
-// export const getSelectedNews = (idNews) => async (dispatch) => {
-//     let data = await NewsAPI.getSelectedNews(idNews)
-//     dispatch(setNews(data.items));
-// }
 
 export default newsAdminReducer;

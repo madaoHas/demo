@@ -1,5 +1,4 @@
 import {UsersAdminAPI} from "../api/api";
-import {getNews} from "./newsAdminReducer";
 
 const SET_USERS = 'SET_USERS';
 const SET_USER_ITEM = 'SET_USER_ITEM'
@@ -92,6 +91,7 @@ export const getUsers = (filters, page, limit) => async (dispatch, getState) => 
         let data = await UsersAdminAPI.getUsers(getState().usersAdminPage.filters, page, limit);
         dispatch(setUsers(data));
         dispatch(setUserItem({}));
+        // getState().usersAdminPage.filters = {}
     }
     catch (error) {
         console.log(error)
@@ -106,22 +106,20 @@ export const getUserItem = (id) => async (dispatch) => {
         console.log(error)
     }
 }
-export const updateUserItem = (userItem, setStatus) => async (dispatch) => {
+export const updateUserItem = (userItem, setStatus) => async () => {
     try {
         await UsersAdminAPI.updateUserItem(userItem);
         setStatus({success: 'Успешно измененно!'})
-        // dispatch(getUsers(1, 10));
     }
     catch (error) {
         console.log(error)
     }
 }
 
-export const updateUserItemPassword = (password, setStatus) => async (dispatch) => {
+export const updateUserItemPassword = (password, setStatus) => async () => {
     try {
         await UsersAdminAPI.updateUserItemPassword(password);
         setStatus({success: 'Успешно измененно!'})
-        // dispatch(getUsers(1, 10));
     }
     catch (error) {
         console.log(error)
@@ -133,9 +131,7 @@ export const updateUserItemPassword = (password, setStatus) => async (dispatch) 
 export const addUser = (email, password, setStatus) => async (dispatch) => {
     try {
         await UsersAdminAPI.addUsers(email, password)
-        // dispatch(setCurrentPage(currentPage));
         dispatch(getUsers(1, 10));
-        // dispatch(setTotalNewsCount(data.totalCount));
     }
     catch (error) {
         console.log(error)
@@ -148,9 +144,7 @@ export const addUser = (email, password, setStatus) => async (dispatch) => {
 export const updateActiveUser = (id, active) => async (dispatch, getState) => {
     try {
         await UsersAdminAPI.updateActiveUser(id, active);
-        // dispatch(setCurrentPage(currentPage));
         dispatch(getUsers(getState().usersAdminPage.filters, 1, 10));
-        // dispatch(setTotalNewsCount(data.totalCount));
     }
     catch (error) {
         console.log(error)

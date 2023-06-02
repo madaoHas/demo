@@ -5,6 +5,7 @@ import {addUser} from "../../../../redux/usersAdminReducer";
 import {compose} from "redux";
 import {withRouter} from "../../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 const UserAddContainer = (props) => {
     return (
@@ -13,9 +14,9 @@ const UserAddContainer = (props) => {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
 })
 
 export default compose(connect(mapStateToProps, {addUser}),
-    withRouter, withAuthRedirect)(UserAddContainer);
+    withRouter, withAuthRedirect, withAdminRedirect)(UserAddContainer);
 

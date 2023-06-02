@@ -6,6 +6,7 @@ import {getCommentItem, updateComment} from "../../../../redux/commentsAdminRedu
 import {compose} from "redux";
 import {withRouter} from "../../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 const CommentsUpdateContainer = (props) => {
     const location = useLocation();
@@ -15,7 +16,6 @@ const CommentsUpdateContainer = (props) => {
             props.getCommentItem(state.row.id)
         }
     }, [] )
-    console.log(props);
     if (state) {
         return (
             <CommentsUpdate {...props} />
@@ -33,5 +33,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(connect(mapStateToProps, {getCommentItem, updateComment}),
-    withRouter, withAuthRedirect)(CommentsUpdateContainer);
+    withRouter, withAuthRedirect, withAdminRedirect)(CommentsUpdateContainer);
 

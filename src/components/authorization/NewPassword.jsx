@@ -7,7 +7,7 @@ import {Field, Form, Formik} from "formik";
 import classNames from "classnames";
 
 
-const validatePassword = values => {
+const validatePassword = (values) => {
     let error = "";
     const passwordRegex = /(?=.*[0-9])/;
     if (!values) {
@@ -36,11 +36,9 @@ const validateConfirmPassword = (pass, value) => {
 const NewPassword = (props) => {
     let navigate = useNavigate();
     const location = useLocation();
-    console.log(location.search.slice(6))
     useEffect( () => {
         props.checkHash(location.search.slice(6))
     }, [props.hashResult] )
-    console.log(props)
     if (props.hashResult === true) {
         return (
             <div className={classes.authContainer}>
@@ -63,7 +61,7 @@ const NewPassword = (props) => {
                                    className={classNames("input", "is-medium", {["is-danger"]: errors.password && touched.password})}
                             />
                             {errors.password && touched.password ? <div className="has-text-danger">{errors.password}</div> : null}
-                            <Field type="confirmPassword" name="confirmPassword" placeholder="Повторите пароль" type="password"
+                            <Field name="confirmPassword" placeholder="Повторите пароль" type="password"
                                    validate={value => validateConfirmPassword(values.password, value)}
                                    className={classNames("input", "is-medium", {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
                             />

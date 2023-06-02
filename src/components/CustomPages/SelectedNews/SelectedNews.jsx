@@ -10,7 +10,7 @@ const SelectedNews = (props) => {
         <div className={classes.news}>
             <div className={classes.header}>
                 <div className={classes.backBlock}>
-                    <NavLink to={"/"} className={classNames(classes.arrow, classes.arrowLeft)}></NavLink>
+                    <NavLink to={"/"} className={classNames(classes.arrow, classes.arrowLeft)} />
                     <NavLink to={"/"} className={classes.back}>
                         Назад
                     </NavLink>
@@ -26,7 +26,7 @@ const SelectedNews = (props) => {
                 </div>
             </div>
             <div className={classes.newsBlock}>
-                <img src={props.text_image_url ? process.env.REACT_APP_URL_BASE + props.text_image_url.slice(7) : null}/>
+                <img alt={""} src={props.text_image_url ? process.env.REACT_APP_URL_BASE + props.text_image_url.slice(7) : null}/>
                 <div className={classes.textBlock}>
                     <div className={classes.textHeader}>
                         {props.title}

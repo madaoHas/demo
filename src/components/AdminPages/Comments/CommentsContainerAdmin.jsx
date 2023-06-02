@@ -6,6 +6,7 @@ import {useLocation} from "react-router-dom";
 import {compose} from "redux";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {withAdminRedirect} from "../../../hoc/withAdminRedirect";
 
 const CommentsContainerAdmin = (props) => {
     const location = useLocation();
@@ -26,4 +27,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default compose(connect(mapStateToProps, {getComments, deleteComment}),
-    withRouter, withAuthRedirect)(CommentsContainerAdmin);
+    withRouter, withAuthRedirect, withAdminRedirect)(CommentsContainerAdmin);

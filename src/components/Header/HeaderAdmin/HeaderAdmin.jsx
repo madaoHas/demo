@@ -14,15 +14,15 @@ const HeaderAdmin = (props) => {
                 <img className={classes.logo} src="/logo192.png" alt="Лого" />
             </NavLink>
             <div className={classes.info}>
-                <img src={props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg'} />
+                <img alt={""} src={props.info ? (props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg') : null} />
                 <div className={classes.name}>{ props.info?.name ?
                     <span>{props.info.name + ' ' + props.info.surname}</span> :
-                    (props.email ? <span to={'/profile'}>{props.email}</span> : null)
+                    (props.email ? <span>{props.email}</span> : null)
                     }
                 </div>
             </div>
             <label className={classes.hamb} htmlFor="sideMenu">
-                <span className={classes.hambLine}></span>
+                <span className={classes.hambLine} />
             </label>
             <nav className={classes.nav}>
                 <ul className={classes.menu}>
@@ -37,7 +37,7 @@ const HeaderAdmin = (props) => {
                 </ul>
                 <ul className={classes.menuDesktop}>
                     <li>
-                        <NavLink to={'/profile'}><img src={props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg'} /></NavLink>
+                        <NavLink to={'/profile'}><img alt={""} src={props.info ? (props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg') : null} /></NavLink>
                     </li>
                     <li>
                         {

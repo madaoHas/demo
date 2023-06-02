@@ -21,14 +21,13 @@ function UsersTable(props) {
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter
+                Filter: ColumnFilter,
+                defaultValue: props.state,
+                table: 'users'
             },
             {
                 Header: 'Дата регистрации',
                 accessor: 'created_at',
-                // Cell: ({value}) => {
-                //     return format(new Date(value), "dd-MM-yyyy")
-                // },
                 Filter: ColumnFilterDate
             },
             {

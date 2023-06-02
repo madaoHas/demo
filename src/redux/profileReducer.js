@@ -1,7 +1,6 @@
-import {NewsAPI, ProfileAPI} from "../api/api";
+import {ProfileAPI} from "../api/api";
 
 const SET_PROFILE = 'SET_PROFILE';
-const SET_PASSWORD = 'SET_PASSWORD';
 
 let initialState = {
     generalInfo: {},
@@ -29,7 +28,6 @@ export const setProfile = (generalInfo) => {
 export const getGeneralInfo = () => async (dispatch) => {
     try {
         let data = await ProfileAPI.getGeneralInfo()
-        console.log(data);
         dispatch(setProfile(data));
     }
     catch (error) {
@@ -38,10 +36,10 @@ export const getGeneralInfo = () => async (dispatch) => {
 
 }
 
-export const setGeneralInfo = (name, surname, phone_number, city, birthday, avatar_url, email) => async (dispatch) => {
+export const setGeneralInfo = (name, surname, phone_number, city, birthday, avatar_url, email, setStatus) => async (dispatch) => {
     try {
         await ProfileAPI.setGeneralInfo(name, surname, phone_number, city, birthday, avatar_url, email)
-        dispatch(getGeneralInfo());
+        setStatus({success: 'Успешно измененно!'})
     }
     catch (error) {
         console.log(error);
@@ -49,9 +47,10 @@ export const setGeneralInfo = (name, surname, phone_number, city, birthday, avat
 
 }
 
-export const setPasswordProfile = (old_password, password, setStatus) => async (dispatch) => {
+export const setPasswordProfile = (old_password, password, setStatus) => async () => {
     try {
         await ProfileAPI.setPassword(old_password, password)
+        setStatus({success: 'Успешно измененно!'})
     }
     catch (error) {
         console.log(error);
