@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useLocation, Navigate, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {connect} from "react-redux";
 import {changePassword, checkHash} from "../../redux/loginReducer";
 import classes from "./RecoveryPassword.module.css";
