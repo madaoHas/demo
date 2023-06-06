@@ -17,11 +17,11 @@ const CommentsUpdate = (props) => {
             <Formik
                 enableReinitialize={true}
                 initialValues={{
-                    id: props.newsItem.id,
-                    date: props.newsItem.created_at,
+                    id: props.commentItem.id,
+                    date: props.commentItem.created_at,
                     news: '',
                     user: '',
-                    comment: props.newsItem.text
+                    comment: props.commentItem.text
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
@@ -43,7 +43,7 @@ const CommentsUpdate = (props) => {
                                 <div>
                                     <label htmlFor="news" className={classes.label}>Новость:</label>
                                     <div className={classes.link}>
-                                        <NavLink name={"news"} to={"/admin/news"} state={{id: props.newsItem.post_id}}>Ссылка</NavLink>
+                                        <NavLink name={"news"} to={"/admin/news"} state={{id: props.commentItem.post_id}}>Ссылка</NavLink>
                                         <div className={classes.linkImg} />
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@ const CommentsUpdate = (props) => {
                                 <div>
                                     <label htmlFor="user" className={classes.label}>Пользователь:</label>
                                     <div className={classes.link}>
-                                        <NavLink name={"user"} to={"/admin/users"} state={{id: props.newsItem.user_id}}>Ссылка</NavLink>
+                                        <NavLink name={"user"} to={"/admin/users"} state={{id: props.commentItem.user_id}}>Ссылка</NavLink>
                                         <div className={classes.linkImg} />
                                     </div>
                                 </div>

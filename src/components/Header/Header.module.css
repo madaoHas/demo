@@ -8,6 +8,10 @@
     gap: 8px;
 }
 
+.photoProfile {
+    background-color: #545454;
+}
+
 .news {
     top: 0;
     bottom: 0;
@@ -89,6 +93,11 @@ a {
         gap: 0;
         justify-content: start;
     }
+    /*.headerNotAuth {*/
+    /*    display: flex;*/
+    /*    flex-direction: row;*/
+    /*    justify-content: space-between;*/
+    /*}*/
     .header .logoAdmin img {
         height: 30px;
         margin-top: 3px;

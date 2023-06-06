@@ -11,16 +11,21 @@ import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 const UserUpdateContainer = (props) => {
     const location = useLocation();
-    const { state } = location;
+    let id = location.pathname.slice(20);
     useEffect( () => {
-        if (state) {
-            props.getUserItem(state.row.id)
+        if (id) {
+            props.getUserItem(id)
         }
-    }, [] )
+    }, [id] )
     if (props.userItem) {
-        return (
-            <UserUpdate userItem={props.userItem} updateUserItem={props.updateUserItem} updateUserItemPassword={props.updateUserItemPassword} />
-        )
+        if (props.userItem.error) {
+            return <div>{props.userItem.error}</div>
+        }
+        else {
+            return (
+                <UserUpdate userItem={props.userItem} updateUserItem={props.updateUserItem} updateUserItemPassword={props.updateUserItemPassword} />
+            )
+        }
     }
 }
 

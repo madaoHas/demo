@@ -70,9 +70,9 @@ function App(props) {
                             <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
                             <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
                             <Route path="/admin/users/add" element={<UserAddContainer />}/>
-                            <Route path="/admin/users/update" element={<UserUpdateContainer />}/>
-                            <Route path="/admin/comments/update" element={<CommentsUpdateContainer />}/>
-                            <Route path="/admin/news/update" element={<NewsAddUpdateContainer />}/>
+                            <Route path="/admin/users/update/:userId?" element={<UserUpdateContainer />}/>
+                            <Route path="/admin/comments/update/:commentId?" element={<CommentsUpdateContainer />}/>
+                            <Route path="/admin/news/update/:newsId?" element={<NewsAddUpdateContainer />}/>
                             <Route path="/admin/news/add" element={<NewsAddUpdateContainer />}/>
                         </Routes>
                     </div>

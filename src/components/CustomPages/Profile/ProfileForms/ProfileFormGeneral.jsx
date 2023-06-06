@@ -79,7 +79,7 @@ const ProfileFormGeneral = (props) => {
                         <div className={classes.avatar}>
                             <label htmlFor="photo" className={classes.label}>Аватар</label>
                             <div className={classes.photoContainer}>
-                                <img className={classes.photo} alt={''} src={imageAvatar} />
+                                <div className={classes.photo}><img alt={''} src={imageAvatar} /></div>
                                 <div className={classes.controlsButtonPhoto}>
                                     <div>
                                         <label htmlFor={'uploadAvatarPhoto'}  className={classes.buttonPhoto}>

@@ -106,6 +106,7 @@ export const getCommentItem = (id) => async (dispatch) => {
     }
     catch (error) {
         console.log(error)
+        dispatch(setCommentItemAdmin({error: 'Такого комментария нет'}));
     }
 }
 export const updateComment = (id, text) => async (dispatch) => {

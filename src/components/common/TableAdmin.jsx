@@ -80,6 +80,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                             {row.cells.map((cell) => {
                                 return <td className={classNames(classes.ellipsis, {[classes.switch]: cell.column.Header === "Активен"})}
                                            {...cell.getCellProps()}
+                                           title={cell.column.Header !== "Активен" ? cell.value : null}
                                            data-label={cell.column.Header !== "Активен" ? cell.column.Header : null}>
                                 <span className={classes.rowTable}>
                                     {cell.column.Header === "Активен" ?
@@ -111,14 +112,14 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                                 </td>
                             })}
                             {linkCom ?
-                                <td className={classNames(classes.link, classes.navLink)}>
+                                <td className={classNames(classes.link, classes.navLink)} title={"Связанные комментарии"}>
                                     <NavLink to={"/admin/comments"} state={infoTable === 'users' ? {id: row.values.id} : {title: row.values.title}}><img src={"/img/linkCom.svg"} alt={''}/></NavLink>
                                 </td> : null
                             }
-                            <td className={classNames(classes.link)}>
+                            <td className={classNames(classes.link)} title={"Изменить"}>
                                 {infoTable !== 'categories' ?
-                                    <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update"}>
-                                    <img src={"/img/update.svg"} alt={''} />
+                                    <NavLink state={{row: row.values}} to={"/admin/" + infoTable + "/update/" + row.values.id}>
+                                        <img src={"/img/update.svg"} alt={''} />
                                     </NavLink> :
                                     (editingIndex === row.id) ? (
                                             <button className={classNames(classes.link, classes.buttonUpdate)}
@@ -133,7 +134,7 @@ export const TableAdmin = ({columns, data, linkCom, infoTable, updateActive, del
                                     )}
 
                             </td>
-                            <td className={classNames(classes.link, classes.deleteLink)}>
+                            <td className={classNames(classes.link, classes.deleteLink)} title={"Удалить"}>
                                 <NavLink><img src={"/img/delete.svg"} onClick={() => { onDeleteRow(row.values.id) }} alt={''}/></NavLink>
                             </td>
                         </tr>

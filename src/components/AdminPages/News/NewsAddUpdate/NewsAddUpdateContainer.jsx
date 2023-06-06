@@ -16,25 +16,30 @@ import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 const NewsAddUpdateContainer = (props) => {
     const location = useLocation();
-    const { state } = location;
-    let url = window.location.href;
-    let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
+    let id = location.pathname.slice(19);
+    let infoPage = location.pathname.slice(12);
 
     useEffect( () => {
         props.getCategory();
-        if (state) {
-            props.getNewsItem(state.row.id)
+        if (id) {
+            props.getNewsItem(id)
         }
     },[] )
 
-    if (infoPage === 'update' && state) {
-        return (
-            <NewsAddUpdate {...props} id={state.row.id} />
-        )
+    if (infoPage === 'update/' + id) {
+        if (props.newsItem.error) {
+            return <div>{props.newsItem.error}</div>
+        }
+        else {
+            return (
+                <NewsAddUpdate {...props} id={id} infoPage={infoPage} />
+            )
+        }
+
     }
     else if (infoPage === 'add') {
         return (
-            <NewsAddUpdate {...props} />
+            <NewsAddUpdate {...props} infoPage={infoPage} />
         )
     }
     else {

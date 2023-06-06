@@ -4,7 +4,13 @@ import moment from "moment";
 import Flatpickr from "react-flatpickr";
 import {connect} from "react-redux";
 import {filterMobileNews, setFiltersNews} from "../../redux/newsAdminReducer";
-import {filterMobileUsers, setFiltersUsers} from "../../redux/usersAdminReducer";
+import {
+    filterMobileUsers,
+    getUsers,
+    setFiltersOnTemporary,
+    setFiltersTemporary,
+    setFiltersUsers
+} from "../../redux/usersAdminReducer";
 import {filterMobileComments, setFiltersComments} from "../../redux/commentsAdminReducer";
 import {filterMobileCategories, setFiltersCategories} from "../../redux/categoryReducer";
 
@@ -87,11 +93,18 @@ const ColumnFilterContainer = (props) => {
         }
     }, [props.column.defaultValueTitle] )
     return (
-        <input
-            className={classes.inputFilter}
-            defaultValue={props.column.defaultValue ? props.column.defaultValue.id : (props.column.defaultValueTitle ? props.column.defaultValueTitle.title : '')}
-            onChange={(e) => {onChangeFilter(props,e)}}
-        />
+        <form onSubmit={ (e) => {
+            props.setFiltersOnTemporary();
+            // e.preventDefault();
+        } }>
+            <input
+                name={props.column.id}
+                className={classes.inputFilter}
+                defaultValue={props.column.defaultValue ? props.column.defaultValue.id : (props.column.defaultValueTitle ? props.column.defaultValueTitle.title : '')}
+                // onChange={(e) => {onChangeFilter(props,e)}}
+                onChange={ (e) => {props.setFiltersTemporary(props.column.id, e.target.value)} }
+            />
+        </form>
     )
 }
 
@@ -171,7 +184,7 @@ export const ColumnFilterSelectRoleContainer = (props) => {
     )
 }
 
-export const ColumnFilter = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, setFiltersCategories, filterMobileUsers, filterMobileNews, filterMobileCategories, filterMobileComments})(ColumnFilterContainer);
+export const ColumnFilter = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, setFiltersCategories, filterMobileUsers, filterMobileNews, filterMobileCategories, filterMobileComments, setFiltersTemporary, setFiltersOnTemporary})(ColumnFilterContainer);
 
 export const ColumnFilterDate = connect(mapStateToProps, {setFiltersNews, setFiltersUsers, setFiltersComments, filterMobileUsers, filterMobileNews, filterMobileComments})(ColumnFilterDateContainer);
 

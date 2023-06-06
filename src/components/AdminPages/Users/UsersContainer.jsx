@@ -13,7 +13,7 @@ const UsersContainer = (props) => {
     const { state } = location;
     useEffect( () => {
         props.getUsers({}, 1, 10)
-    }, [] )
+    }, [props.filters.id] )
     return (
         <div>
             <Users {...props} state={state} />
@@ -23,7 +23,8 @@ const UsersContainer = (props) => {
 
 const mapStateToProps = (state) => ({
     users: state.usersAdminPage.users,
-    pager: state.usersAdminPage.pager_out
+    pager: state.usersAdminPage.pager_out,
+    filters: state.usersAdminPage.filters
 })
 
 export default compose(connect(mapStateToProps, {getUsers, updateActiveUser, deleteUser}),

@@ -9,7 +9,7 @@ const Comment = (props) => {
             <img alt={""} src={props.comment.user.profile.avatar_url ? process.env.REACT_APP_URL_BASE + props.comment.user.profile.avatar_url.slice(7) : '/img/images.jpeg'} />
             <div className={classes.comment}>
                 <div className={classes.info}>
-                    <div className={classes.username}>{props.comment.user.profile.name ? props.comment.user.profile.name : props.comment.user.email}</div>
+                    <div className={classes.username}>{props.comment.user.profile.name ? props.comment.user.profile.name : null} {props.comment.user.profile.surname ? props.comment.user.profile.surname : null} {!props.comment.user.profile.surname && !props.comment.user.profile.name ? props.comment.user.email : null}</div>
                     <div className={classes.dateBlock}>
                         <Icon path={mdiClockTimeNineOutline} size={0.7}/>
                         <div className={classes.date}>{moment(props.comment.created_at).format('DD.MM.yyyy HH:mm')}</div>

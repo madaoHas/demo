@@ -105,6 +105,7 @@ export const getNewsItem = (id) => async (dispatch) => {
     }
     catch (error) {
         console.log(error)
+        dispatch(setNewsItem({error: 'Новость не найдена'}));
     }
 }
 

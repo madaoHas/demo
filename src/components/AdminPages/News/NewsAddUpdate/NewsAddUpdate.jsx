@@ -20,8 +20,7 @@ const SignupSchema = Yup.object().shape({
 const NewsAddUpdate = (props) => {
 
     let navigate = useNavigate();
-    let url = window.location.href;
-    let infoPage = url.match(/(?<=(http:\/\/localhost:3000\/admin\/news\/))((add)|(update))$/)[0]
+    let infoPage = props.infoPage.match(/((add)|(update))\/?\d*$/)[1]
 
     const [imagePreview, setImagePreview] = useState(null);
     const [imageCover, setImageCover] = useState(null);

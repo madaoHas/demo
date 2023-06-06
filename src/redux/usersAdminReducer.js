@@ -3,6 +3,7 @@ import {UsersAdminAPI} from "../api/api";
 const SET_USERS = 'SET_USERS';
 const SET_USER_ITEM = 'SET_USER_ITEM'
 const SET_FILTER_USERS = 'SET_FILTER_USERS'
+const SET_FILTER_TEMPORARY = 'SET_FILTER_TEMPORARY'
 
 let initialState = {
     users: [],
@@ -14,6 +15,12 @@ let initialState = {
         role: null,
         is_active: null,
         created_at: "",
+        name: "",
+        surname: ""
+    },
+    filtersTemporary: {
+        id: null,
+        email: "",
         name: "",
         surname: ""
     }
@@ -37,6 +44,11 @@ const usersAdminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filters: action.filter
+            }
+        case SET_FILTER_TEMPORARY:
+            return {
+                ...state,
+                filtersTemporary: action.filter
             }
         default: return state;
     }
@@ -62,12 +74,47 @@ export const setFilterUsers = (filter) => {
     }
 }
 
+export const setFilterTemporary = (filter) => {
+    return {
+        type: SET_FILTER_TEMPORARY,
+        filter
+    }
+}
+
+export const setFiltersTemporary = (filterName, valueName) => async (dispatch, getState) => {
+    try {
+        let filterTem = getState().usersAdminPage.filtersTemporary;
+        filterTem[filterName] = valueName;
+        dispatch(setFilterTemporary(filterTem))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const setFiltersOnTemporary = () => async (dispatch, getState) => {
+    try {
+        let filter = getState().usersAdminPage.filters;
+        let filterTem = getState().usersAdminPage.filtersTemporary;
+        console.log(filterTem)
+        filter.id = filterTem.id;
+        filter.email = filterTem.email;
+        filter.name = filterTem.name;
+        filter.surname = filterTem.surname;
+        console.log(filter);
+        dispatch(setFilterUsers(filter));
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 export const setFiltersUsers = (filterName, valueName) => async (dispatch, getState) => {
     try {
         let filter = getState().usersAdminPage.filters;
-        filter[filterName] = valueName
-        dispatch(setFilterUsers(filter))
-        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10))
+        filter[filterName] = valueName;
+        dispatch(setFilterUsers(filter));
+        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10));
     }
     catch (error) {
         console.log(error)
@@ -104,6 +151,11 @@ export const getUserItem = (id) => async (dispatch) => {
     }
     catch (error) {
         console.log(error)
+        dispatch(setUserItem({
+            data: {
+                error: 'Пользователь не найден'
+            }
+        }));
     }
 }
 export const updateUserItem = (userItem, setStatus) => async () => {

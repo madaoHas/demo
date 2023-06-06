@@ -10,26 +10,24 @@ import {withAdminRedirect} from "../../../../hoc/withAdminRedirect";
 
 const CommentsUpdateContainer = (props) => {
     const location = useLocation();
-    const { state } = location;
+    let id = location.pathname.slice(23);
     useEffect( () => {
-        if (state) {
-            props.getCommentItem(state.row.id)
+        if (id) {
+            props.getCommentItem(id)
         }
     }, [] )
-    if (state) {
-        return (
-            <CommentsUpdate {...props} />
-        )
+    if (props.commentItem.error) {
+        return <div>{props.commentItem.error}</div>
     }
     else {
         return (
-            <Navigate to={"/admin/comments"} />
+            <CommentsUpdate {...props} />
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    newsItem: state.commentsAdminPage.commentItem
+    commentItem: state.commentsAdminPage.commentItem
 })
 
 export default compose(connect(mapStateToProps, {getCommentItem, updateComment}),

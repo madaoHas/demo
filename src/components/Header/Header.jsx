@@ -16,7 +16,9 @@ const Header = (props) => {
             <div className={ classes.loginBlock }>
 
                 <div className={ classes.mobileHeader }>
-                    <NavLink to={'/profile'}><img style={props.info ? {display: "block"} : {display: 'none'}} alt={""} src={props.info ? (props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/images.jpeg') : null} /></NavLink>
+                    <NavLink to={'/profile'}>
+                        <img style={props.info ? {display: "block"} : {display: 'none'}} alt={""} src={props.info ? (props.info.avatar_url ? process.env.REACT_APP_URL_BASE + props.info.avatar_url.slice(7) : '/img/photoEmpty.svg') : null} />
+                    </NavLink>
                     { props.info?.name ?
                         <NavLink to={'/profile'}>{props.info.name + ' ' + props.info.surname}</NavLink> :
                         (props.email ? <NavLink to={'/profile'}>{props.email}</NavLink> : null)

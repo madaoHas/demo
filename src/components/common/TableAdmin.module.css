@@ -4,6 +4,10 @@
     color: transparent;
 }
 
+.inputButton {
+    display: none;
+}
+
 .tableWrap {
     display: inline-block;
     background-color: #fff;
