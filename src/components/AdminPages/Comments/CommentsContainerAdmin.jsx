@@ -1,30 +1,30 @@
 import {connect} from "react-redux";
 import Comments from "./Comments";
-import {getComments, deleteComment} from "../../../redux/commentsAdminReducer";
+import {getComments, deleteComment, changePage, setFilters, setFilterTemporary} from "../../../redux/commentsAdminReducer";
 import React, {useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import {compose} from "redux";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {withAdminRedirect} from "../../../hoc/withAdminRedirect";
+import {withFilterParams} from "../../../hoc/withFilterParams";
 
 const CommentsContainerAdmin = (props) => {
-    const location = useLocation();
-    const { state } = location;
-    useEffect( () => {
-        props.getComments({}, 1, 10)
-    }, [] )
     return (
         <div>
-            <Comments {...props} state={state} />
+            <Comments {...props} />
         </div>
     )
 }
 
 const mapStateToProps = (state) => ({
     comments: state.commentsAdminPage.comments,
-    pager: state.commentsAdminPage.pager_out
+    pager: state.commentsAdminPage.pager_out.page,
+    filter: state.commentsAdminPage.filters,
+    textFilters: state.commentsAdminPage.textFilters,
+    pagesCount: state.commentsAdminPage.pagesCount,
 })
 
-export default compose(connect(mapStateToProps, {getComments, deleteComment}),
-    withRouter, withAuthRedirect, withAdminRedirect)(CommentsContainerAdmin);
+export default compose(connect(mapStateToProps,
+        {request: getComments, deleteComment, changePage, setFilters, setFilterTemporary}),
+    withRouter, withAuthRedirect, withAdminRedirect, withFilterParams)(CommentsContainerAdmin);

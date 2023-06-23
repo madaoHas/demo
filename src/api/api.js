@@ -126,6 +126,9 @@ export const NewsAdminAPI = {
         return instance.post(`admin/news-item`, {id})
             .then(response => response.data)
     },
+    getCategories() {
+        return instance.post(`/admin/categories-list-filter`)
+    },
     addNews(category_id, title, preview_text, preview_image_url, text, text_image_url, date) {
         return instance.post(`admin/news-item-add`, {category_id, title, preview_text, preview_image_url, text, text_image_url, date}, {
             headers: {

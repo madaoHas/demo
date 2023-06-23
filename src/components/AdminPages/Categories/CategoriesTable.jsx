@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "../Users/UsersTable.module.css";
-import { ColumnFilter } from "../../common/ColumnFilter";
+import { CategoriesDefaultFilter } from './CategoriesFilters';
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 
@@ -10,12 +10,12 @@ function CategoriesTable(props) {
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter
+                Filter: CategoriesDefaultFilter
             },
             {
                 Header: 'Название категории',
                 accessor: 'name',
-                Filter: ColumnFilter
+                Filter: CategoriesDefaultFilter
             },
         ],
         []
@@ -50,8 +50,8 @@ function CategoriesTable(props) {
                 <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput(setInputText)}}>
                     {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
                 </select>
-                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2]} type={'mobile'} /> : null}
-                {inputText ? <ColumnFilter column={{id: 'name'}} columns={[1,2]} type={'mobile'} />: null}
+                {/*{inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2]} type={'mobile'} /> : null}*/}
+                {/*{inputText ? <ColumnFilter column={{id: 'name'}} columns={[1,2]} type={'mobile'} />: null}*/}
             </div>
             <TableAdmin
                 columns={columns}

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import classes from "../Users/UsersTable.module.css";
-import { ColumnFilter, ColumnFilterDate } from "../../common/ColumnFilter";
+import { CommentsDefaultFilter, CommentsDateFilter } from "./CommentsFilters";
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 import moment from "moment";
@@ -15,34 +15,34 @@ function CommentsTable(props) {
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter
+                Filter: CommentsDefaultFilter
             },
             {
                 Header: 'Дата комментария',
                 accessor: 'created_at',
-                Filter: ColumnFilterDate
+                Filter: CommentsDateFilter
             },
             {
                 Header: 'ID пользователя',
                 accessor: 'user_id',
-                Filter: ColumnFilter,
-                defaultValue: props.state
+                Filter: CommentsDefaultFilter,
+                // defaultValue: props.state
             },
             {
                 Header: 'Пользователь',
                 accessor: 'email',
-                Filter: ColumnFilter
+                Filter: CommentsDefaultFilter
             },
             {
                 Header: 'Новость',
                 accessor: 'title',
-                Filter: ColumnFilter,
-                defaultValueTitle: props.state
+                Filter: CommentsDefaultFilter,
+                // defaultValueTitle: props.state
             },
             {
                 Header: 'Комментарий',
                 accessor: 'text',
-                Filter: ColumnFilter
+                Filter: CommentsDefaultFilter
             },
         ],
         []
@@ -107,12 +107,12 @@ function CommentsTable(props) {
                 >
                     {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
                 </select>
-                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
-                {inputIdUser ? <ColumnFilter column={{ id: 'user_id', defaultValue: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
-                {inputUser ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
-                {inputNews ? <ColumnFilter column={{ id: 'title', defaultValueTitle: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
-                {inputComment ? <ColumnFilter column={{id: 'text'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}
-                {inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6]} type={'mobile'} /> : null}
+                {/*{inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}*/}
+                {/*{inputIdUser ? <ColumnFilter column={{ id: 'user_id', defaultValue: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}*/}
+                {/*{inputUser ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}*/}
+                {/*{inputNews ? <ColumnFilter column={{ id: 'title', defaultValueTitle: props.state }} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}*/}
+                {/*{inputComment ? <ColumnFilter column={{id: 'text'}} columns={[1,2,3,4,5,6]} type={'mobile'} />: null}*/}
+                {/*{inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6]} type={'mobile'} /> : null}*/}
             </div>
             <TableAdmin
                 columns={columns}

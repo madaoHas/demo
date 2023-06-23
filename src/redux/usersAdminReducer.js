@@ -1,28 +1,34 @@
 import {UsersAdminAPI} from "../api/api";
+import {setFiltersInState} from "../helpers";
 
-const SET_USERS = 'SET_USERS';
-const SET_USER_ITEM = 'SET_USER_ITEM'
-const SET_FILTER_USERS = 'SET_FILTER_USERS'
-const SET_FILTER_TEMPORARY = 'SET_FILTER_TEMPORARY'
+const SET_USERS = 'usersAdminPage/SET_USERS';
+const SET_USER_ITEM = 'usersAdminPage/SET_USER_ITEM'
+const SET_FILTER_USERS = 'usersAdminPage/SET_FILTER_USERS'
+const SET_FILTER_TEMPORARY = 'usersAdminPage/SET_FILTER_TEMPORARY'
+const CHANGE_PAGE = 'usersAdminPage/CHANGE_PAGE'
 
 let initialState = {
     users: [],
     userItem: {},
-    pager_out: {},
+    pager_out: {
+        page: 1,
+        limit: 10
+    },
+    pagesCount: '',
     filters: {
         id: null,
-        email: "",
+        email: null,
         role: null,
         is_active: null,
-        created_at: "",
-        name: "",
-        surname: ""
+        created_at: null,
+        name: null,
+        surname: null
     },
-    filtersTemporary: {
-        id: null,
-        email: "",
-        name: "",
-        surname: ""
+    textFilters: {
+        id: undefined,
+        email: undefined,
+        name: undefined,
+        surname: undefined
     }
 }
 
@@ -33,7 +39,7 @@ const usersAdminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 users: action.users.data,
-                pager_out: action.users.pager_out
+                pagesCount: action.pagesCount
             }
         case SET_USER_ITEM:
             return {
@@ -48,16 +54,23 @@ const usersAdminReducer = (state = initialState, action) => {
         case SET_FILTER_TEMPORARY:
             return {
                 ...state,
-                filtersTemporary: action.filter
+                textFilters: {...state.textFilters, [action.filterName]: action.filterValue}
             }
+        case CHANGE_PAGE: {
+            return {
+                ...state,
+                pager_out: {...state.pager_out, page: action.page}
+            }
+        }
         default: return state;
     }
 }
 
-export const setUsers = (users) => {
+export const setUsers = (users, pagesCount) => {
     return {
         type: SET_USERS,
-        users
+        users,
+        pagesCount
     }
 }
 export const setUserItem = (user) => {
@@ -67,54 +80,31 @@ export const setUserItem = (user) => {
     }
 }
 
-export const setFilterUsers = (filter) => {
+export const changeFilter = (filter) => {
     return {
         type: SET_FILTER_USERS,
         filter
     }
 }
 
-export const setFilterTemporary = (filter) => {
+export const setFilterTemporary = (filterName, filterValue) => {
     return {
         type: SET_FILTER_TEMPORARY,
-        filter
+        filterName,
+        filterValue
     }
 }
-
-export const setFiltersTemporary = (filterName, valueName) => async (dispatch, getState) => {
-    try {
-        let filterTem = getState().usersAdminPage.filtersTemporary;
-        filterTem[filterName] = valueName;
-        dispatch(setFilterTemporary(filterTem))
-    }
-    catch (error) {
-        console.log(error)
-    }
+export function changePage(page){
+    return{type: CHANGE_PAGE, page: page}
 }
 
-export const setFiltersOnTemporary = () => async (dispatch, getState) => {
-    try {
-        let filter = getState().usersAdminPage.filters;
-        let filterTem = getState().usersAdminPage.filtersTemporary;
-        console.log(filterTem)
-        filter.id = filterTem.id;
-        filter.email = filterTem.email;
-        filter.name = filterTem.name;
-        filter.surname = filterTem.surname;
-        console.log(filter);
-        dispatch(setFilterUsers(filter));
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
 
-export const setFiltersUsers = (filterName, valueName) => async (dispatch, getState) => {
+
+
+export const setFilters = (filters) => async (dispatch, getState) => {
     try {
-        let filter = getState().usersAdminPage.filters;
-        filter[filterName] = valueName;
-        dispatch(setFilterUsers(filter));
-        dispatch(getUsers(getState().usersAdminPage.filters, 1, 10));
+        let filter = setFiltersInState(getState().usersAdminPage.filters, filters, 'role')
+        await dispatch(changeFilter(filter))
     }
     catch (error) {
         console.log(error)
@@ -133,12 +123,11 @@ export const filterMobileUsers = (filterName, valueName) => async (dispatch) => 
     }
 }
 
-export const getUsers = (filters, page, limit) => async (dispatch, getState) => {
+export const getUsers = () => async (dispatch, getState) => {
     try {
-        let data = await UsersAdminAPI.getUsers(getState().usersAdminPage.filters, page, limit);
-        dispatch(setUsers(data));
+        let data = await UsersAdminAPI.getUsers(getState().usersAdminPage.filters, getState().usersAdminPage.pager_out.page, getState().usersAdminPage.pager_out.limit);
+        dispatch(setUsers(data, data.pager_out.count));
         dispatch(setUserItem({}));
-        // getState().usersAdminPage.filters = {}
     }
     catch (error) {
         console.log(error)

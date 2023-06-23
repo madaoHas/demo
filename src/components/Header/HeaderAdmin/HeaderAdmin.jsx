@@ -10,7 +10,7 @@ const HeaderAdmin = (props) => {
     return (
         <header className={classes.header}>
             <input className={classes.sideMenu} type="checkbox" id="sideMenu" />
-            <NavLink className={classes.logoContainer} to={'/'}>
+            <NavLink className={classes.logoContainer} to={'/news?page=1'}>
                 <img className={classes.logo} src="/logo192.png" alt="Лого" />
             </NavLink>
             <div className={classes.info}>
@@ -26,10 +26,10 @@ const HeaderAdmin = (props) => {
             </label>
             <nav className={classes.nav}>
                 <ul className={classes.menu}>
-                    <li><NavLink to={"/admin/users"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Пользователи</NavLink></li>
-                    <li><NavLink to={"/admin/news"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Новости</NavLink></li>
-                    <li><NavLink to={"/admin/comments"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Комментарии</NavLink></li>
-                    <li><NavLink to={"/admin/categories"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Категории</NavLink></li>
+                    <li><NavLink to={"/admin/users?page=1"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Пользователи</NavLink></li>
+                    <li><NavLink to={"/admin/news?page=1"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Новости</NavLink></li>
+                    <li><NavLink to={"/admin/comments?page=1"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Комментарии</NavLink></li>
+                    <li><NavLink to={"/admin/categories?page=1"} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Категории</NavLink></li>
                     <li>
                         { props.email ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Выход</NavLink> : null }
                         { !props.email ? <NavLink to={'/login'} onClick={()=>{document.getElementById("sideMenu").checked=false}}>Вход</NavLink> : null }
@@ -55,7 +55,7 @@ const HeaderAdmin = (props) => {
                                 Выход
                             </button>
                             : null }
-                        { !props.email ? <NavLink to={'/login'}>Вход</NavLink> : null }
+                        { !props.email ? <NavLink to={'/login/authorization'}>Вход</NavLink> : null }
                     </li>
                 </ul>
             </nav>

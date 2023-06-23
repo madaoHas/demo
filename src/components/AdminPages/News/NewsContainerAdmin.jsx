@@ -1,33 +1,37 @@
 import NewsAdmin from "./NewsAdmin";
 import {connect} from "react-redux";
-import {useEffect} from "react";
-import {getNews, updateActiveNews, deleteNews} from "../../../redux/newsAdminReducer";
+import {getNews, updateActiveNews, deleteNews, changePage, setFilters, setFilterTemporary} from "../../../redux/newsAdminReducer";
 import {getCategory} from "../../../redux/categoryReducer";
 import {compose} from "redux";
 import {withRouter} from "../../../hoc/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {withAdminRedirect} from "../../../hoc/withAdminRedirect";
-import {useLocation} from "react-router-dom";
+import {withFilterParams} from "../../../hoc/withFilterParams";
+import {useEffect} from "react";
 
 const NewsContainerAdmin = (props) => {
-    const location = useLocation();
-    const { state } = location;
-    useEffect( () => {
-        props.getCategory();
-        props.getNews({},1, 10);
-    },[] )
-    return (
-        <div>
-            <NewsAdmin {...props} state={state} />
-        </div>
-    )
+
+    if (props.news.length > 0) {
+        return (
+            <div>
+                <NewsAdmin {...props} />
+            </div>
+        )
+    }
+
 }
 
 const mapStateToProps = (state) => ({
     news: state.newsAdminPage.news,
-    pager: state.newsAdminPage.pagerOut,
-    categories: state.category.category
+    categories: state.newsAdminPage.categories,
+    pager: state.newsAdminPage.pager_out.page,
+    filter: state.newsAdminPage.filters,
+    textFilters: state.newsAdminPage.textFilters,
+    pagesCount: state.newsAdminPage.pagesCount,
 })
 
-export default compose(connect(mapStateToProps, {getNews, updateActiveNews, deleteNews, getCategory}),
-    withRouter, withAuthRedirect, withAdminRedirect)(NewsContainerAdmin);
+export default compose(connect(mapStateToProps,
+        {
+            request: getNews, updateActiveNews, deleteNews, getCategory, changePage, setFilters, setFilterTemporary
+        }),
+    withRouter, withAuthRedirect, withAdminRedirect, withFilterParams)(NewsContainerAdmin);

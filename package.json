@@ -25,6 +25,7 @@
     "cldr-core": "^42.0.0",
     "cldr-dates-full": "^42.0.0",
     "date-fns": "^2.29.3",
+    "dateformat": "^5.0.3",
     "flatpickr": "^4.6.13",
     "formik": "^2.2.9",
     "imask": "^6.4.3",

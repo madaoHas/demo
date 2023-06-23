@@ -17,10 +17,10 @@ const Menu = (props) => {
                 }</div>
             </div>
             <div className={classes.menu}>
-                <NavLink to={"/admin/users"}>Пользователи</NavLink>
-                <NavLink to={"/admin/news"}>Новости</NavLink>
-                <NavLink to={"/admin/comments"}>Комментарии</NavLink>
-                <NavLink to={"/admin/categories"}>Категории</NavLink>
+                <NavLink to={"/admin/users?page=1"}>Пользователи</NavLink>
+                <NavLink to={"/admin/news?page=1"}>Новости</NavLink>
+                <NavLink to={"/admin/comments?page=1"}>Комментарии</NavLink>
+                <NavLink to={"/admin/categories?page=1"}>Категории</NavLink>
             </div>
         </div>
     )

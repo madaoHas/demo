@@ -38,9 +38,8 @@ const Categories = (props) => {
                 <CategoriesTable {...props} />
             </div>
             <Paginator
-                pager={props.pager}
-                onChangePage={props.getCategoryAdmin}
-                info={'categoriesAdmin'}
+                pagesCount={props.pagesCount}
+                setPage={props.changePage}
             />
         </div>
     )

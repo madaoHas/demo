@@ -1,17 +1,21 @@
 import {NewsAPI} from "../api/api";
 
-const SET_NEWS = 'SET_NEWS';
-const SET_SELECTED_NEWS = 'SET_SELECTED_NEWS'
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_NEWS_COUNT = 'SET_TOTAL_NEWS_COUNT';
-const SET_CATEGORY_ID = 'SET_CATEGORY_ID'
+const SET_NEWS = 'newsPage/SET_NEWS';
+const SET_SELECTED_NEWS = 'newsPage/SET_SELECTED_NEWS'
+const SET_CURRENT_PAGE = 'newsPage/SET_CURRENT_PAGE';
+const SET_TOTAL_NEWS_COUNT = 'newsPage/SET_TOTAL_NEWS_COUNT';
+const SET_CATEGORY_ID = 'newsPage/SET_CATEGORY_ID'
+const CHANGE_PAGE = 'newsPage/CHANGE_PAGE'
 
 let initialState = {
-    news: [
-    ],
+    news: [],
     selectedNews: {},
-    pager_out: {},
-    idCategory: 0
+    pager_out: {
+        page: 1,
+        limit: 8
+    },
+    pagesCount: '',
+    idCategory: null
 }
 
 const newsReducer = (state = initialState, action) => {
@@ -20,7 +24,7 @@ const newsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 news: action.data.data,
-                pager_out: action.data.pager_out
+                pagesCount: action.data.pager_out.count
             }
         case SET_SELECTED_NEWS:
             return {
@@ -32,6 +36,12 @@ const newsReducer = (state = initialState, action) => {
                 ...state,
                 idCategory: action.idCategory
             }
+        case CHANGE_PAGE: {
+            return {
+                ...state,
+                pager_out: {...state.pager_out, page: action.page}
+            }
+        }
         default: return state;
     }
 }
@@ -49,7 +59,6 @@ export const setCategoryId = (idCategory) => {
         idCategory
     }
 }
-
 
 export const setSelectedNews = (data) => {
     return {
@@ -70,10 +79,14 @@ export const setTotalNewsCount = (count) => {
     }
 }
 
-export const getNews = (categoryId, currentPage, pageSize) => async (dispatch) => {
-    let data = await NewsAPI.getNews(categoryId, currentPage, pageSize)
+export function changePage(page){
+    return{type: CHANGE_PAGE, page: page}
+}
+
+export const getNews = () => async (dispatch, getState) => {
+    let data = await NewsAPI.getNews(getState().newsPage.idCategory, getState().newsPage.pager_out.page, getState().newsPage.pager_out.limit)
     dispatch(setNews(data));
-    dispatch(setCategoryId(categoryId))
+    dispatch(setCategoryId(getState().newsPage.idCategory))
 }
 
 export const getSelectedNews = (idNews) => async (dispatch) => {

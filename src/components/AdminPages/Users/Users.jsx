@@ -15,9 +15,8 @@ const Users = (props) => {
                 <UsersTable state={props.state} users={props.users} updateActiveUser={props.updateActiveUser} deleteUser={props.deleteUser} />
             </div>
             <Paginator
-                pager={props.pager}
-                onChangePage={props.getUsers}
-                info={'usersAdmin'}
+                pagesCount={props.pagesCount}
+                setPage={props.changePage}
             />
         </div>
     )

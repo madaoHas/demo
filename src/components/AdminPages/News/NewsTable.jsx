@@ -1,11 +1,8 @@
 import React from "react";
 import classes from "../Users/UsersTable.module.css";
-import {
-    ColumnFilter,
-    ColumnFilterDate,
-    ColumnFilterSelectActive,
-    ColumnFilterSelectCategory
-} from "../../common/ColumnFilter";
+import {NewsActiveFilter, NewsCategoriesFilter, NewsDateFilter, NewsDefaultFilter} from "./NewsFilters";
+import dateFormat from "dateformat";
+
 import { TableAdmin } from "../../common/TableAdmin";
 import { useState } from 'react'
 import {useEffect} from "react";
@@ -13,53 +10,52 @@ import moment from "moment";
 
 
 function NewsTable(props) {
-    let [data, setData] = useState([]);
-    useEffect( () => {
-        setData(props.news)
-    },[props.news] )
+    // let [data, setData] = useState([props.news]);
+    let data = props.news
 
     const columns = React.useMemo(() => [
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter,
-                defaultValue: props.state,
-                table: 'news'
+                Filter: NewsDefaultFilter,
+                // defaultValue: props.state,
+                // table: 'news'
             },
             {
                 Header: 'Дата публикации',
                 accessor: 'date',
-                Filter: ColumnFilterDate
+                Filter: NewsDateFilter
             },
             {
                 Header: 'Заголовок',
                 accessor: 'title',
-                Filter: ColumnFilter,
-                defaultValueTitle: ''
+                Filter: NewsDefaultFilter,
+                // defaultValueTitle: ''
             },
             {
                 Header: 'Категория',
                 accessor: 'category',
-                Filter: ColumnFilterSelectCategory,
-                categories: props.categories
+                Filter: NewsCategoriesFilter,
             },
             {
                 Header: 'Активен',
                 accessor: 'is_active',
-                Filter: ColumnFilterSelectActive,
-                Cell: ''
+                Filter: NewsActiveFilter,
             },
         ],
         [{}]
     )
 
     const optionRef = React.createRef();
+
     if (data[0]) {
         for (let i = 0; i < data.length; i++) {
             if (data[i].category === null) {
                 data[i].category = ''
             }
-            data[i].date = moment(data[i].date).format('DD-MM-yyyy');
+            if (data[i].date.split('-')[0].length === 4) {
+                data[i].date = data[i].date.split('-').reverse().join('-')
+            }
             if (typeof data[i].category === 'object') {
                 data[i].category = data[i].category.name
             }
@@ -105,11 +101,11 @@ function NewsTable(props) {
                 <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}>
                     {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
                 </select>
-                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}
-                {inputHeader ? <ColumnFilter column={{id: 'title'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}
-                {inputDate ? <ColumnFilterDate column={{id: 'date'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}
-                {inputSelectCategory ? <ColumnFilterSelectCategory column={{id: 'category', categories: props.categories }} columns={[1,2,3,4,5]} type={'mobile'} /> : null}
-                {inputSelectActive ? <ColumnFilterSelectActive column={{id: 'is_active'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}
+                {/*{inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}*/}
+                {/*{inputHeader ? <ColumnFilter column={{id: 'title'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}*/}
+                {/*{inputDate ? <ColumnFilterDate column={{id: 'date'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}*/}
+                {/*{inputSelectCategory ? <ColumnFilterSelectCategory column={{id: 'category', categories: props.categories }} columns={[1,2,3,4,5]} type={'mobile'} /> : null}*/}
+                {/*{inputSelectActive ? <ColumnFilterSelectActive column={{id: 'is_active'}} columns={[1,2,3,4,5]} type={'mobile'} /> : null}*/}
             </div>
             <TableAdmin
                 columns={columns}

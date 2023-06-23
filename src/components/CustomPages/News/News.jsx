@@ -1,30 +1,31 @@
 import NewsOne from "./NewsOne";
 import classes from "./News.module.css";
 import Paginator from "../../common/Paginator/Paginator";
-import React, {useEffect} from "react";
+import React from "react";
+import {setCategoryId} from "../../../redux/newsReducer";
 
 const News = (props) => {
-    useEffect( () => {
-
-    }, [props.pager.count] )
-
-
 
     const selectChange = (event) => {
 
         let selectedIndex = event.target.selectedIndex;
 
         if (selectedIndex === 0) {
-            props.getNews(null, 1, 8);
+            props.setCategoryId(null);
         }
         else {
-            props.getNews(event.target.value, 1, 8);
+            props.setCategoryId(event.target.value);
         }
 
     }
+
     return (
         <div className={classes.newsPageContainer}>
-            <select className={classes.categorySelect} defaultValue={''} onChange={ (event) => {selectChange(event)} }>
+            <select
+                className={classes.categorySelect} defaultValue={''}
+                onChange={ (event) => {selectChange(event)} }
+                value={props.categoryId}
+            >
                 <option value={''}> Все категории </option>
                 {props.category.map(c => <option key={c.id} value={c.id} className={classes.categoryOption}>{c.name}</option>)}
             </select>
@@ -32,10 +33,8 @@ const News = (props) => {
                 {props.newsUserPage ? props.newsUserPage.map(n => <NewsOne className={classes.newsOne} news={n} key={n.id} />) : null}
             </div>
             <Paginator
-                pager={props.pager}
-                onChangePage={props.getNews}
-                id={props.categoryId}
-                info={'news'}
+                pagesCount={props.pagesCount}
+                setPage={props.changePage}
             />
         </div>
     )

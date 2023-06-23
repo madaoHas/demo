@@ -47,9 +47,9 @@ function App(props) {
                 </Routes>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route path="/" element={<NewsContainer />}/>
+                        <Route path="/news" element={<NewsContainer />}/>
                         <Route path="profile" element={<ProfileContainer/>}/>
-                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/login/*" element={<Login/>}/>
                         <Route path="/recovery" element={<RecoveryPassword/>}/>
                         <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
                         <Route path="/password-recovery/?" element={<NewPassword />} />
@@ -65,8 +65,8 @@ function App(props) {
                     </div>
                     <div className="AdminPage">
                         <Routes>
-                            <Route path="/admin/users" element={<UsersContainer />}/>
-                            <Route path="/admin/news" element={<NewsContainerAdmin />}/>
+                            <Route path="/admin/users/*" element={<UsersContainer />}/>
+                            <Route path="/admin/news/*" element={<NewsContainerAdmin />}/>
                             <Route path="/admin/comments" element={<CommentsContainerAdmin />}/>
                             <Route path="/admin/categories" element={<CategoriesContainerAdmin />}/>
                             <Route path="/admin/users/add" element={<UserAddContainer />}/>

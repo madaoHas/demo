@@ -10,8 +10,8 @@ const Header = (props) => {
     return (
         <div className={classes.header}>
             <div className={classes.logoAdmin}>
-                <NavLink to={'/'}><img src="/logo192.png" alt="Лого"/></NavLink>
-                { props.email && props.role===10 ? <NavLink to={'/admin/users'} >Админка</NavLink> : null }
+                <NavLink to={'/news/?page=1'}><img src="/logo192.png" alt="Лого"/></NavLink>
+                { props.email && props.role===10 ? <NavLink to={'/admin/users?page=1'} >Админка</NavLink> : null }
             </div>
             <div className={ classes.loginBlock }>
 
@@ -31,7 +31,7 @@ const Header = (props) => {
                             Выход
                         </button>
                         : null }
-                    { !props.email ? <NavLink to={'/login'}>Вход</NavLink> : null }
+                    { !props.email ? <NavLink to={'/login/authorization'}>Вход</NavLink> : null }
                 </div>
             </div>
         </div>

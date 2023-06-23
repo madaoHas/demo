@@ -13,9 +13,8 @@ const Comments = (props) => {
                 <CommentsTable {...props} />
             </div>
             <Paginator
-                pager={props.pager}
-                onChangePage={props.getComments}
-                info={'commentsAdmin'}
+                pagesCount={props.pagesCount}
+                setPage={props.changePage}
             />
         </div>
     )

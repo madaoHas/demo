@@ -1,17 +1,28 @@
 import {CategoryAPI} from "../api/api";
+import {setFiltersInState} from "../helpers";
 
 const SET_CATEGORY = 'SET_CATEGORY';
 const ADD_CATEGORY = 'ADD_CATEGORY';
 const SET_PAGE = 'SET_PAGE';
-const SET_FILTER_CATEGORIES = 'SET_FILTER_CATEGORIES';
+const CHANGE_FILTER = 'category/CHANGE_FILTER'
+const CHANGE_TEXT_FILTER = 'category/CHANGE_TEXT_FILTER'
+const CHANGE_PAGE = 'category/CHANGE_PAGE'
 
 let initialState = {
     category: [],
-    pager_out: {},
+    pager_out: {
+        page: 1,
+        limit: 10
+    },
+    pagesCount: '',
     filters: {
         id: null,
-        name: ""
-    }
+        name: null
+    },
+    textFilters: {
+        id: undefined,
+        name: undefined
+    },
 }
 
 const categoryReducer = (state = initialState, action) => {
@@ -20,7 +31,8 @@ const categoryReducer = (state = initialState, action) => {
         case SET_CATEGORY:
             return {
                 ...state,
-                category: action.category
+                category: action.category,
+                pagesCount: action.pagesCount
             }
         case SET_PAGE:
             return {
@@ -32,19 +44,33 @@ const categoryReducer = (state = initialState, action) => {
                 ...state,
                 category: [...state.category, action.newCategory]
             };
-        case SET_FILTER_CATEGORIES:
+        case CHANGE_FILTER: {
             return {
                 ...state,
                 filters: action.filter
             }
+        }
+        case CHANGE_TEXT_FILTER: {
+            return {
+                ...state,
+                textFilters: {...state.textFilters, [action.filterName]: action.filterValue}
+            }
+        }
+        case CHANGE_PAGE: {
+            return {
+                ...state,
+                pager_out: {...state.pager_out, page: action.page}
+            }
+        }
         default: return state;
     }
 }
 
-export const setCategory = (category) => {
+export const setCategory = (category, pagesCount) => {
     return {
         type: SET_CATEGORY,
-        category
+        category,
+        pagesCount
     }
 }
 
@@ -62,35 +88,31 @@ export const addCategoryAC = (newCategory) => {
     }
 }
 
-export const setFilterCategories = (filter) => {
-    return {
-        type: SET_FILTER_CATEGORIES,
-        filter
-    }
+export function changeFilter(filter){
+    return{type: CHANGE_FILTER, filter: filter}
+}
+export function setFilterTemporary(filterName, filterValue) {
+    return {type: CHANGE_TEXT_FILTER, filterValue, filterName}
+}
+export function changePage(page){
+    return{type: CHANGE_PAGE, page: page}
 }
 
-export const setFiltersCategories = (filterName, valueName) => async (dispatch, getState) => {
-    try {
-        let filter = getState().category.filters;
-        filter[filterName] = valueName
-        dispatch(setFilterCategories(filter))
-        dispatch(getCategoryAdmin(getState().category.filters, 1, 10))
-    }
-    catch (error) {
-        console.log(error)
-    }
+export const setFilters = (filters) => async(dispatch, getState) => {
+    let filter = setFiltersInState(getState().category.filters, filters)
+    dispatch(changeFilter(filter))
 }
 
-export const filterMobileCategories = (filterName, valueName) => async (dispatch) => {
-    try {
-        let filter = {[filterName]: valueName}
-        let data = await CategoryAPI.getCategoryAdmin(filter, 1, 10);
-        dispatch(setCategory(data.data.data));
-    }
-    catch (error) {
-        console.log(error)
-    }
-}
+// export const filterMobileCategories = (filterName, valueName) => async (dispatch) => {
+//     try {
+//         let filter = {[filterName]: valueName}
+//         let data = await CategoryAPI.getCategoryAdmin(filter, 1, 10);
+//         dispatch(setCategory(data.data.data));
+//     }
+//     catch (error) {
+//         console.log(error)
+//     }
+// }
 
 export const getCategory = () => async (dispatch) => {
     try {
@@ -103,12 +125,12 @@ export const getCategory = () => async (dispatch) => {
     }
 }
 
-export const getCategoryAdmin = (filter, page, limit) => async (dispatch, getState) => {
+export const getCategoryAdmin = () => async (dispatch, getState) => {
     try {
-        let data = await CategoryAPI.getCategoryAdmin(getState().category.filters, page, limit);
+        let data = await CategoryAPI.getCategoryAdmin(getState().category.filters, getState().category.pager_out.page, getState().category.pager_out.limit);
         if (data.status === 200) {
-            dispatch(setCategory(data.data.data));
-            dispatch(setPage(data.data.pager_out));
+            dispatch(setCategory(data.data.data, data.data.pager_out.count));
+            // dispatch(setPage(data.data.pager_out));
         }
         // getState().category.filters = {}
     } catch (error) {

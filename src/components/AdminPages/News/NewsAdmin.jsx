@@ -15,9 +15,8 @@ const NewsAdmin = (props) => {
                 <NewsTable {...props} />
             </div>
             <Paginator
-                pager={props.pager}
-                onChangePage={props.getNews}
-                info={'newsAdmin'}
+                pagesCount={props.pagesCount}
+                setPage={props.changePage}
             />
         </div>
     )

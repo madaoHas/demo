@@ -1,14 +1,17 @@
 import React, {useEffect} from "react";
 import classes from "./UsersTable.module.css";
-import {
-    ColumnFilter,
-    ColumnFilterDate,
-    ColumnFilterSelectActive,
-    ColumnFilterSelectRole
-} from "../../common/ColumnFilter";
+// import {
+//     ColumnFilter,
+//     ColumnFilterDate,
+//     ColumnFilterSelectActive,
+//     ColumnFilterSelectRole
+// } from "../../common/ColumnFilter";
+import {UserDefaultFilter, UserDateFilter, UserRoleFilter, UserActiveFilter} from "./UsersFilters";
 import {TableAdmin} from "../../common/TableAdmin";
 import { useState } from 'react'
 import moment from 'moment'
+import {compose} from "redux";
+import {connect} from "react-redux";
 
 
 
@@ -21,39 +24,39 @@ function UsersTable(props) {
             {
                 Header: 'ID',
                 accessor: 'id',
-                Filter: ColumnFilter,
+                Filter: UserDefaultFilter,
                 defaultValue: props.state,
                 table: 'users'
             },
             {
                 Header: 'Дата регистрации',
                 accessor: 'created_at',
-                Filter: ColumnFilterDate
+                Filter: UserDateFilter
             },
             {
                 Header: 'e-mail',
                 accessor: 'email',
-                Filter: ColumnFilter
+                Filter: UserDefaultFilter
             },
             {
                 Header: 'Имя',
                 accessor: 'name',
-                Filter: ColumnFilter
+                Filter: UserDefaultFilter
             },
             {
                 Header: 'Фамилия',
                 accessor: 'surname',
-                Filter: ColumnFilter
+                Filter: UserDefaultFilter
             },
             {
                 Header: 'Роль',
                 accessor: 'role',
-                Filter: ColumnFilterSelectRole,
+                Filter: UserRoleFilter,
             },
             {
                 Header: 'Активен',
                 accessor: 'is_active',
-                Filter: ColumnFilterSelectActive,
+                Filter: UserActiveFilter,
                 Cell: ''
 },
         ],
@@ -127,13 +130,13 @@ function UsersTable(props) {
                 <select ref={optionRef} className={classes.selectFilter} id={"selectFilter"} onChange={()=>{ShowInput()}}>
                     {columns.map(o => <option key={o.accessor} value={o.Header} className={classes.categoryOption}>{o.Header}</option>)}
                 </select>
-                {inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
-                {inputEmail ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
-                {inputName ? <ColumnFilter column={{id: 'name'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
-                {inputSurname ? <ColumnFilter column={{id: 'surname'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
-                {inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}
-                {inputSelectRole ? <ColumnFilterSelectRole column={{id: 'role'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}
-                {inputSelectActive ? <ColumnFilterSelectActive column={{id: 'is_active'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}
+                {/*{inputId ? <ColumnFilter column={{id: 'id'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}*/}
+                {/*{inputEmail ? <ColumnFilter column={{id: 'email'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}*/}
+                {/*{inputName ? <ColumnFilter column={{id: 'name'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}*/}
+                {/*{inputSurname ? <ColumnFilter column={{id: 'surname'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}*/}
+                {/*{inputDate ? <ColumnFilterDate column={{id: 'created_at'}} columns={[1,2,3,4,5,6,7]} type={'mobile'} /> : null}*/}
+                {/*{inputSelectRole ? <ColumnFilterSelectRole column={{id: 'role'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}*/}
+                {/*{inputSelectActive ? <ColumnFilterSelectActive column={{id: 'is_active'}} columns={[1,2,3,4,5,6,7]} className={classes.selectFilter} type={'mobile'} /> : null}*/}
             </div>
             <TableAdmin
             columns={columns}
@@ -146,7 +149,6 @@ function UsersTable(props) {
         </div>
     )
 }
-
 
 
 export default UsersTable;
