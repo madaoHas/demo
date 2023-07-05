@@ -11,7 +11,7 @@ const Login = React.memo((props) => {
     let url = window.location.pathname
 
     if (Object.keys(props.isAuth).length !== 0) {
-        return (<Navigate to={'/news'} />)
+        return (<Navigate to={'/news?page=1'} />)
     }
     return (
         <div className={classes.authContainer}>

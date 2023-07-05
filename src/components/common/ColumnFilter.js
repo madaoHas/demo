@@ -43,7 +43,7 @@ export class DateFilter extends Component {
     render() {
         return (
             <Flatpickr
-                className={classes.dateFilter}
+                className={classes.dateContainer}
                 onCreate={flatpickr => {
                     this.calendar = flatpickr;
                 }}
@@ -55,8 +55,10 @@ export class DateFilter extends Component {
                         <div
                             // className={`${s.dateInput} `}
                         >
+                            <img src={"/img/Calendar.svg"} className={classes.labelDate} alt={""} />
                             <input
                                 // className={`${f.filter}`}
+                                className={classes.dateFilter}
                                 type='text'
                                 value={this.props.filter[this.props.column.id]}
                                 ref={ref}

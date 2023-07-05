@@ -17,11 +17,12 @@ export const DateInput = (props) => {
         <div className={classes.dateContainer}>
             <img src={"/img/Calendar.svg"} className={classes.labelDate} alt={""} />
             <Flatpickr
+                disabled={props.disabled}
                 type={props.type}
                 className={classes.dateFilter}
                 value={newdate !== '' ? newdate : value}
                 onChange={text => {
-                    onChange(text[0] ? moment(text[0]).format("yyyy-MM-DD") : '');
+                    onChange(props.setFieldValue, props.field.name, text[0] ? moment(text[0]).format("yyyy-MM-DD") : '');
                 }}
                 options={{
                     dateFormat: "d-m-Y"

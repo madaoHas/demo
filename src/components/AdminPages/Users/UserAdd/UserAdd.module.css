@@ -40,17 +40,18 @@
 }
 
 .button {
-    width: 150px;
+    width: 150px !important;
     border-radius: 5px;
-    background-color: #919191; /* Green */
+    background-color: #919191 !important;
     border: none;
-    color: white;
-    padding: 10px;
+    color: white !important;
+    padding: 10px !important;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     font-family: 'Inter';
+    display: flex;
+    height: 44px;
 }
 
 @media (min-width: 319px) and (max-width: 768px) {

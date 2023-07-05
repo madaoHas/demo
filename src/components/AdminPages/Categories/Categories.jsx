@@ -3,6 +3,7 @@ import CategoriesTable from "./CategoriesTable";
 import {Field, Form, Formik} from "formik";
 import React from "react";
 import Paginator from "../../common/Paginator/Paginator";
+import classNames from "classnames";
 
 const Categories = (props) => {
     return (
@@ -15,21 +16,29 @@ const Categories = (props) => {
                             name: ''
                         }}
                         onSubmit={(values, actions) => {
-                            props.addCategory(values.name, actions.setStatus);
-                            actions.resetForm({values: ''});
+                            actions.setSubmitting(true)
+                            props.addCategory(values.name, actions.setStatus, actions.setSubmitting);
+                            // actions.resetForm({values: ''});
                         }}
                     >
                         {({
-                                status={ error: [] }}) => (
+                              status={ error: [] },
+                              isSubmitting
+                        }) => (
                         <Form>
                             <div className={classes.addCategories}>
                                 <div className={classes.categoryName}>
                                     <div className={classes.name}>Название категории: </div>
-                                    <Field name="name" className={classes.input} />
+                                    <Field name="name" className={classes.input} disabled={isSubmitting} />
                                 </div>
-                                <button className={classes.headerLink}>Добавить</button>
+                                <button
+                                    className={classNames(classes.headerLink, {"is-loading": isSubmitting}, "button")}
+                                >
+                                    Добавить
+                                </button>
                             </div>
-                            {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
+                            {status && status.error.length > 0 ? (<div className="has-text-danger">{status.error}</div>) : null}
+                            {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
                         </Form>
                             )}
 

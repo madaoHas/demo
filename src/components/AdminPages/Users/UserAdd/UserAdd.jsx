@@ -12,7 +12,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const UserAdd = (props) => {
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
     return (
         <div className={classes.formContainer}>
             <Formik
@@ -22,21 +22,26 @@ const UserAdd = (props) => {
                 }}
                 validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
-                    props.addUser(values.email, values.password, actions.setStatus);
-                    navigate('/admin/users', {replace: false});
+                    actions.setSubmitting(true)
+                    props.addUser(values.email, values.password, actions.setStatus, actions.setSubmitting);
+                    // navigate('/admin/users', {replace: false});
                 }}
             >
                 {({
                       errors,
                       touched,
-                      status={ error: [] }
+                      status={ error: [] },
+                      isSubmitting
                 }) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div>
                                 <label htmlFor="email" className={classes.label}>e-mail</label>
-                                <Field className={classNames(classes.input, {["is-danger"]: errors.email && touched.email})}
-                                       name="email"/>
+                                <Field
+                                    disabled={isSubmitting}
+                                    className={classNames(classes.input, {["is-danger"]: errors.email && touched.email})}
+                                    name="email"
+                                />
                                 {errors.email && touched.email ? (
                                     <div className="has-text-danger">{errors.email}</div>
                                 ) : null}
@@ -44,6 +49,7 @@ const UserAdd = (props) => {
                             <div>
                                 <label htmlFor="password" className={classes.label}>Пароль</label>
                                 <Field
+                                    disabled={isSubmitting}
                                     className={classNames(classes.input, {["is-danger"]: errors.password && touched.password})}
                                     name="password"
                                     type="password"/>
@@ -52,8 +58,13 @@ const UserAdd = (props) => {
                                 ) : null}
                             </div>
                         </div>
-                        {status && status.error ? (<div className="has-text-danger">{status.error}</div>) : null}
-                        <button type="submit" className={classes.button}>
+                        {status && status.error.length > 0 ? (<div className="has-text-danger">{status.error}</div>) : null}
+                        {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
+                        <button
+                            disabled={isSubmitting}
+                            type="submit"
+                            className={classNames(classes.button, {"is-loading": isSubmitting}, "button")}
+                        >
                             Сохранить
                         </button>
                     </Form>

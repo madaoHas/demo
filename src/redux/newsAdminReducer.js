@@ -149,23 +149,31 @@ export const getNewsItem = (id) => async (dispatch) => {
     }
 }
 
-export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date) => async (dispatch) => {
+export const addNews = (categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, setStatus, setSubmitting) => async (dispatch) => {
     try {
         await NewsAdminAPI.addNews(categoryId, title, previewText, previewImageUrl, text, textImageUrl, date)
-        dispatch(getNews({},1, 10))
+        setStatus({success: 'Новость добавлена', error: []})
+        setSubmitting(false)
+        // dispatch(getNews({},1, 10))
     }
     catch ( error ) {
         console.log(error)
+        setStatus({error: 'Что-то не так'})
+        setSubmitting(false)
     }
 }
 
-export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive) => async (dispatch) => {
+export const updateNews = (id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive, setStatus, setSubmitting) => async (dispatch) => {
     try {
         await NewsAdminAPI.updateNews(id, categoryId, title, previewText, previewImageUrl, text, textImageUrl, date, isActive)
-        dispatch(getNews({},1, 10))
+        setStatus({success: 'Новость обновлена', error: []})
+        setSubmitting(false)
+        // dispatch(getNews({},1, 10))
     }
     catch ( error ) {
         console.log(error)
+        setStatus({error: 'Что-то не так'})
+        setSubmitting(false)
     }
 }
 

@@ -147,37 +147,46 @@ export const getUserItem = (id) => async (dispatch) => {
         }));
     }
 }
-export const updateUserItem = (userItem, setStatus) => async () => {
+export const updateUserItem = (userItem, setStatus, setSubmitting) => async () => {
     try {
         await UsersAdminAPI.updateUserItem(userItem);
-        setStatus({success: 'Успешно измененно!'})
+        setStatus({success: 'Успешно измененно!', error: []})
+        setSubmitting(false)
     }
     catch (error) {
         console.log(error)
+        setSubmitting(false)
+        setStatus({error: 'Что-то пошло не так'})
     }
 }
 
-export const updateUserItemPassword = (password, setStatus) => async () => {
+export const updateUserItemPassword = (password, setStatus, setSubmitting) => async () => {
     try {
         await UsersAdminAPI.updateUserItemPassword(password);
-        setStatus({success: 'Успешно измененно!'})
+        setStatus({success: 'Успешно измененно!', error: []})
+        setSubmitting(false)
     }
     catch (error) {
         console.log(error)
+        setSubmitting(false)
+        setStatus({error: 'Что-то пошло не так'})
     }
 }
 
 
 
-export const addUser = (email, password, setStatus) => async (dispatch) => {
+export const addUser = (email, password, setStatus, setSubmitting) => async (dispatch) => {
     try {
-        await UsersAdminAPI.addUsers(email, password)
+        await UsersAdminAPI.addUsers(email, password);
+        setStatus({success: 'Пользователь добавлен', error: []})
+        setSubmitting(false)
         dispatch(getUsers(1, 10));
     }
     catch (error) {
         console.log(error)
         if (error.response.status === 400) {
             setStatus({error: 'Такой пользователь уже есть в системе'})
+            setSubmitting(false)
         }
     }
 }

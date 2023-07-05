@@ -138,14 +138,17 @@ export const getCategoryAdmin = () => async (dispatch, getState) => {
     }
 }
 
-export const addCategory = (name, setStatus) => async (dispatch) => {
+export const addCategory = (name, setStatus, setSubmitting) => async (dispatch) => {
     try {
         await CategoryAPI.addCategory(name)
+        setStatus({success: 'Категория добавлена', error: []})
+        setSubmitting(false)
         dispatch(getCategoryAdmin({}, 1, 10));
     }
     catch (error) {
         if (error.response.status === 400) {
             setStatus({error: 'Такая категория уже есть!'})
+            setSubmitting(false)
         }
     }
 }

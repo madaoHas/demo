@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {DateInput} from "../../../common/inputCustom/dateInput";
@@ -10,10 +10,10 @@ import {useNavigate} from "react-router-dom";
 
 
 const SignupSchema = Yup.object().shape({
-    header: Yup.string().required('Обязательное поле'),
+    title: Yup.string().required('Обязательное поле'),
     date: Yup.string().required('Обязательное поле'),
-    previewText: Yup.string().required('Обязательное поле'),
-    newsText: Yup.string().required('Обязательное поле'),
+    preview_text: Yup.string().required('Обязательное поле'),
+    text: Yup.string().required('Обязательное поле'),
     category: Yup.object().required('Обязательное поле'),
 });
 
@@ -65,30 +65,63 @@ const NewsAddUpdate = (props) => {
         e.preventDefault();
     }
 
+
+    const [fieldValueChange, setFieldValueChange] = useState(true)
+
+    const ref = useRef(null);
+
+    const changeInput = async (setFieldValue, field, value) => {
+
+        await setFieldValue(field, value)
+        let currentValues = ref.current.values
+
+
+        let flagChange = false
+
+        for (let valueItem in currentValues) {
+            if (valueItem === "category") {
+                if (props.newsItem[valueItem].name !== currentValues[valueItem].name) {
+                    flagChange = true
+                }
+            }
+            else if (props.newsItem[valueItem] !== currentValues[valueItem]) {
+                flagChange = true
+            }
+            if (flagChange === true) {
+                setFieldValueChange(false);
+            }
+            else {
+                setFieldValueChange(true)
+            }
+        }
+    }
+
     return (
         <div className={classes.formContainer}>
             <Formik
+                innerRef={ref}
                 enableReinitialize={true}
                 initialValues={{
-                    header: props.newsItem.title,
+                    title: props.newsItem.title,
                     date: props.newsItem.date,
                     category: props.newsItem.category,
-                    status: props.newsItem.is_active,
-                    previewPhoto: props.newsItem.preview_image_url,
-                    coverPhoto: props.newsItem.text_image_url,
-                    newsText: props.newsItem.text,
-                    previewText: props.newsItem.preview_text
+                    is_active: props.newsItem.is_active,
+                    preview_image_url: props.newsItem.preview_image_url,
+                    text_image_url: props.newsItem.text_image_url,
+                    text: props.newsItem.text,
+                    preview_text: props.newsItem.preview_text
                 }}
 
                 validationSchema={SignupSchema}
-                onSubmit={values => {
+                onSubmit={(values, actions) => {
+                    actions.setSubmitting(true)
                     if (infoPage === 'add') {
-                        props.addNews(values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date)
+                        props.addNews(values.category.id, values.title, values.preview_text, values.preview_image_url, values.text, values.text_image_url, values.date, actions.setStatus, actions.setSubmitting)
                     }
                     if (infoPage === 'update') {
-                        props.updateNews(props.id, values.category.id, values.header, values.previewText, values.previewPhoto, values.newsText, values.coverPhoto, values.date, values.status)
+                        props.updateNews(props.id, values.category.id, values.title, values.preview_text, values.preview_image_url, values.text, values.text_image_url, values.date, values.is_active, actions.setStatus, actions.setSubmitting)
                     }
-                    navigate('/admin/news', {replace: false});
+                    // navigate('/admin/news', {replace: false});
                 }}
             >
                 {({
@@ -96,30 +129,38 @@ const NewsAddUpdate = (props) => {
                       errors,
                       touched,
                       setFieldValue,
-                      handleChange
+                      handleChange,
+                      status={ error: [] },
+                      isSubmitting
                 }) => (
                     <Form className={classes.form} encType="multipart/form-data" method="POST">
                         <div className={classes.generalInfo}>
                             <div className={classes.line}>
                                 <div className={classes.containerInput}>
-                                    <label htmlFor={"header"} className={classes.label}>Заголовок новости</label>
+                                    <label htmlFor={"title"} className={classes.label}>Заголовок новости</label>
                                     <Field
-                                        name={"header"}
-                                        value={values.header}
-                                        className={classNames(classes.input, {["is-danger"]: errors.header && touched.header})} />
-                                    {errors.header && touched.header ? (
-                                        <div className="has-text-danger">{errors.header}</div>
+                                        disabled={isSubmitting}
+                                        name={"title"}
+                                        onChange={(e) => {
+                                            changeInput(setFieldValue, "title", e.target.value)
+                                        }}
+                                        value={values.title}
+                                        className={classNames(classes.input, {["is-danger"]: errors.title && touched.title})} />
+                                    {errors.title && touched.title ? (
+                                        <div className="has-text-danger">{errors.title}</div>
                                     ) : null}
                                 </div>
                                 <div className={classes.containerInput}>
                                     <label htmlFor={"date"} className={classes.label}>Дата публикации</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={DateInput}
                                         name={"date"}
                                         className={classNames(classes.input, {["is-danger"]: errors.date && touched.date})}
                                         type="text"
                                         value={values.date}
-                                        onChange={(val)=>{values.date=val}}
+                                        setFieldValue={setFieldValue}
+                                        onChange={changeInput}
                                     />
                                     {errors.date && touched.date ? (
                                         <div className="has-text-danger">{errors.date}</div>
@@ -130,31 +171,36 @@ const NewsAddUpdate = (props) => {
                                 <div className={classNames(classes.containerInput, {[classes.addCategory]: infoPage === 'add'})}>
                                     <label htmlFor={"category"} className={classes.label}>Категория</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={SelectInput}
                                         name={"category"}
                                         values={props.categories}
                                         value={values.category}
                                         valueType={"name"}
-                                        onChangeOption={(a)=> {values.category = a}}
+                                        setFieldValue={setFieldValue}
+                                        onChangeOption={changeInput}
+                                        // onChangeOption={(a)=> {values.category = a}}
                                     />
                                     {errors.category && touched.category ? (
                                         <div className="has-text-danger">{errors.category}</div>
                                     ) : null}
                                 </div>
                                 <div className={classes.containerInput} style={infoPage === 'add' ? {display: 'none'} : null}>
-                                    <label htmlFor={"status"} className={classes.label}>Статус новости:</label>
+                                    <label htmlFor={"is_active"} className={classes.label}>Статус новости:</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={SwitchInput}
-                                        name={"status"}
-                                        value={values.status}
-                                        onChangeSwitch={(a) => {values.status = a}}
+                                        name={"is_active"}
+                                        value={values.is_active}
+                                        setFieldValue={setFieldValue}
+                                        onChange={changeInput}
                                     />
                                 </div>
                             </div>
                         </div>
                         <div className={classes.photos}>
                             <div className={classes.previewPhoto}>
-                                <label htmlFor={"previewPhoto"} className={classes.label}>Превью новости</label>
+                                <label htmlFor={"preview_image_url"} className={classes.label}>Превью новости</label>
                                 <div className={classes.photoContainer}>
                                     <img className={classes.photo} src={imagePreview} alt={''} />
                                     <div className={classes.controlsButtonPhoto}>
@@ -163,25 +209,36 @@ const NewsAddUpdate = (props) => {
                                                 Загрузить фото
                                             </label>
                                             <input
+                                                disabled={isSubmitting}
                                                 id={'uploadPreviewPhoto'}
                                                 type='file'
-                                                name={'previewPhoto'}
+                                                name={'preview_image_url'}
                                                 className={classes.photoInput}
                                                 onChange={(e) => {
-                                                    setFieldValue('previewPhoto', e.currentTarget.files[0])
+                                                    setFieldValue('preview_image_url', e.currentTarget.files[0])
+                                                    setFieldValueChange(false);
                                                     onImagePreviewChange(e)
                                                 }}
                                                 accept='uploads//*'
                                             />
                                         </div>
                                         <div>
-                                            <button className={classes.buttonPhoto} onClick={onDeletePreviewPhoto}>Удалить фото</button>
+                                            <button
+                                                disabled={isSubmitting}
+                                                className={classNames(classes.buttonPhoto, {[classes.buttonDisabled]: isSubmitting || imagePreview === null}) }
+                                                onClick={(e) => {
+                                                    setFieldValueChange(false);
+                                                    onDeletePreviewPhoto(e)
+                                                }}
+                                            >
+                                                Удалить фото
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className={classes.coverPhoto}>
-                                <label className={classes.label} htmlFor={"coverPhoto"}>Обложка новости</label>
+                                <label className={classes.label} htmlFor={"text_image_url"}>Обложка новости</label>
                                 <div className={classes.photoContainer}>
                                     <img className={classes.photo} src={imageCover} alt={''} />
                                     <div className={classes.controlsButtonPhoto}>
@@ -190,19 +247,30 @@ const NewsAddUpdate = (props) => {
                                                 Загрузить фото
                                             </label>
                                             <input
+                                                disabled={isSubmitting}
                                                 type='file'
                                                 id={'uploadCoverPhoto'}
-                                                name={"coverPhoto"}
+                                                name={"text_image_url"}
                                                 className={classes.photoInput}
                                                 onChange={(e) => {
-                                                    setFieldValue('coverPhoto', e.currentTarget.files[0]);
+                                                    setFieldValue('text_image_url', e.currentTarget.files[0]);
+                                                    setFieldValueChange(false);
                                                     onImageCoverChange(e)
                                                 }}
                                                 accept='uploads//*'
                                             />
                                         </div>
                                         <div>
-                                            <button className={classes.buttonPhoto} onClick={onDeleteCoverPhoto}>Удалить фото</button>
+                                            <button
+                                                disabled={isSubmitting}
+                                                className={classNames(classes.buttonPhoto, {[classes.buttonDisabled]: isSubmitting || imageCover === null}) }
+                                                onClick={(e) => {
+                                                    setFieldValueChange(false);
+                                                    onDeleteCoverPhoto(e)
+                                                }}
+                                            >
+                                                Удалить фото
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -210,21 +278,47 @@ const NewsAddUpdate = (props) => {
                         </div>
                         <div className={classes.newsTexts}>
                             <div className={classes.containerTextarea}>
-                                <label htmlFor={"newsText"} className={classes.label}>Текст новости</label>
-                                <textarea name={"newsText"} onChange={handleChange} className={classes.newsText} value={values.newsText} />
-                                {errors.newsText && touched.newsText ? (
-                                    <div className="has-text-danger">{errors.newsText}</div>
+                                <label htmlFor={"text"} className={classes.label}>Текст новости</label>
+                                <textarea
+                                    disabled={isSubmitting}
+                                    name={"text"}
+                                    // onChange={handleChange}
+                                    className={classes.newsText}
+                                    value={values.text}
+                                    onChange={(e) => {
+                                        changeInput(setFieldValue, "text", e.target.value)
+                                    }}
+                                />
+                                {errors.text && touched.text ? (
+                                    <div className="has-text-danger">{errors.text}</div>
                                 ) : null}
                             </div>
                             <div className={classes.containerTextarea}>
-                                <label htmlFor={"previewText"} className={classes.label}>Текст превью</label>
-                                <textarea name={"previewText"} onChange={handleChange} className={classes.previewText} value={values.previewText} />
-                                {errors.previewText && touched.previewText ? (
-                                    <div className="has-text-danger">{errors.previewText}</div>
+                                <label htmlFor={"preview_text"} className={classes.label}>Текст превью</label>
+                                <textarea
+                                    disabled={isSubmitting}
+                                    name={"preview_text"}
+                                    // onChange={handleChange}
+                                    className={classes.previewText}
+                                    value={values.preview_text}
+                                    onChange={(e) => {
+                                        changeInput(setFieldValue, "preview_text", e.target.value)
+                                    }}
+                                />
+                                {errors.preview_text && touched.preview_text ? (
+                                    <div className="has-text-danger">{errors.preview_text}</div>
                                 ) : null}
                             </div>
                         </div>
-                        <button type="submit" className={classes.button}>Сохранить</button>
+                        {status && status.error.length > 0 ? (<div className="has-text-danger">{status.error}</div>) : null}
+                        {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
+                        <button
+                            disabled={isSubmitting || (infoPage === "update" ? fieldValueChange : false)}
+                            type="submit"
+                            className={classNames(classes.button, {"is-loading": isSubmitting}, "button")}
+                        >
+                            Сохранить
+                        </button>
                     </Form>
                 )}
             </Formik>

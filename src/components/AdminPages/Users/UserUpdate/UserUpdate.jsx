@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {Field, Form, Formik} from "formik";
 import classes from "./UserUpdate.module.css";
 import {SwitchInput} from "../../../common/inputCustom/switchInput";
@@ -12,10 +12,10 @@ import * as Yup from "yup";
 
 
 const SignupSchema = Yup.object().shape({
-    firstName: Yup.string()
+    name: Yup.string()
         .min(2, 'Минимальное количество символов 2!')
         .max(50, 'Максимальное количество символов 50!'),
-    lastName: Yup.string()
+    surname: Yup.string()
         .min(2, 'Минимальное количество символов 2!')
         .max(50, 'Максимальное количество символов 50!'),
     email: Yup.string().email('Формат почты неверен').required('Обязательное поле')
@@ -72,55 +72,107 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
         e.preventDefault();
     }
 
+    const [fieldValueChange, setFieldValueChange] = useState(true)
+
+    const ref = useRef(null);
+
+    const changeInput = async (setFieldValue, field, value) => {
+
+        if (field === "phone_number") {
+            if (value === "") {
+                value = null
+            }
+        }
+
+        await setFieldValue(field, value)
+        let currentValues = ref.current.values
+
+        let flagChange = false
+
+        for (let valueItem in currentValues) {
+            if (valueItem === "email") {
+                if (userItem.email !== currentValues[valueItem]) {
+                    flagChange = true
+                }
+            }
+            else if (valueItem === "is_active") {
+                if (userItem.is_active !== currentValues[valueItem]) {
+                    flagChange = true
+                }
+            }
+            else if (valueItem === "role") {
+                if (userItem.role !== currentValues[valueItem]) {
+                    flagChange = true
+                }
+            }
+            else {
+                if (valueItem !== "id" && valueItem !== "created_at" && valueItem !== "comment") {
+                    if (userItem.profile[valueItem] !== currentValues[valueItem]) {
+                        flagChange = true
+                    }
+                }
+            }
+            if (flagChange === true) {
+                setFieldValueChange(false);
+            }
+            else {
+                setFieldValueChange(true)
+            }
+        }
+    }
+
+
     return (
         <div className={classes.container}>
             <Formik
+                innerRef={ref}
                 enableReinitialize={true}
                 initialValues={{
                     id: userItem.id,
-                    dateRegis: userItem.created_at,
+                    created_at: userItem.created_at,
                     comment: '',
-                    status: userItem.is_active,
+                    is_active: userItem.is_active,
                     role: userItem.role,
-                    photo: userItem.profile?.avatar_url,
-                    firstName: userItem.profile?.name,
-                    lastName: userItem.profile?.surname,
+                    avatar_url: userItem.profile?.avatar_url,
+                    name: userItem.profile?.name,
+                    surname: userItem.profile?.surname,
                     email: userItem.email,
-                    numberPhone: userItem.profile?.phone_number,
+                    phone_number: userItem.profile?.phone_number,
                     birthday: userItem.profile?.birthday,
                     city: userItem.profile?.city
                 }}
 
                 validationSchema={SignupSchema}
                 onSubmit={(values, actions) => {
+                    actions.setSubmitting(true)
                     if (typeof values.role === 'object') {
                         values.role = values.role.name === 'Админ' ? 10 : 1
                     }
-                    if (values.numberPhone) {
-                        values.numberPhone = values.numberPhone.split(" ").join("");
+                    if (values.phone_number) {
+                        values.phone_number = values.phone_number.split(" ").join("");
                     }
                     let obj = {
                         id: values.id,
                         user: {
                             email: userItem.email === values.email ? undefined : values.email,
                             role: userItem.role === values.role ? undefined : values.role,
-                            is_active: userItem.is_active === values.status ? undefined : values.status
+                            is_active: userItem.is_active === values.is_active ? undefined : values.is_active
                         },
                         profile: {
-                            name: userItem.profile?.name === values.firstName ? undefined : values.firstName,
-                            surname: userItem.profile?.surname === values.lastName ? undefined : values.lastName,
-                            phone_number: userItem.profile?.phone_number === values.numberPhone ? undefined : values.numberPhone,
+                            name: userItem.profile?.name === values.name ? undefined : values.name,
+                            surname: userItem.profile?.surname === values.surname ? undefined : values.surname,
+                            phone_number: userItem.profile?.phone_number === values.phone_number ? undefined : values.phone_number,
                             city: userItem.profile?.city === values.city ? undefined : values.city,
                             birthday: userItem.profile?.birthday === values.birthday ? undefined : values.birthday
                         },
                         avatar: {
-                            avatar_url: typeof values.photo === Symbol ? undefined : values.photo
+                            avatar_url: typeof values.avatar_url === Symbol ? undefined : values.avatar_url
                         }
                     }
                     if (obj.avatar.avatar_url === null) {
                         obj.avatar.avatar_url = 'null'
                     }
-                    updateUserItem(obj, actions.setStatus);
+                    updateUserItem(obj, actions.setStatus, actions.setSubmitting);
                 }}
             >
                 {({
@@ -129,7 +181,8 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                       touched,
                       setFieldValue,
                       handleChange,
-                      status={ error: [] }
+                      status={ error: [] },
+                      isSubmitting
                   }) => (
                     <Form className={classes.form} encType="multipart/form-data" method="POST">
 
@@ -149,16 +202,18 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                             </div>
                             <div className={classes.line}>
                                 <div className={classes.stringInfo}>
-                                    <label htmlFor={"dateRegis"} className={classes.label}>Дата регистрации:</label>
-                                    <span name="dateRegis">{moment(values.dateRegis).format('DD-MM-YYYY')}</span>
+                                    <label htmlFor={"created_at"} className={classes.label}>Дата регистрации:</label>
+                                    <span name="created_at">{moment(values.created_at).format('DD-MM-YYYY')}</span>
                                 </div>
                                 <div className={classNames(classes.stringInfo)}>
-                                    <label htmlFor={"status"} className={classes.label}>Статус аккаунта:</label>
+                                    <label htmlFor={"is_active"} className={classes.label}>Статус аккаунта:</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={SwitchInput}
-                                        name={"status"}
-                                        value={values.status}
-                                        onChangeSwitch={(a) => {values.status = a}}
+                                        name={"is_active"}
+                                        value={values.is_active}
+                                        setFieldValue={setFieldValue}
+                                        onChange={changeInput}
                                     />
                                 </div>
                             </div>
@@ -166,6 +221,7 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                 <div className={classes.selectRole}>
                                     <label htmlFor={"role"} className={classes.label}>Роль</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={SelectInput}
                                         name={"role"}
                                         values={[
@@ -184,7 +240,9 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                                 {id: 2, name: 'Пользователь'}
                                         }
                                         valueType={"name"}
-                                        onChangeOption={(a)=> {values.role = a}}
+                                        setFieldValue={setFieldValue}
+                                        onChangeOption={changeInput}
+
                                     />
                                     {errors.role && touched.role ? (
                                         <div className="has-text-danger">{errors.role}</div>
@@ -194,7 +252,7 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                         </div>
 
                         <div className={classes.avatar}>
-                            <label htmlFor="photo" className={classes.label}>Аватар</label>
+                            <label htmlFor="avatar_url" className={classes.label}>Аватар</label>
                             <div className={classes.photoContainer}>
                                 <img
                                     className={classes.photo}
@@ -207,12 +265,14 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                             Загрузить фото
                                         </label>
                                         <input
+                                            disabled={isSubmitting}
                                             type='file'
                                             id={'uploadAvatarPhoto'}
-                                            name={"photo"}
+                                            name={"avatar_url"}
                                             className={classes.photoInput}
                                             onChange={(e) => {
-                                                setFieldValue('photo', e.currentTarget.files[0]);
+                                                setFieldValue('avatar_url', e.currentTarget.files[0]);
+                                                setFieldValueChange(false);
                                                 onImageAvatarChange(e)
                                             }}
                                             accept='uploads//*'
@@ -220,8 +280,12 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                     </div>
                                     <div>
                                         <button
-                                            className={classes.buttonPhoto}
-                                            onClick={onDeleteAvatarPhoto}
+                                            disabled={isSubmitting || imageAvatar === null}
+                                            className={classNames(classes.buttonPhoto, {[classes.buttonDisabled]: isSubmitting || imageAvatar === null}) }
+                                            onClick={(e) => {
+                                                setFieldValueChange(false);
+                                                onDeleteAvatarPhoto(e)
+                                            }}
                                         >
                                             Удалить фото
                                         </button>
@@ -232,33 +296,60 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                         <div className={classes.generalInfo}>
                             <div className={classes.line}>
                                 <div className={classes.profileEdit}>
-                                    <label htmlFor="firstName" className={classes.label}>Имя</label>
-                                    <Field className={classNames(classes.input, {["is-danger"]: errors.firstName && touched.firstName})} name="firstName" />
-                                    {errors.firstName && touched.firstName ? (
-                                        <div className="has-text-danger">{errors.firstName}</div>
+                                    <label htmlFor="name" className={classes.label}>Имя</label>
+                                    <Field
+                                        value={values.name}
+                                        onChange={(e) => {
+                                            changeInput(setFieldValue, "name", e.target.value)
+                                        }}
+                                        disabled={isSubmitting}
+                                        className={classNames(classes.input, {["is-danger"]: errors.name && touched.name})}
+                                        name="name"
+                                    />
+                                    {errors.name && touched.name ? (
+                                        <div className="has-text-danger">{errors.name}</div>
                                     ) : null}
                                 </div>
                                 <div className={classes.profileEdit}>
-                                    <label htmlFor="lastName" className={classes.label}>Фамилия</label>
-                                    <Field className={classNames(classes.input, {["is-danger"]: errors.lastName && touched.lastName})} name="lastName"/>
-                                    {errors.lastName && touched.lastName ? (
-                                        <div className="has-text-danger">{errors.lastName}</div>
+                                    <label htmlFor="surname" className={classes.label}>Фамилия</label>
+                                    <Field
+                                        value={values.surname}
+                                        onChange={(e) => {
+                                            changeInput(setFieldValue, "surname", e.target.value)
+                                        }}
+                                        disabled={isSubmitting}
+                                        className={classNames(classes.input, {["is-danger"]: errors.surname && touched.surname})}
+                                        name="surname"
+                                    />
+                                    {errors.surname && touched.surname ? (
+                                        <div className="has-text-danger">{errors.surname}</div>
                                     ) : null}
                                 </div>
                             </div>
                             <div className={classes.line}>
                                 <div className={classes.profileEdit}>
                                     <label htmlFor="email" className={classes.label}>e-mail</label>
-                                    <Field name="email" className={classNames(classes.input, {["is-danger"]: errors.email && touched.email})} type="email" />
+                                    <Field
+                                        value={values.email}
+                                        onChange={(e) => {
+                                            changeInput(setFieldValue, "email", e.target.value)
+                                        }}
+                                        disabled={isSubmitting}
+                                        name="email"
+                                        className={classNames(classes.input, {["is-danger"]: errors.email && touched.email})}
+                                        type="email"
+                                    />
                                     {errors.email && touched.email ? <div className="has-text-danger">{errors.email}</div> : null}
                                 </div>
                                 <div className={classes.profileEdit}>
-                                    <label htmlFor="numberPhone" className={classes.label}>Номер телефона</label>
+                                    <label htmlFor="phone_number" className={classes.label}>Номер телефона</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={PhoneInput}
-                                        value={values.numberPhone}
-                                        onChange={ handleChange }
-                                        name="numberPhone"
+                                        value={values.phone_number}
+                                        setFieldValue={setFieldValue}
+                                        onChange={changeInput}
+                                        name="phone_number"
                                         className={classes.input}
                                     />
                                 </div>
@@ -267,22 +358,40 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                                 <div className={classes.profileEdit}>
                                     <label htmlFor="birthday" className={classes.label}>Дата рождения</label>
                                     <Field
+                                        disabled={isSubmitting}
                                         component={DateInput}
-                                        name={"date"}
+                                        name={"birthday"}
                                         className={classNames(classes.input)}
                                         type="text"
                                         value={values.birthday}
-                                        onChange={(val)=>{values.birthday=val}}
+                                        // onChange={(val)=>{values.birthday=val}}
+                                        setFieldValue={setFieldValue}
+                                        onChange={changeInput}
                                     />
                                 </div>
                                 <div className={classes.profileEdit}>
                                     <label htmlFor="city" className={classes.label}>Город</label>
-                                    <Field className={classes.input} name="city"/>
+                                    <Field
+                                        value={values.city}
+                                        onChange={(e) => {
+                                            changeInput(setFieldValue, "city", e.target.value)
+                                        }}
+                                        className={classes.input}
+                                        name="city"
+                                        disabled={isSubmitting}
+                                    />
                                 </div>
                             </div>
                         </div>
+                        {status && status.error.length > 0 ? (<div className="has-text-danger">{status.error}</div>) : null}
                         {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
-                        <button type="submit" className={classes.button}>Сохранить</button>
+                        <button
+                            disabled={isSubmitting || fieldValueChange}
+                            type="submit"
+                            className={classNames(classes.button, {"is-loading": isSubmitting}, "button")}
+                        >
+                            Сохранить
+                        </button>
                     </Form>
                 )}
             </Formik>
@@ -291,34 +400,49 @@ const UserUpdate = ({userItem, updateUserItem, updateUserItemPassword}) => {
                     password: '', confirmPassword: ''
                 }}
                 onSubmit={(values, actions) => {
-                    updateUserItemPassword({id: userItem.id, password: values.password}, actions.setStatus);
-                    actions.resetForm({values: ''});
+                    actions.setSubmitting(true)
+                    updateUserItemPassword({id: userItem.id, password: values.password}, actions.setStatus, actions.setSubmitting);
                 }}
             >
                 {({
                       values,
                       errors,
                       touched,
-                      status={ error: [] }}) => (
+                      status={ error: [] },
+                      isSubmitting
+                }) => (
                     <Form className={classes.form}>
                         <div className={classes.line}>
                             <div className={classes.profileEdit}>
                                 <label htmlFor="password" className={classes.label}>Новый пароль</label>
-                                <Field type="password" name="password"
-                                       className={classNames(classes.input, {["is-danger"]: errors.password && touched.password})}
-                                       validate={validatePassword} />
+                                <Field
+                                    disabled={isSubmitting}
+                                    type="password"
+                                    name="password"
+                                    className={classNames(classes.input, {["is-danger"]: errors.password && touched.password})}
+                                    validate={validatePassword}
+                                />
                                 {errors.password && touched.password && <div className="has-text-danger">{errors.password}</div>}
                             </div>
                             <div className={classes.profileEdit}>
                                 <label htmlFor="confirmPassword" className={classes.label}>Подтвердите новый пароль</label>
-                                <Field type="password" name="confirmPassword"
-                                       className={classNames(classes.input, {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
-                                       validate={value => validateConfirmPassword(values.password, value)}/>
+                                <Field
+                                    disabled={isSubmitting}
+                                    type="password"
+                                    name="confirmPassword"
+                                    className={classNames(classes.input, {["is-danger"]: errors.confirmPassword && touched.confirmPassword})}
+                                    validate={value => validateConfirmPassword(values.password, value)}
+                                />
                                 {errors.confirmPassword && touched.confirmPassword && (<div className="has-text-danger">{errors.confirmPassword}</div>)}
                             </div>
                         </div>
+                        {status && status.error.length > 0 ? (<div className="has-text-danger">{status.error}</div>) : null}
                         {status && status.success ? (<div className="has-text-success">{status.success}</div>) : null}
-                        <button type="submit" className={classNames(classes.button, "has-background-grey", "has-text-white")}>
+                        <button
+                            disabled={isSubmitting}
+                            type="submit"
+                            className={classNames(classes.button, {"is-loading": isSubmitting}, "button")}
+                        >
                             Сохранить
                         </button>
                     </Form>

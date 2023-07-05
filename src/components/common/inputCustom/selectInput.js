@@ -20,13 +20,24 @@ export const SelectInput = (props) => {
             }
         }
         setDefaultValue(optionSelect)
-        props.onChangeOption(optionSelect);
+        let valueSelect = null
+
+        if (props.field.name === "role") {
+            if (optionSelect.id === 1) {
+                valueSelect = 10
+            } else valueSelect = 1
+        }
+        if (props.field.name === "category") {
+            valueSelect = optionSelect
+        }
+
+        props.onChangeOption(props.setFieldValue, props.field.name, valueSelect);
     };
     return (
         <select className={classes.selectFilter}
                 onChange={onChange}
                 id={"selectInput"}
-                disabled={props.values.length === 0}
+                disabled={props.values.length === 0 || props.disabled}
                 value={defaultValue ? defaultValue.name : ''}
         >
             <option hidden disabled value={''}> -- select an option -- </option>

@@ -134,13 +134,17 @@ export const getCommentItem = (id) => async (dispatch) => {
         dispatch(setCommentItemAdmin({error: 'Такого комментария нет'}));
     }
 }
-export const updateComment = (id, text) => async (dispatch) => {
+export const updateComment = (id, text, setStatus, setSubmitting) => async (dispatch) => {
     try {
         await CommentsAdminAPI.updateComment(id, text);
-        dispatch(getComments({}, 1, 10));
+        setStatus({success: 'Комментарий обновлен', error: []})
+        setSubmitting(false)
+        // dispatch(getComments({}, 1, 10));
     }
     catch (error) {
         console.log(error)
+        setStatus({error: 'Что-то не так'})
+        setSubmitting(false)
     }
 }
 

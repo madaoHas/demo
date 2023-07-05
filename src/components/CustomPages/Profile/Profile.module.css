@@ -95,6 +95,12 @@
     border: none;
 }
 
+.buttonDisabled {
+    border-color: #dbdbdb;
+    box-shadow: none;
+    opacity: .5;
+}
+
 .photoInput {
     opacity: 0;
     position: absolute;

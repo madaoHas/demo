@@ -14,10 +14,11 @@ export const SwitchInput = (props) => {
     return (
         <label className={classes.switch}>
             <input
+                disabled={props.disabled}
                 type="checkbox"
                 onChange={(a) => {
+                    props.onChange(props.setFieldValue, "is_active", a.target.checked)
                     setIsChecked(a.target.checked)
-                    props.onChangeSwitch(a.target.checked)
                 }}
                 checked={isChecked}
                 value={isChecked}
