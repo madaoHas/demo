@@ -49,7 +49,9 @@ function App(props) {
                     <Routes>
                         <Route path="/news" element={<NewsContainer />}/>
                         <Route path="profile" element={<ProfileContainer/>}/>
-                        <Route path="/login/*" element={<Login/>}/>
+                        <Route path="/login/*" element={<Login />}/>
+                        <Route path="/login/authorization" element={<Login url={"authorization"} />} />
+                        <Route path="/login/registration" element={<Login url={"registration"} />} />
                         <Route path="/recovery" element={<RecoveryPassword/>}/>
                         <Route path="/news/:newsId?" element={<SelectedNewsContainer/>}/>
                         <Route path="/password-recovery/?" element={<NewPassword />} />

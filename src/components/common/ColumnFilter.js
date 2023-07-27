@@ -37,6 +37,10 @@ export class DateFilter extends Component {
         if(e){
             value=moment(e[0]).format('YYYY-MM-DD')
         }
+        else {
+            value = null
+            this.calendar.clear()
+        }
         let filter = {[this.props.column.id]: value}
         this.props.setFilters(filter)
     }
@@ -53,21 +57,44 @@ export class DateFilter extends Component {
                 render={({defaultValue}, ref) => {
                     return (
                         <div
-                            // className={`${s.dateInput} `}
+                            className={classes.dateInput}
                         >
-                            <img src={"/img/Calendar.svg"} className={classes.labelDate} alt={""} />
+                            <input
+                                type={"image"}
+                                src={"/img/Calendar.svg"}
+                                className={classes.labelDate}
+                                alt={""}
+                                onFocus={() => {
+                                    let input = document.getElementsByClassName(`${classes.dateFilter}`)
+                                    let calendar = document.getElementsByClassName('flatpickr-calendar')
+                                    input[0].classList.add('active')
+                                    calendar[0].classList.add('open')
+                                    calendar[0].classList.add('arrowTop')
+                                    calendar[0].classList.add('arrowLeft')
+                                    calendar[0].style.cssText='top: 236px; left: 423.953px; right: auto;'
+                                }}
+                                onBlur={() => {
+                                    let input = document.getElementsByClassName(`${classes.dateFilter}`)
+                                    let calendar = document.getElementsByClassName('flatpickr-calendar')
+                                    input[0].classList.remove('active')
+                                    calendar[0].classList.remove('open')
+                                }}
+                            />
                             <input
                                 // className={`${f.filter}`}
                                 className={classes.dateFilter}
                                 type='text'
-                                value={this.props.filter[this.props.column.id]}
+                                defaultValue={moment(this.props.filter[this.props.column.id]).format('DD-MM-YYYY')}
+                                value={moment(this.props.filter[this.props.column.id]).format('DD-MM-YYYY')}
                                 ref={ref}
                             />
                             {this.props.filter[this.props.column.id] ?
                                 <a
-                                    // className={`${s.clearDate}`}
+                                    className={`${classes.clearDate}`}
                                     onClick={()=> {
-                                        this.OnChange()}}
+                                        console.log(this)
+                                        this.OnChange()
+                                    }}
                                 />
                                 : null}
                         </div>

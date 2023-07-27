@@ -6,7 +6,7 @@ const SET_HASH = 'auth/SET_HASH'
 
 let initialState = {
     auth: {},
-    hashRight: true
+    hashRight: true,
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -39,6 +39,7 @@ export const setHash = (hashResult) => {
         hashResult
     }
 }
+
 
 export const registration = (email, password, setStatus) => async () => {
     try {

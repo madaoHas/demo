@@ -103,7 +103,9 @@ export function changePage(page){
 
 export const setFilters = (filters) => async (dispatch, getState) => {
     try {
+        console.log(filters)
         let filter = setFiltersInState(getState().usersAdminPage.filters, filters, 'role')
+        console.log(filter)
         await dispatch(changeFilter(filter))
     }
     catch (error) {

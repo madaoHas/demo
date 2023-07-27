@@ -70,3 +70,19 @@ input[type="search"]::-webkit-search-cancel-button {
 .categoryOption {
     font-size: 10px;
 }
+
+.clearDate{
+    display: block;
+    background: url("../../img/close.svg") no-repeat;
+    background-size: contain;
+    width: 12px;
+    height: 12px;
+    margin-left: -18px;
+    box-sizing: border-box;
+}
+
+.dateInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

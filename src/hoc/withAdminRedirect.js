@@ -13,7 +13,7 @@ export const withAdminRedirect = (Component) => {
     class RedirectComponent extends React.Component {
         render () {
             if (this.props.role !== 10) {
-                return <Navigate to={"/"} />
+                return <Navigate to={"/news?page=1"} />
             }
             return <Component {...this.props} />
         }
